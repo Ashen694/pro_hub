@@ -13,8 +13,129 @@
     <link href="{{ asset('tabler/css/demo.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/libs/litepicker/dist/litepicker.css') }}" rel="stylesheet"/> 
     <style>
-      /* Add any custom styles here */
-    </style>
+  body {
+    background-color: #0C1631;
+    font-family: "Inter", sans-serif;
+  }
+
+  /* 🔹 Top Header (Logo + User Info) */
+  .navbar:first-of-type {
+    background: linear-gradient(90deg, #007C4B 0%, #0057FF 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-bottom: none;
+    padding: 0.8rem 0;
+  }
+
+  .navbar-brand a {
+    color: #fff;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 1px;
+    text-decoration: none;
+  }
+
+  .navbar-brand a:hover {
+    color: #e0e0e0;
+  }
+
+  .avatar {
+    background: linear-gradient(135deg, #007C4B, #0057FF);
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-link.text-reset {
+    color: #fff !important;
+  }
+
+  .nav-link.text-reset:hover {
+    color: #d1eaff !important;
+  }
+
+  /* 🔹 Second Row (Navigation Bar) */
+  .navbar-expand-md .navbar-light {
+    background: #102046; /* darker blue for contrast */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .nav-link {
+    color: #e6e6e6 !important;
+    font-weight: 500;
+    padding: 10px 18px;
+    transition: 0.3s;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: #fff !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+
+  /* 🔹 Dropdown styling */
+  .dropdown-menu {
+    background-color: #0E1C3C;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+  }
+
+  .dropdown-item {
+    color: #e6e6e6;
+    transition: 0.2s;
+  }
+
+  .dropdown-item:hover {
+    background-color: rgba(0, 87, 255, 0.2);
+    color: #fff;
+  }
+
+  /* 🔹 Page title area */
+  .page-header {
+    background: radial-gradient(circle at top left, rgba(0, 124, 75, 0.25), rgba(0, 87, 255, 0.15));
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 16px;
+  }
+
+  .page-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 26px;
+  }
+
+  /* 🔹 Footer */
+  .footer {
+    background: #0C1631;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: #bfbfbf;
+  }
+
+  .footer a {
+    color: #1E90FF;
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    color: #66b3ff;
+  }
+
+  .colorful-avatar {
+  background: conic-gradient(from 180deg, #007C4B, #00C2FF, #007C4B);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
+
+</style>
+
     @stack('styles')
   </head>
   <body >
@@ -47,11 +168,11 @@
                         }
                     @endphp
 
-                    <span class="avatar avatar-sm">{{ $initials }}</span>
+                    <span class="avatar avatar-sm colorful-avatar">{{ $initials }}</span>
 
                     <div class="d-none d-xl-block ps-2">
                         <div>{{ Auth::user()->name }}</div>
-                        <div class="mt-1 small text-muted">Admin</div> <!-- You can make this dynamic later -->
+                        <div class="mt-1 small text-muted">Admin</div> 
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -206,6 +327,16 @@
                         <a class="dropdown-item" href="#">All Partners</a>
                     </div>
                 </li>
+
+                <!-- Freelancers -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                        <span class="nav-link-title">
+                        Freelancers
+                        </span>
+                    </a>
+                </li>
+
             </ul>
             </div>
           </div>
