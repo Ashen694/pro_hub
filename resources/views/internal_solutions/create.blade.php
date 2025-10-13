@@ -36,7 +36,9 @@
                         <label class="form-label">Developed By</label>
                         <select class="form-select" name="developed_by">
                             <option value="" selected disabled>Please select</option>
-                            <!-- This list should be loaded from the database later -->
+                            @foreach($employees as $employee)
+                                <option value="{{ $employee->Emp_Name }}">{{ $employee->Emp_Name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
@@ -46,10 +48,9 @@
                     <div class="mb-3">
                         <label class="form-label">SDLC Phase</label>
                         <select class="form-select" name="sdlc_phase">
-                            <option value="Proposal Preparation">Proposal Preparation</option>
-                            <option value="Proposal Submitted">Proposal Submitted</option>
-                            <option value="Requirement Gathering and Analysis">Requirement Gathering and Analysis</option>
-                            <option value="Design">Design</option>
+                            @foreach($sdlcPhases as $phase)
+                                <option value="{{ $phase->Phase }}">{{ $phase->Phase }}</option>
+                            @endforeach
                         </select>
                     </div>
                      <div class="mb-3">
@@ -96,9 +97,11 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Main (Parent) Application</label>
-                        <select class="form-select" name="parent_application">
+                        <select class="form-select" name="parent_application" id="parent_application" disabled>
                             <option value="" selected disabled>Please select</option>
-                            <!-- This list should be loaded from the database later -->
+                            @foreach($mainApplications as $app)
+                                <option value="{{ $app->ID }}" data-group="{{ $app->App_Category }}">{{ $app->App_Name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
@@ -165,12 +168,10 @@
     </div>
 </form>
 @endsection
-
 @push('scripts')
 <script>
   // @formatter:off
   document.addEventListener("DOMContentLoaded", function () {
-    // Define the common configuration for all date pickers
     const datepickerConfig = {
         buttonText: {
             previousMonth: `<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="15 6 9 12 15 18" /></svg>`,
@@ -179,16 +180,40 @@
         format: 'YYYY-MM-DD'
     };
 
-    // An array of all date input IDs
     const dateInputIds = ['start_date', 'target_date', 'uat_date', 'va_date', 'launched_date'];
-
-    // Loop through each ID and initialize a new Litepicker
-    dateInputIds.forEach(id => {
+    dateInputIds.forEach(id => { 
         new Litepicker({ 
-            element: document.getElementById(id),
-            ...datepickerConfig // Spread the common configuration
-        });
+            element: document.getElementById(id), 
+            ...datepickerConfig 
+        }); 
     });
+    
+    const applicationCategorySelect = document.querySelector('select[name="application_category"]');
+    const parentApplicationSelect = document.getElementById('parent_application');
+    const applicationGroupSelect = document.querySelector('select[name="application_group"]');
+
+    function toggleParentApplicationField() {
+        if (applicationCategorySelect.value === 'Change Request') {
+            parentApplicationSelect.disabled = false;
+        } else {
+            parentApplicationSelect.disabled = true;
+            parentApplicationSelect.value = '';
+            applicationGroupSelect.value = '';
+        }
+    }
+
+    applicationCategorySelect.addEventListener('change', toggleParentApplicationField);
+    
+    parentApplicationSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const group = selectedOption.getAttribute('data-group');
+        
+        if (group) {
+            applicationGroupSelect.value = group;
+        }
+    });
+
+    toggleParentApplicationField();
   });
   // @formatter:on
 </script>
