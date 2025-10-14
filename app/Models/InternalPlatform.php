@@ -1,5 +1,4 @@
 <?php
-// app/Models/InternalPlatform.php
 
 namespace App\Models;
 
@@ -10,51 +9,41 @@ class InternalPlatform extends Model
 {
     use HasFactory;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'Internal_Platforms';
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
     protected $primaryKey = 'ID';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'App_Name',
-        'Developed_By',
-        'Developed_Team',
-        'StartDate',
-        'TargetDate',
-        'BIT_bucket_repo',
-        'SDLCPhase',
-        'PercentageDone',
-        'Status',
-        'Bus_Owner',
-        'App_Category', // This is 'application_group' in the form
-        'App_IP',
-        'App_URL',
-        'App_Users',
-        'UATDate',
-        'Integrated_apps',
-        'DR',
-        'LaunchedDate',
-        'VADate',
-        'WAF',
-        'Price', // This is 'solution_value' in the form
-        'EndUserType',
-        'ParentProjectID',
-        'SLA', // This is 'support_availability' in the form
-        'UserSpecificSection', // This is 'user_specific_section' in the form
-        // Add other fields from the database table here if you want to save them via the form
+        'App_Name', 'Developed_By', 'Developed_Team', 'StartDate', 'TargetDate',
+        'BitBucket', 'BIT_bucket_repo', 'SDLCPhase', 'PercentageDone', 'Status',
+        'StatusDate', 'Bus_Owner', 'App_Category', 'Scope', 'App_IP', 'App_URL',
+        'App_Users', 'UATDate', 'Integrated_apps', 'DR', 'LaunchedDate', 'VADate',
+        'WAF', 'APP_OP_Owner', 'APP_BUSINESS_Owner', 'Price', 'EndUserType',
+        'RequestNo', 'ParentProjectID', 'SLA', 'BackupOfficer_1', 'BackupOfficer_2',
+        'MainAppID', 'SSLCertificateExpDate', 'UserSpecificSection'
     ];
+
+    /**
+     * Get the parent project (application group).
+     */
+    public function parentProject()
+    {
+        return $this->belongsTo(ParentProject::class, 'ParentProjectID', 'ParentProjectID');
+    }
+
+    /**
+     * Get the parent "Main Application" for a "Change Request".
+     */
+     public function mainApplicationParent()
+    {
+        return $this->belongsTo(InternalPlatform::class, 'MainAppID', 'ID');
+    }
+
+    /**
+     * Get all of the Change Requests for a Main Application.
+     */
+    public function changeRequests()
+    {
+        // A Main Application (ID) has many Change Requests (linked by MainAppID)
+        return $this->hasMany(InternalPlatform::class, 'MainAppID', 'ID');
+    }
 }

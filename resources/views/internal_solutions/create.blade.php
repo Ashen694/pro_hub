@@ -25,11 +25,9 @@
                         <label class="form-label required">Application Group</label>
                         <select class="form-select" name="application_group">
                             <option value="" selected disabled>Please select</option>
-                            <option value="BILLING SUPPORT">BILLING SUPPORT</option>
-                            <option value="CALL CENTRE SOLUTIONS">CALL CENTRE SOLUTIONS</option>
-                            <option value="CUSTOMER EXPERIENCE">CUSTOMER EXPERIENCE</option>
-                            <option value="EMPLOYEE SATISFACTION">EMPLOYEE SATISFACTION</option>
-                            <option value="ENTERPRISE PORTAL">ENTERPRISE PORTAL</option>
+                            @foreach($applicationGroups as $group)
+                                <option value="{{ $group->ParentProjectID }}">{{ $group->ParentProjectGroup }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
@@ -100,7 +98,7 @@
                         <select class="form-select" name="parent_application" id="parent_application" disabled>
                             <option value="" selected disabled>Please select</option>
                             @foreach($mainApplications as $app)
-                                <option value="{{ $app->ID }}" data-group="{{ $app->App_Category }}">{{ $app->App_Name }}</option>
+                                <option value="{{ $app->ID }}" data-group="{{ $app->ParentProjectID }}">{{ $app->App_Name }}</option>
                             @endforeach
                         </select>
                     </div>

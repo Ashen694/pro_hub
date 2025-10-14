@@ -9,46 +9,57 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    // database/migrations/xxxx_xx_xx_xxxxxx_create_internal_platforms_table.php
     public function up(): void
     {
         Schema::create('Internal_Platforms', function (Blueprint $table) {
-            $table->id('ID'); // Primary Key
+            $table->id('ID');
             $table->string('App_Name');
             $table->string('Developed_By')->nullable();
             $table->string('Developed_Team')->nullable();
             $table->date('StartDate')->nullable();
             $table->date('TargetDate')->nullable();
-            $table->string('BitBucket')->nullable(); // Assuming this is a URL or name
+            $table->string('BitBucket')->nullable();
             $table->string('BIT_bucket_repo')->nullable();
             $table->string('SDLCPhase')->nullable();
             $table->integer('PercentageDone')->nullable();
-            $table->string('Status')->default('in-progress'); // Set a default status
+            $table->string('Status')->default('in-progress');
             $table->date('StatusDate')->nullable();
             $table->string('Bus_Owner')->nullable();
-            $table->string('App_Category'); // Main Application or Change Request
+            $table->string('App_Category'); // This is where "Main Application" or "Change Request" goes
             $table->string('Scope')->nullable();
             $table->string('App_IP')->nullable();
             $table->string('App_URL')->nullable();
             $table->string('App_Users')->nullable();
             $table->date('UATDate')->nullable();
             $table->text('Integrated_apps')->nullable();
-            $table->string('DR')->nullable(); // Can be True/False string or boolean
+            $table->string('DR')->nullable();
             $table->date('LaunchedDate')->nullable();
             $table->date('VADate')->nullable();
-            $table->string('WAF')->nullable(); // Can be True/False string or boolean
+            $table->string('WAF')->nullable();
             $table->string('APP_OP_Owner')->nullable();
             $table->string('APP_BUSINESS_Owner')->nullable();
-            $table->decimal('Price', 15, 2)->nullable(); // For solution value
+            $table->decimal('Price', 15, 2)->nullable();
             $table->string('EndUserType')->nullable();
             $table->string('RequestNo')->nullable();
-            $table->unsignedBigInteger('ParentProjectID')->nullable();
-            $table->string('SLA')->nullable(); // Support Availability
+            
+            // Foreign key to the ParentProject table (Application Group)
+            $table->unsignedBigInteger('ParentProjectID')->nullable(); 
+
+            $table->string('SLA')->nullable();
             $table->string('BackupOfficer_1')->nullable();
             $table->string('BackupOfficer_2')->nullable();
-            $table->string('MainAppID')->nullable();
+
+            // Foreign key for self-referencing (CR to Main App)
+            $table->unsignedBigInteger('MainAppID')->nullable(); 
+            
             $table->date('SSLCertificateExpDate')->nullable();
-            $table->string('UserSpecificSection')->nullable(); // New field from form
-            $table->timestamps(); // Adds created_at and updated_at columns
+            $table->string('UserSpecificSection')->nullable();
+            $table->timestamps();
+
+            // Optional: Define foreign key constraints
+            $table->foreign('ParentProjectID')->references('ParentProjectID')->on('ParentProject');
+            $table->foreign('MainAppID')->references('ID')->on('Internal_Platforms');
         });
     }
 

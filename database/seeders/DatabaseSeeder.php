@@ -15,8 +15,14 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-        SDLCphaseSeeder::class,
-        // You can add other seeders here in the future
+            // This must run first because InternalPlatformSeeder depends on it
+            ParentProjectSeeder::class,
+            
+            // This runs second, using the data from the seeder above
+            InternalPlatformSeeder::class,
+
+            // Also keep your SDLC seeder
+            SDLCphaseSeeder::class,
         ]);
     }
 }
