@@ -40,12 +40,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     // --- Internal Solutions Routes (CORRECT ORDER) ---
-    // 1. More specific 'Internal Solution' routes should come FIRST
+    Route::get('/internal-solutions/{solution}/change-requests', [InternalSolutionController::class, 'showChangeRequests'])->name('internal-solutions.change-requests');
+    
+    // This route shows the details of ANY internal solution (Main App or CR)
+    Route::get('/internal-solutions/{solution}/show', [InternalSolutionController::class, 'show'])->name('internal-solutions.show');
+
     Route::get('/internal-solutions/yearly-contribution', [InternalSolutionController::class, 'yearlyContribution'])->name('internal-solutions.yearly-contribution');
     Route::get('/internal-solutions-create', [InternalSolutionController::class, 'create'])->name('internal-solutions.create');
     Route::post('/internal-solutions', [InternalSolutionController::class, 'store'])->name('internal-solutions.store');
     
-    // 2. The general/wildcard '{status}' route should come LAST
     Route::get('/internal-solutions/{status}', [InternalSolutionController::class, 'index'])->name('internal-solutions.index');
     
     // --- Consumer Service Platforms Route ---
@@ -55,6 +58,8 @@ Route::middleware('auth')->group(function () {
     // Route for showing the list of external solutions based on their status
     Route::get('/external-solutions/{status}', [ExternalSolutionController::class, 'index'])->name('external-solutions.index');
 
+    //  route for deleting a solution
+    Route::delete('/internal-solutions/{solution}', [InternalSolutionController::class, 'destroy'])->name('internal-solutions.destroy');
 });
 
 // Authentication routes (login, logout, etc.)

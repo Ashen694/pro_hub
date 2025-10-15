@@ -13,11 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            // This must run first because InternalPlatformSeeder depends on it
+            ParentProjectSeeder::class,
+            
+            // This runs second, using the data from the seeder above
+            InternalPlatformSeeder::class,
+
+            // Also keep your SDLC seeder
+            SDLCphaseSeeder::class,
         ]);
     }
 }
