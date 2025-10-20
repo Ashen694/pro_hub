@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ExternalSolution;
 
 class ExternalSolutionController extends Controller
 {
@@ -11,29 +12,110 @@ class ExternalSolutionController extends Controller
      */
     public function index($status)
     {
-        $solutions = $this->getDummyData($status);
         $title = 'External Solutions - ' . ucfirst($status);
 
-        // Decide which table partial to show based on the status
-        $viewPartial = '';
-        switch ($status) {
-            case 'prospective':
-                // We will create a new partial for this view
-                $viewPartial = '_table_prospective';
-                break;
-            
-            // Default will handle 'operational' and any other status
-            default:
-                $viewPartial = '_table_operational';
-                break;
+        // Determine view partial
+        $viewPartial = $status === 'prospective' ? '_table_prospective' : '_table_operational';
+
+        // Query DB and filter by status if you have a status column
+        // For now, we'll treat 'prospective' as items with launched_date NULL
+        $query = ExternalSolution::query();
+        if ($status === 'prospective') {
+            $query->whereNull('launched_date');
+        } else {
+            $query->whereNotNull('launched_date');
         }
 
-        return view('external_solutions.index', [
-            'solutions' => $solutions,
-            'title' => $title,
-            'status' => $status,
-            'viewPartial' => $viewPartial,
+        $solutions = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+
+        return view('external_solutions.index', compact('solutions', 'title', 'status', 'viewPartial'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(ExternalSolution $externalSolution)
+    {
+        return view('external_solutions.show', ['solution' => $externalSolution]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(ExternalSolution $externalSolution)
+    {
+        $title = 'Edit External Solution';
+        return view('external_solutions.edit', compact('externalSolution', 'title'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, ExternalSolution $externalSolution)
+    {
+        $data = $request->validate([
+            'application_name' => 'nullable|string|max:255',
+            // (validation rules similar to store)
         ]);
+
+        $externalSolution->update($data);
+
+        return redirect()->route('external-solutions.index', ['status' => 'operational'])
+            ->with('success', 'External solution updated.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(ExternalSolution $externalSolution)
+    {
+        $externalSolution->delete();
+        return back()->with('success', 'External solution deleted.');
+    }
+
+    /**
+     * Show the form for creating a new external solution.
+     */
+    public function create()
+    {
+        $title = 'Add New External Solution';
+        return view('external_solutions.create', compact('title'));
+    }
+
+    /**
+     * Store a newly created external solution in storage.
+     */
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'application_name' => 'nullable|string|max:255',
+            'company_customer' => 'nullable|string|max:255',
+            'developed_by' => 'nullable|string|max:255',
+            'developed_team' => 'nullable|string|max:255',
+            'start_date' => 'nullable|date',
+            'target_date' => 'nullable|date',
+            'dplo_stage' => 'nullable|string|max:255',
+            'percentage_done' => 'nullable|string|max:50',
+            'bitbucket_repository_name' => 'nullable|string|max:255',
+            'sales_team_involved' => 'nullable|string|max:255',
+            'sales_account_manager' => 'nullable|string|max:255',
+            'sales_manager' => 'nullable|string|max:255',
+            'sales_engineer' => 'nullable|string|max:255',
+            'uat_date' => 'nullable|date',
+            'launched_date' => 'nullable|date',
+            'one_time_charge' => 'nullable|numeric',
+            'monthly_recurring_charge' => 'nullable|numeric',
+            'value_of_software' => 'nullable|numeric',
+            'contract_period_years' => 'nullable|integer',
+            'support_availability' => 'nullable|string|max:255',
+            'dpo_handover_date' => 'nullable|date',
+            'dpo_handover_comments' => 'nullable|string',
+        ]);
+
+        ExternalSolution::create($data);
+
+        return redirect()->route('external-solutions.index', ['status' => 'operational'])
+            ->with('success', 'External solution added successfully.');
     }
 
     /**

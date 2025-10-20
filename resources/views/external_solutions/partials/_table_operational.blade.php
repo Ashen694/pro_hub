@@ -19,7 +19,19 @@
                 <td>{{ $solution->revenue_sw_value }}</td>
                 <td>{{ $solution->dpo_handover_date }}</td>
                 <td>
-                    {{-- Action Icons --}}
+                    <div class="d-flex">
+                        <a href="{{ route('external-solutions.show', $solution->id) }}" class="btn btn-ghost-info btn-sm" title="View">
+                            View
+                        </a>
+                        <a href="{{ route('external-solutions.edit', $solution->id) }}" class="btn btn-ghost-primary btn-sm ms-2" title="Edit">
+                            Edit
+                        </a>
+                        <form action="{{ route('external-solutions.destroy', $solution->id) }}" method="POST" onsubmit="return confirm('Delete this solution?');" class="ms-2">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             @empty

@@ -6,7 +6,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title mb-0">{{ $title }}</h3>
-        <a href="#" class="btn btn-primary">Create New</a>
+        <a href="{{ route('external-solutions.create') }}" class="btn btn-primary">Create New</a>
     </div>
     
     <!-- Filter Section -->

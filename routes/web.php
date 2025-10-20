@@ -58,6 +58,16 @@ Route::middleware('auth')->group(function () {
     // Route for showing the list of external solutions based on their status
     Route::get('/external-solutions/{status}', [ExternalSolutionController::class, 'index'])->name('external-solutions.index');
 
+    // Create and store routes for external solutions
+    Route::get('/external-solutions-create', [ExternalSolutionController::class, 'create'])->name('external-solutions.create');
+    Route::post('/external-solutions', [ExternalSolutionController::class, 'store'])->name('external-solutions.store');
+
+    // CRUD routes
+    Route::get('/external-solutions/{externalSolution}/show', [ExternalSolutionController::class, 'show'])->name('external-solutions.show');
+    Route::get('/external-solutions/{externalSolution}/edit', [ExternalSolutionController::class, 'edit'])->name('external-solutions.edit');
+    Route::put('/external-solutions/{externalSolution}', [ExternalSolutionController::class, 'update'])->name('external-solutions.update');
+    Route::delete('/external-solutions/{externalSolution}', [ExternalSolutionController::class, 'destroy'])->name('external-solutions.destroy');
+
     //  route for deleting a solution
     Route::delete('/internal-solutions/{solution}', [InternalSolutionController::class, 'destroy'])->name('internal-solutions.destroy');
 });

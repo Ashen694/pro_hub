@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
 
             // Also keep your SDLC seeder
             SDLCphaseSeeder::class,
+            \Database\Seeders\ExternalSolutionSeeder::class,
         ]);
     }
 }
