@@ -69,8 +69,6 @@ Route::middleware('auth')->group(function () {
     // Route for showing the list of external solutions based on their status
     Route::get('/external-solutions/{status}', [ExternalSolutionController::class, 'index'])->name('external-solutions.index');
 
-    //  route for deleting a solution
-    Route::delete('/internal-solutions/{solution}', [InternalSolutionController::class, 'destroy'])->name('internal-solutions.destroy');
 });
 
 // Authentication routes (login, logout, etc.)
