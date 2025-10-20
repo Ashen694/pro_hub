@@ -54,6 +54,17 @@ Route::middleware('auth')->group(function () {
     // --- Consumer Service Platforms Route ---
     Route::get('/consumer-service-platforms', [ConsumerServicePlatformController::class, 'index'])->name('consumer-service.index');
 
+    // --- Reference Data Routes ---
+    Route::prefix('reference-data')->name('reference-data.')->group(function () {
+        // Companies CRUD
+        Route::resource('companies', \App\Http\Controllers\CompanyController::class)->except(['show']);
+    // Other reference data
+    Route::resource('customer-contacts', \App\Http\Controllers\CustomerContactController::class)->except(['show']);
+    Route::resource('divisional-members', \App\Http\Controllers\DivisionalMemberController::class)->except(['show']);
+    Route::resource('application-groups', \App\Http\Controllers\ApplicationGroupController::class)->except(['show']);
+    Route::resource('fields-of-specializations', \App\Http\Controllers\FieldOfSpecializationController::class)->except(['show']);
+    });
+
 
     // Route for showing the list of external solutions based on their status
     Route::get('/external-solutions/{status}', [ExternalSolutionController::class, 'index'])->name('external-solutions.index');

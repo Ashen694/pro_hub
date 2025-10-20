@@ -21,6 +21,13 @@ class DatabaseSeeder extends Seeder
             // This runs second, using the data from the seeder above
             InternalPlatformSeeder::class,
 
+            // Reference data seeders
+            CompanySeeder::class,
+            CustomerContactSeeder::class,
+            DivisionalMemberSeeder::class,
+            ApplicationGroupSeeder::class,
+            FieldOfSpecializationSeeder::class,
+
             // Also keep your SDLC seeder
             SDLCphaseSeeder::class,
         ]);

@@ -52,6 +52,25 @@ Thank you for considering contributing to the Laravel framework! The contributio
 
 In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
+## Run dev server
+
+From the repository root run the built-in server:
+
+```bash
+cd ~/Desktop/Prohub/pro_hub
+php artisan serve
+# or, from the parent folder:
+php pro_hub/artisan serve
+```
+
+If you prefer, make `artisan` executable and run it directly:
+
+```bash
+cd ~/Desktop/Prohub/pro_hub
+chmod +x artisan
+./artisan serve
+```
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
