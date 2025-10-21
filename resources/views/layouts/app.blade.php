@@ -17,6 +17,10 @@
     background-color: #0C1631;
     font-family: "Inter", sans-serif;
   }
+  /* Make general text visible on dark background */
+  body, .page-title, .page-header h2, .nav-link-title, .dropdown-item, .nav-link, .navbar-brand a, .footer {
+    color: #ffffff !important;
+  }
 
   /* 🔹 Top Header (Logo + User Info) */
   .navbar:first-of-type {
@@ -107,6 +111,30 @@
     font-size: 26px;
   }
 
+  /* Form controls: keep white background and dark text for readability */
+  input[type="text"], input[type="email"], input[type="search"], select, textarea, .form-control {
+    background-color: #ffffff !important;
+    color: #0b0b0b !important;
+    border: 1px solid rgba(0,0,0,0.08) !important;
+  }
+
+  /* Tables and lists should display white text */
+  table, th, td, .table {
+    color: #ffffff !important;
+  }
+
+  /* Utility to force white text where needed */
+  .white-text, .white-text * { color: #ffffff !important; }
+  .badge.white-text, .white-select { color: #ffffff !important; }
+  /* Ensure select elements, their options, badges and table labels are visible on dark background */
+  select, .form-select, select option, .form-select option, .badge, .card-table td, .card-table th, .fw-bold {
+    color: #ffffff !important;
+  }
+  /* Some browsers need explicit background for options */
+  .form-select option, select option {
+    background: #0C1631 !important;
+  }
+
   /* 🔹 Footer */
   .footer {
     background: #0C1631;
@@ -134,11 +162,11 @@
   box-shadow: 0 0 8px rgba(0,0,0,0.2);
 }
 
-</style>
+    </style>
 
     @stack('styles')
   </head>
-  <body >
+  <body>
     <div class="page">
       <!-- Navbar -->
       <header class="navbar navbar-expand-md navbar-light d-print-none">
@@ -262,6 +290,18 @@
                 <!-- Reference Data Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-refdata" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                        <span class="nav-link-title">
+                        Reference Data
+                        </span>
+                    </a>
+          <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ route('reference-data.companies.index') }}">Companies/Customers</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.customer-contacts.index') }}">Customer Contacts</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.divisional-members.index') }}">Divisional Members</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.application-groups.index') }}">Application Groups</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.fields-of-specializations.index') }}">Fields of Specialization</a>
+                    </div>
+                </li>
                         <span class="nav-link-title">
                         Reference Data
                         </span>
