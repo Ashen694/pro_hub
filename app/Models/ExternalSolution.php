@@ -17,6 +17,7 @@ class ExternalSolution extends Model
         'start_date',
         'target_date',
         'dplo_stage',
+        'sdlc_stage',
         'percentage_done',
         'bitbucket_repository_name',
         'sales_team_involved',

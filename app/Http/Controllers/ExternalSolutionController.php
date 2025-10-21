@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ExternalSolution;
+use Illuminate\Validation\Rule;
 
 class ExternalSolutionController extends Controller
 {
@@ -95,9 +96,10 @@ class ExternalSolutionController extends Controller
             'start_date' => 'nullable|date',
             'target_date' => 'nullable|date',
             'dplo_stage' => 'nullable|string|max:255',
+            'sdlc_stage' => 'nullable|string|max:255',
             'percentage_done' => 'nullable|string|max:50',
             'bitbucket_repository_name' => 'nullable|string|max:255',
-            'sales_team_involved' => 'nullable|string|max:255',
+            'sales_team_involved' => ['nullable', Rule::in(['Government Business','Enterprise Business','Carrier Business','Region Business'])],
             'sales_account_manager' => 'nullable|string|max:255',
             'sales_manager' => 'nullable|string|max:255',
             'sales_engineer' => 'nullable|string|max:255',
@@ -107,7 +109,7 @@ class ExternalSolutionController extends Controller
             'monthly_recurring_charge' => 'nullable|numeric',
             'value_of_software' => 'nullable|numeric',
             'contract_period_years' => 'nullable|integer',
-            'support_availability' => 'nullable|string|max:255',
+            'support_availability' => ['nullable', Rule::in(['24x7','24x5','8x5'])],
             'dpo_handover_date' => 'nullable|date',
             'dpo_handover_comments' => 'nullable|string',
         ]);

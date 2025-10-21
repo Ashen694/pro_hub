@@ -53,12 +53,12 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">DPLO Stage</label>
-                        <select name="dplo_stage" class="form-control">
+                        <label class="form-label">SDLC Stage</label>
+                        <select name="sdlc_stage" class="form-control">
                             <option value="">Please select</option>
-                            <option value="Proposal/Preparation" {{ old('dplo_stage')=='Proposal/Preparation' ? 'selected' : '' }}>Proposal/Preparation</option>
-                            <option value="Requirement Gathering" {{ old('dplo_stage')=='Requirement Gathering' ? 'selected' : '' }}>Requirement Gathering</option>
-                            <option value="Development" {{ old('dplo_stage')=='Development' ? 'selected' : '' }}>Development</option>
+                            <option value="Proposal/Preparation" {{ old('sdlc_stage', old('dplo_stage'))=='Proposal/Preparation' ? 'selected' : '' }}>Proposal/Preparation</option>
+                            <option value="Requirement Gathering" {{ old('sdlc_stage', old('dplo_stage'))=='Requirement Gathering' ? 'selected' : '' }}>Requirement Gathering</option>
+                            <option value="Development" {{ old('sdlc_stage', old('dplo_stage'))=='Development' ? 'selected' : '' }}>Development</option>
                         </select>
                     </div>
 
@@ -77,7 +77,13 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Sales Team Involved</label>
-                        <input type="text" name="sales_team_involved" value="{{ old('sales_team_involved') }}" class="form-control">
+                        <select name="sales_team_involved" class="form-control">
+                            <option value="">Please select</option>
+                            <option value="Government Business" {{ old('sales_team_involved')=='Government Business' ? 'selected' : '' }}>Government Business</option>
+                            <option value="Enterprise Business" {{ old('sales_team_involved')=='Enterprise Business' ? 'selected' : '' }}>Enterprise Business</option>
+                            <option value="Carrier Business" {{ old('sales_team_involved')=='Carrier Business' ? 'selected' : '' }}>Carrier Business</option>
+                            <option value="Region Business" {{ old('sales_team_involved')=='Region Business' ? 'selected' : '' }}>Region Business</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -111,12 +117,12 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Monthly Recurring Charge (MRC)</label>
+                        <label class="form-label">Monthly Recurrent Charge (MRC)</label>
                         <input type="number" step="0.01" name="monthly_recurring_charge" value="{{ old('monthly_recurring_charge') }}" class="form-control">
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Value of the Software (Cost of Third-Party Solutions)</label>
+                        <label class="form-label">Value of the Software (Out Of Total Solution Value)</label>
                         <input type="number" step="0.01" name="value_of_software" value="{{ old('value_of_software') }}" class="form-control">
                     </div>
 
@@ -127,7 +133,12 @@
 
                     <div class="mb-3">
                         <label class="form-label">Support Availability</label>
-                        <input type="text" name="support_availability" value="{{ old('support_availability') }}" class="form-control">
+                        <select name="support_availability" class="form-control">
+                            <option value="">Please select</option>
+                            <option value="24x7" {{ old('support_availability')=='24x7' ? 'selected' : '' }}>24x7</option>
+                            <option value="24x5" {{ old('support_availability')=='24x5' ? 'selected' : '' }}>24x5</option>
+                            <option value="8x5" {{ old('support_availability')=='8x5' ? 'selected' : '' }}>8x5</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">

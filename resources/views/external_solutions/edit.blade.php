@@ -28,6 +28,26 @@
                         <label class="form-label">Application/Platform Name</label>
                         <input type="text" name="application_name" value="{{ old('application_name', $externalSolution->application_name) }}" class="form-control">
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Sales Team Involved</label>
+                        <select name="sales_team_involved" class="form-control">
+                    <div class="mb-3">
+                        <label>SDLC Stage</label>
+                        <select name="sdlc_stage" class="form-control">
+                            <option value="">Please select</option>
+                            @foreach(['Proposal/Preparation','Requirement Gathering','Development'] as $stage)
+                                <option value="{{ $stage }}" {{ old('sdlc_stage', old('dplo_stage', $externalSolution->sdlc_stage ?? $externalSolution->dplo_stage))==$stage ? 'selected' : '' }}>{{ $stage }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                        <select name="support_availability" class="form-control">
+                            <option value="">Please select</option>
+                            @foreach(['24x7','24x5','8x5'] as $opt)
+                                <option value="{{ $opt }}" {{ old('support_availability', $externalSolution->support_availability)==$opt ? 'selected' : '' }}>{{ $opt }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <!-- Add more fields as needed, similar to create.blade.php -->
                 </div>
             </div>

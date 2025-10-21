@@ -14,9 +14,9 @@
                 <tr><th>Developed By</th><td>{{ $solution->developed_by }}</td></tr>
                 <tr><th>Started</th><td>{{ $solution->start_date }}</td></tr>
                 <tr><th>Launched</th><td>{{ $solution->launched_date }}</td></tr>
-                <tr><th>One Time Charge</th><td>{{ $solution->one_time_charge }}</td></tr>
-                <tr><th>Monthly Recurring</th><td>{{ $solution->monthly_recurring_charge }}</td></tr>
-                <tr><th>Value of Software</th><td>{{ $solution->value_of_software }}</td></tr>
+                    <tr><th>One Time Charge</th><td>{{ $solution->one_time_charge }}</td></tr>
+                    <tr><th>Monthly Recurrent Charge (MRC)</th><td>{{ $solution->monthly_recurring_charge }}</td></tr>
+                    <tr><th>Value of the Software (Out Of Total Solution Value)</th><td>{{ $solution->value_of_software }}</td></tr>
             </tbody>
         </table>
         <a href="{{ route('external-solutions.edit', $solution->id) }}" class="btn btn-primary">Edit</a>
