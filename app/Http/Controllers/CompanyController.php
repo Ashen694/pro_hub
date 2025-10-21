@@ -9,8 +9,16 @@ class CompanyController extends Controller
 {
     public function index()
     {
-        $companies = Company::orderBy('name')->paginate(15);
-        return view('reference-data.companies.index', compact('companies'));
+        $perPage = request()->query('perPage', 10);
+        $q = request()->query('q', null);
+
+        $query = Company::orderBy('name');
+        if ($q) {
+            $query->where('name', 'like', "%{$q}%");
+        }
+
+        $companies = $query->paginate($perPage)->withQueryString();
+        return view('reference-data.companies.index', compact('companies', 'perPage', 'q'));
     }
 
     public function create()

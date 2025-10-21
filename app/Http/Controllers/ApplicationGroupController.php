@@ -34,6 +34,11 @@ class ApplicationGroupController extends Controller
         return view('reference-data.application-groups.edit', ['group' => $applicationGroup]);
     }
 
+    public function show(ApplicationGroup $applicationGroup)
+    {
+        return view('reference-data.application-groups.show', ['group' => $applicationGroup]);
+    }
+
     public function update(Request $request, ApplicationGroup $applicationGroup)
     {
         $data = $request->validate([

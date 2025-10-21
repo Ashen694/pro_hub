@@ -3,6 +3,8 @@
     .card-table td, .card-table th { font-size: .875rem; padding: 1rem; vertical-align: middle; }
     .btn-icon { width: 2.2rem; height: 2.2rem; }
     .cr-link { font-size: 0.75rem; font-style: italic; }
+    /* make select text visible on dark background */
+    .white-select, .white-select option { color: #fff !important; background: transparent !important; }
 </style>
 @endpush
 
@@ -34,14 +36,14 @@
         <label class="form-label">Application Name</label>
         <input type="text" class="form-control" placeholder="Search by name...">
       </div>
-      <div class="col-md-3">
-        <label class="form-label">Application Group</label>
-        <select class="form-select">
-            <option value="">All Groups</option>
-            <option>ENTERPRISE PORTAL</option>
-            <option>BILLING SUPPORT</option>
-        </select>
-      </div>
+            <div class="col-md-3">
+                <label class="form-label" style="color:#fff;">Application Group</label>
+                <select class="form-select white-select">
+                        <option value="">All Groups</option>
+                        <option>ENTERPRISE PORTAL</option>
+                        <option>BILLING SUPPORT</option>
+                </select>
+            </div>
       <div class="col-md-3">
         <label class="form-label">Developed By</label>
         <select class="form-select">
