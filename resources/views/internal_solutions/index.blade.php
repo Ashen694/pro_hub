@@ -20,19 +20,7 @@
                 <a href="{{ route('internal-solutions.create') }}" class="btn btn-primary">Create New</a>
             </div>
         @endif
-        
-        {{-- For retired and abandoned pages --}}
-        @if($status == 'retired' || $status == 'abandoned')
-            <div class="card-options">
-                <div class="btn-group" role="group">
-                    {{-- Removed btn-sm class to make buttons larger --}}
-                    <a href="{{ route('internal-solutions.index', ['status' => 'abandoned']) }}" 
-                       class="btn {{ $status == 'abandoned' ? 'btn-primary' : 'btn-outline-secondary' }}">Abandoned</a>
-                    <a href="{{ route('internal-solutions.index', ['status' => 'retired']) }}" 
-                       class="btn {{ $status == 'retired' ? 'btn-primary' : 'btn-outline-secondary' }}">Retired</a>
-                </div>
-            </div>
-        @endif
+
     </div>
 
     {{-- The Livewire component is loaded here, which contains the alerts, filters, and table --}}
@@ -43,9 +31,7 @@
 
 @push('scripts')
 <script>
-    // This script re-initializes Bootstrap tooltips after Livewire updates the page.
-    // It's important for the action button tooltips to work correctly after sorting/filtering.
-    document.addEventListener('livewire:navigated', () => {
+      document.addEventListener('livewire:navigated', () => {
          var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
          var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) { return new bootstrap.Tooltip(tooltipTriggerEl) });
     });

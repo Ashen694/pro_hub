@@ -28,6 +28,8 @@ class InternalSolutionsTable extends Component
     public $sortBy = 'created_at';
     public $sortDirection = 'desc';
 
+    public $filterLevel = 'level1';
+
     // Mount lifecycle hook to get the status from the URL
     public function mount($status)
     {
@@ -40,9 +42,7 @@ class InternalSolutionsTable extends Component
         $this->resetPage();
     }
 
-    // =================================================================
-    // CORRECTED: Added a listener attribute to the sortBy function
-    // =================================================================
+
     #[On('callSortBy')]
     public function sortBy($field)
     {
@@ -89,12 +89,12 @@ class InternalSolutionsTable extends Component
     // Render method to fetch data and return the view
     public function render()
     {
-        $query = InternalPlatform::with(['parentProject', 'mainApplicationParent'])
+        $query = InternalPlatform::with(['parentProject', 'mainApplicationParent', 'comments'])
             ->when($this->filterAppName, fn ($q) => $q->where('App_Name', 'like', '%' . $this->filterAppName . '%'))
             ->when($this->filterSdlcPhase, fn ($q) => $q->where('SDLCPhase', $this->filterSdlcPhase))
             ->when($this->filterDevelopedBy, fn ($q) => $q->where('Developed_By', $this->filterDevelopedBy))
             ->when($this->filterAppGroup, fn ($q) => $q->whereHas('parentProject', fn ($subQuery) => $subQuery->where('ParentProjectID', $this->filterAppGroup)));
-
+            
         switch ($this->status) {
             case 'operational':
                 $query->where('SDLCPhase', 'Maintenance');
@@ -103,16 +103,29 @@ class InternalSolutionsTable extends Component
                 }
                 break;
             case 'in-progress':
-            case 'recently-launched':
                 $inProgressPhases = ['Proposal Preparation', 'Proposal Submitted', 'Requirement Gathering and Analysis', 'Design', 'Coding or Implementation', 'Testing', 'Deployment'];
                 $query->whereIn('SDLCPhase', $inProgressPhases);
+                if ($this->filterLevel === 'level1') {
+                    $query->where('Status', 'Level 01');
+                } else { // 'others'
+                    $query->where(function ($q) {
+                        $q->where('Status', '!=', 'Level 01')->orWhereNull('Status');
+                    });
+                }
                 break;
+            case 'recently-launched':
+                // Filter for solutions launched in the last one year
+                $oneYearAgo = now()->subYear();
+                $query->where('LaunchedDate', '>=', $oneYearAgo);
+                
+                $query->where('SDLCPhase', 'Maintenance');
+                break;    
             case 'retired':
                 $query->where('SDLCPhase', 'Retired');
                 break;
             case 'abandoned':
                 $query->where('SDLCPhase', 'Abandoned');
-                break;
+                break;            
             default:
                 $query->whereRaw('1 = 0');
                 break;
