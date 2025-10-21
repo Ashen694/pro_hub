@@ -34,6 +34,11 @@ class FieldOfSpecializationController extends Controller
         return view('reference-data.fields-of-specializations.edit', ['item' => $fieldsOfSpecialization]);
     }
 
+    public function show(FieldOfSpecialization $fieldsOfSpecialization)
+    {
+        return view('reference-data.fields-of-specializations.show', ['item' => $fieldsOfSpecialization]);
+    }
+
     public function update(Request $request, FieldOfSpecialization $fieldsOfSpecialization)
     {
         $data = $request->validate([

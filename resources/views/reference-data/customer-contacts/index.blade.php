@@ -6,6 +6,7 @@
     .customer-contacts-table thead th { color: #fff !important; background:transparent !important; }
     .customer-contacts-table tbody td { color: #fff !important; }
     .customer-contacts-table { background: transparent; }
+    .link-details { color: #0dcaf0; }
 </style>
 <div class="container">
     <div class="row mb-2">
@@ -15,7 +16,7 @@
         <div class="col-6 text-end">
             <form method="GET" class="d-inline-block">
                 Show
-                <select name="perPage" onchange="this.form.submit()">
+                <select name="perPage" onchange="this.form.submit()" style="color: #000;">
                     <option value="10" @if(request('perPage')==10) selected @endif>10</option>
                     <option value="25" @if(request('perPage')==25) selected @endif>25</option>
                     <option value="50" @if(request('perPage')==50) selected @endif>50</option>
@@ -49,9 +50,10 @@
                     <td style="color:#000;">{{ $contact->external_platform }}</td>
                     <td>
                         <a href="{{ route('reference-data.customer-contacts.edit', $contact) }}">Edit</a> |
+                        <a href="{{ route('reference-data.customer-contacts.show', $contact) }}" class="link-details">Details</a> |
                         <form action="{{ route('reference-data.customer-contacts.destroy', $contact) }}" method="POST" style="display:inline">
                             @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-link p-0">Delete</button>
+                            <button type="submit" class="btn btn-link p-0 text-danger">Delete</button>
                         </form>
                     </td>
                 </tr>

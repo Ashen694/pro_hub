@@ -4,15 +4,16 @@
 
 @section('content')
 <style>
-    /* Page-scoped: force main content text to white for visibility */
-    .companies-page, .companies-page table, .companies-page th, .companies-page td, .companies-page a, .companies-page .small { color: #fff !important; }
-    .companies-page thead { background: transparent !important; }
+    /* Page-scoped: dark table like other lists */
+    .companies-page table thead th { color:#fff !important; background:transparent !important; }
+    .companies-page table tbody td { color:#fff !important; }
+    .companies-page .link-details { color:#0dcaf0 !important; } /* match Details color used elsewhere */
 </style>
 <div class="container companies-page">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <div>
             <div class="mt-2">
-                <a href="{{ route('reference-data.companies.create') }}" class="btn btn-link p-0">Create New</a>
+                <a href="{{ route('reference-data.companies.create') }}" class="btn btn-primary btn-sm">Create New</a>
             </div>
         </div>
         <div class="text-end">
@@ -25,7 +26,7 @@
                 <label class="me-2 small">Show</label>
                 <form id="perPageForm" method="GET">
                     <input type="hidden" name="q" value="{{ $q }}" />
-                    <select name="perPage" onchange="document.getElementById('perPageForm').submit()" class="form-select form-select-sm" style="width:80px; display:inline-block;">
+                    <select name="perPage" onchange="document.getElementById('perPageForm').submit()" class="form-select form-select-sm" style="width:80px; display:inline-block; color:#000;">
                         <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
                         <option value="25" {{ $perPage == 25 ? 'selected' : '' }}>25</option>
                         <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
@@ -59,12 +60,12 @@
                     <td class="align-top">
                         <div class="small">
                             <div><a href="{{ route('reference-data.companies.edit', $company) }}">Edit</a></div>
-                            <div><a href="#">Details</a></div>
+                            <div><a href="#" class="link-details">Details</a></div>
                             <div>
                                 <form action="{{ route('reference-data.companies.destroy', $company) }}" method="POST" onsubmit="return confirm('Delete this company?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-link p-0">Delete</button>
+                                    <button type="submit" class="btn btn-link p-0 text-danger">Delete</button>
                                 </form>
                             </div>
                             <div><a href="#">Customer Contacts</a></div>

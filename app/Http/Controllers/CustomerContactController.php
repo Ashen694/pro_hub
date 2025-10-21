@@ -40,6 +40,11 @@ class CustomerContactController extends Controller
         return view('reference-data.customer-contacts.edit', ['contact' => $customerContact, 'companies' => $companies]);
     }
 
+    public function show(CustomerContact $customerContact)
+    {
+        return view('reference-data.customer-contacts.show', ['contact' => $customerContact]);
+    }
+
     public function update(Request $request, CustomerContact $customerContact)
     {
         $data = $request->validate([
