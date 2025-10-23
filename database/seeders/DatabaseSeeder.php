@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
+            EmployeeSeeder::class,
             // This must run first because InternalPlatformSeeder depends on it
             ParentProjectSeeder::class,
             
@@ -28,8 +29,9 @@ class DatabaseSeeder extends Seeder
             ApplicationGroupSeeder::class,
             FieldOfSpecializationSeeder::class,
 
-            // Also keep your SDLC seeder
+         
             SDLCphaseSeeder::class,
+            TargetEndUserSeeder::class,
         ]);
     }
 }

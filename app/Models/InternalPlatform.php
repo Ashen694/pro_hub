@@ -46,4 +46,9 @@ class InternalPlatform extends Model
         // A Main Application (ID) has many Change Requests (linked by MainAppID)
         return $this->hasMany(InternalPlatform::class, 'MainAppID', 'ID');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(InternalProjectComment::class, 'Solution_ID', 'ID')->latest('Updated_Time');
+    }
 }

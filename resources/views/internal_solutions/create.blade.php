@@ -2,6 +2,16 @@
 
 @section('page-title', 'Add New Internal Solution')
 
+@push('styles')
+<style>
+    /* Style for fields that can be disabled */
+    .disabled-field {
+        background-color: #f8f9fa; /* Light grey background */
+        cursor: not-allowed;      /* Disabled cursor icon */
+    }
+</style>
+@endpush
+
 @section('content')
 <form action="{{ route('internal-solutions.store') }}" method="POST">
     @csrf
@@ -10,8 +20,10 @@
             <h3 class="card-title">Add New Internal Solution</h3>
         </div>
         <div class="card-body">
+            {{-- CORRECTED: Using a simple two-column layout instead of zigzag --}}
             <div class="row g-3">
-                <!-- Left Column -->
+                
+                {{-- Left Column (12 fields) --}}
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label required">Application Category</label>
@@ -51,7 +63,7 @@
                             @endforeach
                         </select>
                     </div>
-                     <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Integrated Applications</label>
                         <input type="text" class="form-control" name="integrated_applications" placeholder="Comma separated application names">
                     </div>
@@ -75,11 +87,10 @@
                         <label class="form-label">Launched Date</label>
                         <input type="text" class="form-control" id="launched_date" name="launched_date" placeholder="Select a date">
                     </div>
-                     <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Solution Value</label>
                         <input type="text" class="form-control" name="solution_value" placeholder="Enter solution value">
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label">Support Availability</label>
                         <select class="form-select" name="support_availability">
@@ -91,7 +102,7 @@
                     </div>
                 </div>
 
-                <!-- Right Column -->
+                {{-- Right Column (12 fields) --}}
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Main (Parent) Application</label>
@@ -114,7 +125,7 @@
                         <label class="form-label">Target Date</label>
                         <input type="text" class="form-control" id="target_date" name="target_date" placeholder="Select a date">
                     </div>
-                     <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Percentage Done</label>
                         <input type="number" class="form-control" name="percentage_done" placeholder="e.g., 75" min="0" max="100">
                     </div>
@@ -126,7 +137,6 @@
                         <label class="form-label">Hosted Server IP/Name</label>
                         <input type="text" class="form-control" name="server_ip" placeholder="Enter Server IP or Name">
                     </div>
-                    <!-- NEW FIELD: Application URL -->
                     <div class="mb-3">
                         <label class="form-label">Application URL</label>
                         <input type="url" class="form-control" name="application_url" placeholder="https://example.com">
@@ -134,12 +144,13 @@
                     <div class="mb-3">
                         <label class="form-label">Application End Users</label>
                          <select class="form-select" name="end_users">
-                            <option value="SLT Employees">SLT Employees</option>
-                            <option value="Public">Public</option>
+                            <option value="" disabled selected>Please select</option>
+                            @foreach ($endUserTypes as $userType)
+                                <option value="{{ $userType->EndUserType }}">{{ $userType->EndUserType }}</option>
+                            @endforeach
                         </select>
                     </div>
-                    <!-- NEW FIELD: User Specific Section -->
-                     <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">User Specific Section/Division/Group</label>
                         <input type="text" class="form-control" name="user_specific_section" placeholder="Enter specific user group">
                     </div>
@@ -155,7 +166,6 @@
                              <option value="False">False</option>
                         </select>
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -166,9 +176,9 @@
     </div>
 </form>
 @endsection
+
 @push('scripts')
 <script>
-  // @formatter:off
   document.addEventListener("DOMContentLoaded", function () {
     const datepickerConfig = {
         buttonText: {
@@ -180,10 +190,9 @@
 
     const dateInputIds = ['start_date', 'target_date', 'uat_date', 'va_date', 'launched_date'];
     dateInputIds.forEach(id => { 
-        new Litepicker({ 
-            element: document.getElementById(id), 
-            ...datepickerConfig 
-        }); 
+        if(document.getElementById(id)) {
+            new Litepicker({ element: document.getElementById(id), ...datepickerConfig });
+        }
     });
     
     const applicationCategorySelect = document.querySelector('select[name="application_category"]');
@@ -193,10 +202,11 @@
     function toggleParentApplicationField() {
         if (applicationCategorySelect.value === 'Change Request') {
             parentApplicationSelect.disabled = false;
+            parentApplicationSelect.classList.remove('disabled-field');
         } else {
             parentApplicationSelect.disabled = true;
+            parentApplicationSelect.classList.add('disabled-field');
             parentApplicationSelect.value = '';
-            applicationGroupSelect.value = '';
         }
     }
 
@@ -213,6 +223,5 @@
 
     toggleParentApplicationField();
   });
-  // @formatter:on
 </script>
 @endpush
