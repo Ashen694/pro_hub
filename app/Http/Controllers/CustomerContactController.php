@@ -8,9 +8,26 @@ use Illuminate\Http\Request;
 
 class CustomerContactController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $contacts = CustomerContact::with('company')->paginate(20);
+        $perPage = (int) $request->get('perPage', 10);
+        $search = trim((string) $request->get('q', ''));
+
+        $query = CustomerContact::with('company');
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('role', 'like', "%{$search}%");
+            })->orWhereHas('company', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            });
+        }
+
+        $contacts = $query->paginate($perPage)->appends($request->query());
+
         return view('reference-data.customer-contacts.index', compact('contacts'));
     }
 
