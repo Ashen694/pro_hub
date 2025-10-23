@@ -6,30 +6,27 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title mb-0">{{ $title }}</h3>
-        <a href="{{ route('external-solutions.create') }}" class="btn btn-primary">Create New</a>
+    <a href="{{ route('external-solutions.create', ['status' => $status]) }}" class="btn btn-primary">Create New</a>
     </div>
-    
+
     <!-- Filter Section -->
     <div class="card-body border-bottom py-3">
         <div class="d-flex align-items-center">
-            
-            {{-- Show different filter TABS based on the page --}}
-            @if($status == 'operational')
-                <div class="btn-group" role="group">
-                     <a href="{{ route('external-solutions.index', ['status' => 'operational']) }}" class="btn btn-primary">Operational</a>
-                </div>
-            @elseif($status == 'prospective')
-                 <div class="btn-group" role="group">
-                     <a href="{{ route('external-solutions.index', ['status' => 'prospective']) }}" class="btn btn-primary">Prospective</a>
-                     <a href="#" class="btn">In-Progress</a> {{-- Link this to the correct route later --}}
-                </div>
-            @endif
+            {{-- Filter / Tabs --}}
+            <div>
+                @if($status == 'operational')
+                    <a href="{{ route('external-solutions.index', ['status' => 'operational']) }}" class="btn btn-primary">Operational</a>
+                @elseif($status == 'prospective')
+                    <a href="{{ route('external-solutions.index', ['status' => 'prospective']) }}" class="btn btn-primary">Prospective</a>
+                @endif
+            </div>
 
-            <div class="ms-auto text-muted">
-                Search:
-                <div class="ms-2 d-inline-block">
-                    <input type="text" class="form-control form-control-sm" aria-label="Search...">
-                </div>
+            <div class="ms-auto d-flex align-items-center">
+                <form method="GET" action="{{ route('external-solutions.index', ['status' => $status]) }}" class="d-flex align-items-center">
+                    <label class="me-2 mb-0 text-muted">Search:</label>
+                    <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" style="width:180px;" aria-label="Search...">
+                    <button class="btn btn-sm btn-outline-primary ms-2" type="submit">Search</button>
+                </form>
             </div>
         </div>
     </div>
