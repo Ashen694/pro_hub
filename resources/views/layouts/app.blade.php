@@ -259,19 +259,29 @@
                     </div>
                 </li>
 
-                <!-- Reference Data Dropdown -->
+                <!-- Reference Data Dropdown--> 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-refdata" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                         <span class="nav-link-title">
                         Reference Data
                         </span>
                     </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Companies/Customers</a>
-                        <a class="dropdown-item" href="#">Customer Contacts</a>
-                        <a class="dropdown-item" href="#">Divisional Members</a>
-                        <a class="dropdown-item" href="#">Application Groups</a>
-                        <a class="dropdown-item" href="#">Fields of Specialization</a>
+          <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ route('reference-data.companies.index') }}">Companies/Customers</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.customer-contacts.index') }}">Customer Contacts</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.divisional-members.index') }}">Divisional Members</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.application-groups.index') }}">Application Groups</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.fields-of-specializations.index') }}">Fields of Specialization</a>
+                    </div>
+                </li>
+                       
+                    </a>
+          <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ route('reference-data.companies.index') }}">Companies/Customers</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.customer-contacts.index') }}">Customer Contacts</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.divisional-members.index') }}">Divisional Members</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.application-groups.index') }}">Application Groups</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.fields-of-specializations.index') }}">Fields of Specialization</a>
                     </div>
                 </li>
 
