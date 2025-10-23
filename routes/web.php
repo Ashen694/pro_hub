@@ -1,13 +1,14 @@
 <?php
 
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 // --- Import Controllers ---
 use App\Http\Controllers\InternalSolutionController;
-use App\Http\Controllers\ConsumerServicePlatformController;   
-use App\Http\Controllers\ExternalSolutionController;  
+use App\Http\Controllers\ConsumerServicePlatformController;
+use App\Http\Controllers\ExternalSolutionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,12 +28,12 @@ Route::get('/dashboard', function () {
 
 // All authenticated routes will be inside this group
 Route::middleware('auth')->group(function () {
-    
+
     // --- Profile Routes ---
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     // --- Internal Solutions Routes ---
 
     // NEW: Redirect from the base URL to a default status page
@@ -48,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/internal-solutions/{solution}', [InternalSolutionController::class, 'update'])->name('internal-solutions.update');
     Route::get('/internal-solutions/{status}', [InternalSolutionController::class, 'index'])->name('internal-solutions.index');
 
-    
+
     // --- Consumer Service Platforms Route ---
     Route::get('/consumer-service-platforms', [ConsumerServicePlatformController::class, 'index'])->name('consumer-service.index');
 
@@ -63,6 +64,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('divisional-members', \App\Http\Controllers\DivisionalMemberController::class)->except(['show']);
         Route::resource('application-groups', \App\Http\Controllers\ApplicationGroupController::class);
         Route::resource('fields-of-specializations', \App\Http\Controllers\FieldOfSpecializationController::class);
+            Route::resource('partners', \App\Http\Controllers\PartnerController::class);    });
+
+    // Partner routes
+    Route::prefix('reference-data')->name('reference-data.')->group(function () {
+        Route::resource('partners', \App\Http\Controllers\PartnerController::class);
     });
 
 

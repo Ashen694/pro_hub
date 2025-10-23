@@ -11,10 +11,10 @@
     <link href="{{ asset('tabler/css/tabler-payments.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/tabler-vendors.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/demo.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('tabler/libs/litepicker/dist/litepicker.css') }}" rel="stylesheet"/> 
+    <link href="{{ asset('tabler/libs/litepicker/dist/litepicker.css') }}" rel="stylesheet"/>
     <style>
   body {
-    background-color: #0C1631;
+
     font-family: "Inter", sans-serif;
   }
 
@@ -102,7 +102,7 @@
   }
 
   .page-title {
-    color: #ffffff;
+    color: #080808;
     font-weight: 700;
     font-size: 26px;
   }
@@ -154,7 +154,7 @@
           <div class="navbar-nav flex-row order-md-last">
              <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                    
+
                     @php
                         // Get user's name
                         $name = Auth::user()->name;
@@ -172,14 +172,14 @@
 
                     <div class="d-none d-xl-block ps-2">
                         <div>{{ Auth::user()->name }}</div>
-                        <div class="mt-1 small text-muted">Admin</div> 
+                        <div class="mt-1 small text-muted">Admin</div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <!-- Logout Form -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <a href="{{ route('logout') }}" class="dropdown-item" 
+                        <a href="{{ route('logout') }}" class="dropdown-item"
                         onclick="event.preventDefault(); this.closest('form').submit();">
                         Logout
                         </a>
@@ -244,7 +244,7 @@
                         <a class="dropdown-item" href="#">My Applications - Backup Matrix</a>
                     </div>
                 </li>
-                
+
                 <!-- Report Incidents Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-incidents" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
@@ -311,7 +311,7 @@
                         <a class="dropdown-item" href="#">OverTime Data</a>
                     </div>
                 </li>
-                
+
                 <!-- Trainees Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-trainees" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
@@ -327,17 +327,15 @@
                 </li>
 
                 <!-- Partners Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-                        <span class="nav-link-title">
-                        Partners
-                        </span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">All Partners</a>
-                    </div>
-                </li>
-
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                          <span class="nav-link-title">Partners</span>
+                      </a>
+                      <div class="dropdown-menu">
+                          <a class="dropdown-item" href="{{ route('reference-data.partners.index') }}">All Partners</a>
+                          <a class="dropdown-item" href="{{ route('reference-data.partners.create') }}">Create Partner</a>
+                      </div>
+                  </li>
                 <!-- Freelancers -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
@@ -352,7 +350,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="page-wrapper">
         <!-- Page header -->
         <div class="page-header d-print-none">
@@ -393,7 +391,7 @@
     <script src="{{ asset('tabler/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('tabler/js/demo.min.js') }}" defer></script>
     <!-- datepicker -->
-    <script src="{{ asset('tabler/libs/litepicker/dist/litepicker.js') }}" defer></script> 
+    <script src="{{ asset('tabler/libs/litepicker/dist/litepicker.js') }}" defer></script>
 
     @stack('scripts')
   </body>
