@@ -287,7 +287,7 @@
                     </div>
                 </li>
 
-                <!-- Reference Data Dropdown -->
+                <!-- Reference Data Dropdown--> 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-refdata" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                         <span class="nav-link-title">
@@ -302,9 +302,7 @@
                         <a class="dropdown-item" href="{{ route('reference-data.fields-of-specializations.index') }}">Fields of Specialization</a>
                     </div>
                 </li>
-                        <span class="nav-link-title">
-                        Reference Data
-                        </span>
+                       
                     </a>
           <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{ route('reference-data.companies.index') }}">Companies/Customers</a>
