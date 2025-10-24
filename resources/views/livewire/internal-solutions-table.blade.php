@@ -52,8 +52,8 @@
         
         /* View Button (Blue) */
         .btn-action-view {
-            background-color: #e7f5ff; /* ලා නිල් */
-            color: #1c7ed6;            /* තද නිල් icon */
+            background-color: #e7f5ff;  
+            color: #1c7ed6;             
         }
         .btn-action-view:hover {
             background-color: #d0ebff;
@@ -62,8 +62,8 @@
 
         /* Edit Button (Green) */
         .btn-action-edit {
-            background-color: #e6fcf5; /* ලා කොළ */
-            color: #2f9e44;            /* තද කොළ icon */
+            background-color: #e6fcf5;  
+            color: #2f9e44;            
         }
         .btn-action-edit:hover {
             background-color: #c3fae8;
@@ -72,8 +72,8 @@
 
         /* Delete Button (Red) */
         .btn-action-delete {
-            background-color: #fff5f5; /* ලා රතු */
-            color: #e03131;            /* තද රතු icon */
+            background-color: #fff5f5;  
+            color: #e03131;             
         }
         .btn-action-delete:hover {
             background-color: #ffc9c9;
@@ -82,8 +82,8 @@
 
         /* Documents Button (Gray) */
         .btn-action-docs {
-            background-color: #f8f9fa; /* ලා අළු */
-            color: #868e96;            /* තද අළු icon */
+            background-color: #f8f9fa;  
+            color: #868e96;            
         }
         .btn-action-docs:hover {
             background-color: #e9ecef;
@@ -92,8 +92,8 @@
 
         /* Change Request Button (Orange) */
         .btn-action-cr {
-            background-color: #fff4e6; /* ලා තැඹිලි */
-            color: #f76707;            /* තද තැඹිලි icon */
+            background-color: #fff4e6;  
+            color: #f76707;            
         }
         .btn-action-cr:hover {
             background-color: #ffe8cc;

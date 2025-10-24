@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
     // --- Consumer Service Platforms Route ---
     Route::get('/consumer-service-platforms', [ConsumerServicePlatformController::class, 'index'])->name('consumer-service.index');
 
+    Route::get('/internal-solutions/yearly-contribution/{year}', [InternalSolutionController::class, 'yearlyContributionDetails'])->name('internal-solutions.yearly-contribution.details');
+
 
     // --- Reference Data Routes ---
         Route::prefix('reference-data')->name('reference-data.')->group(function () {
