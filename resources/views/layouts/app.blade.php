@@ -150,13 +150,15 @@
         height: 100%;
         z-index: -1; 
         background-color: var(--slt-ink); 
+        pointer-events: none;
     }
 
     .page {
         background-color: transparent; 
         position: relative; 
-        z-index: 1; 
+        /* z-index: 1;  */
     }
+    
 
 </style>
 
@@ -498,6 +500,18 @@
                 requestAnimationFrame(animate);
             })();
         })();
+    </script>
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('close-modal', (event) => {
+                const backdrops = document.querySelectorAll('.modal-backdrop');
+                backdrops.forEach(backdrop => {
+                    backdrop.remove();
+                });
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            });
+        });
     </script>
   </body>
 </html>
