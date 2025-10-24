@@ -4,22 +4,55 @@
 
 @push('styles')
     <style>
-        .btn-action {
-            width: 36px; height: 36px; padding: 0; display: inline-flex;
-            align-items: center; justify-content: center; border-radius: 10px;
-            border: none; transition: all 0.2s ease-in-out;
-        }
-        .btn-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        .btn-action-view { background-color: #e7f5ff; color: #1c7ed6; }
-        .btn-action-view:hover { background-color: #d0ebff; color: #1971c2; }
-        .btn-action-edit { background-color: #e6fcf5; color: #2f9e44; }
-        .btn-action-edit:hover { background-color: #c3fae8; color: #2b8a3e; }
-        .btn-action-delete { background-color: #fff5f5; color: #e03131; }
-        .btn-action-delete:hover { background-color: #ffc9c9; color: #c92a2a; }
-    </style>
+    /* --- New Styles for Action Buttons --- */
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease-in-out;
+        border: none;
+    }
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    }
+    .action-btn i {
+        font-size: 16px;
+    }
+    .action-btn-edit {
+        background-color: #e6f0ff;
+    }
+    .action-btn-edit i {
+        color: #0057ff;
+    }
+    .action-btn-edit:hover {
+        background-color: #cce0ff;
+    }
+    .action-btn-view {
+        background-color: #e3f9e5;
+    }
+    .action-btn-view i {
+        color: #28a745;
+    }
+    .action-btn-view:hover {
+        background-color: #c1f2c6;
+    }
+    .action-btn-delete {
+        background-color: #ffe6e6;
+        cursor: pointer;
+    }
+    .action-btn-delete i {
+        color: #dc3545;
+    }
+    .action-btn-delete:hover {
+        background-color: #ffcccc;
+    }
+</style>
+
 @endpush
 
 @section('content')
@@ -179,24 +212,25 @@
                     <td class="text-center">
                         <div class="btn-list flex-nowrap justify-content-center">
                             <!-- View Button (Triggers Modal) -->
-                            <button class="btn btn-action btn-action-view" data-bs-toggle="modal" data-bs-target="#view-modal-{{ $doc->ID }}" title="View Details">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                            <button class="action-btn action-btn-view" data-bs-toggle="modal" data-bs-target="#view-modal-{{ $doc->ID }}" title="View Details">
+                                <i class="ti ti-eye"></i>
                             </button>
-                            
+
                             <!-- Edit Button -->
-                            <a href="{{ route('dms.edit', $doc->ID) }}" class="btn btn-action btn-action-edit" title="Edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                            <a href="{{ route('dms.edit', $doc->ID) }}" class="action-btn action-btn-edit" title="Edit">
+                                <i class="ti ti-pencil"></i>
                             </a>
 
                             <!-- Download Button -->
-                            <a href="{{ route('dms.download', $doc->ID) }}" class="btn btn-action" style="background-color: #f8f9fa; color: #868e96;" title="Download">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-download" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
+                            <a href="{{ route('dms.download', $doc->ID) }}" class="action-btn" style="background-color: #f1f3f5;" title="Download">
+                                <i class="ti ti-download" style="color:#6c757d;"></i>
                             </a>
 
                             <!-- Delete Button -->
-                            <button class="btn btn-action btn-action-delete" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $doc->ID }}" title="Delete">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                            <button class="action-btn action-btn-delete" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $doc->ID }}" title="Delete">
+                                <i class="ti ti-trash"></i>
                             </button>
+
                         </div>
                     </td>
                 </tr>
