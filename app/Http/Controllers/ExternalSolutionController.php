@@ -11,7 +11,7 @@ class ExternalSolutionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(\Illuminate\Http\Request $request, $status)
+    public function index($status)
     {
         $title = 'External Solutions - ' . ucfirst($status);
 
@@ -25,16 +25,6 @@ class ExternalSolutionController extends Controller
             $query->whereNull('launched_date');
         } else {
             $query->whereNotNull('launched_date');
-        }
-
-        // Apply search filter if provided via ?q=...
-        $search = $request->query('q');
-        if (!empty($search)) {
-            $query->where(function ($sub) use ($search) {
-                $sub->where('application_name', 'like', "%{$search}%")
-                    ->orWhere('developed_by', 'like', "%{$search}%")
-                    ->orWhere('company_customer', 'like', "%{$search}%");
-            });
         }
 
         $solutions = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
@@ -87,11 +77,10 @@ class ExternalSolutionController extends Controller
     /**
      * Show the form for creating a new external solution.
      */
-    public function create(\Illuminate\Http\Request $request)
+    public function create()
     {
         $title = 'Add New External Solution';
-        $status = $request->query('status', 'operational');
-        return view('external_solutions.create', compact('title', 'status'));
+        return view('external_solutions.create', compact('title'));
     }
 
     /**
