@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('internal-solutions.index', ['status' => 'operational']);
     });
 
+    Route::get('/internal-solutions/export', [InternalSolutionController::class, 'exportAll'])->name('internal-solutions.export');
     Route::get('/internal-solutions/yearly-contribution', [InternalSolutionController::class, 'yearlyContribution'])->name('internal-solutions.yearly-contribution');
     Route::get('/internal-solutions-create', [InternalSolutionController::class, 'create'])->name('internal-solutions.create');
     Route::get('/internal-solutions/{solution}/change-requests', [InternalSolutionController::class, 'showChangeRequests'])->name('internal-solutions.change-requests');

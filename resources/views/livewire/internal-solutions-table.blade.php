@@ -323,7 +323,7 @@
     </div>
 
     {{-- PAGINATION AND MODALS --}}
-    <div class="card-footer d-flex align-items-center"><a href="#" class="btn btn-outline-primary">Export All Details to Excel</a><div class="ms-auto">{{ $solutions->links() }}</div></div>
+    <div class="card-footer d-flex align-items-center"><a href="{{ route('internal-solutions.export') }}" class="btn btn-outline-primary">Export All Details to Excel</a><div class="ms-auto">{{ $solutions->links() }}</div></div>
     @foreach($solutions as $solution)
         {{-- Delete Modal (This is unchanged) --}}
         <div class="modal modal-blur fade" id="delete-modal-{{ $solution->ID }}" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>

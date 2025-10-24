@@ -13,6 +13,9 @@ use App\Models\TargetEndUser;
 use App\Models\InternalProjectComment;  
 use Illuminate\Support\Facades\Auth;  
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\InternalSolutionsExport;
+
 use Carbon\Carbon;
 
 class InternalSolutionController extends Controller
@@ -340,6 +343,16 @@ class InternalSolutionController extends Controller
             'year' => $year,
             'projects' => $projectsForYear,
         ]);
+    }
+
+
+    /**
+     * Handle the export of all internal solutions to an Excel file.
+     */
+    public function exportAll()
+    {
+        
+        return Excel::download(new InternalSolutionsExport, 'internal-solutions-all.xlsx');
     }
 
 }
