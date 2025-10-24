@@ -8,11 +8,12 @@ use App\Models\InternalPlatform;
 use App\Models\ParentProject;
 use App\Models\Employee;
 use App\Models\SDLCphase;
-use Livewire\Attributes\On; // <-- IMPORT THIS ATTRIBUTE
+use Livewire\Attributes\On; 
 
 class InternalSolutionsTable extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     // Route parameter
     public $status;
@@ -131,7 +132,7 @@ class InternalSolutionsTable extends Component
                 break;
         }
 
-        $solutions = $query->orderBy($this->sortBy, $this->sortDirection)->paginate(10);
+        $solutions = $query->orderBy($this->sortBy, $this->sortDirection)->paginate(5);
         
         $developers = Employee::orderBy('Emp_Name')->pluck('Emp_Name')->unique();
         $sdlcPhasesList = SDLCphase::orderBy('OrderSeq')->pluck('Phase')->unique();
