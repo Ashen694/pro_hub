@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\InternalSolutionController;
 use App\Http\Controllers\ConsumerServicePlatformController;
 use App\Http\Controllers\ExternalSolutionController;
+use App\Http\Controllers\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,7 +72,18 @@ Route::middleware('auth')->group(function () {
         //partners
         Route::resource('partners', \App\Http\Controllers\PartnerController::class);    });
 
-    
+        // --- DMS (Document Management System) Routes ---
+    Route::prefix('dms')->name('dms.')->group(function () {
+    Route::get('/{type}', [DocumentController::class, 'index'])->name('index');  
+    Route::get('/{type}/create', [DocumentController::class, 'create'])->name('create');
+    Route::post('/{type}', [DocumentController::class, 'store'])->name('store');
+
+    Route::get('/{document}/edit', [DocumentController::class, 'edit'])->name('edit');
+    Route::put('/{document}', [DocumentController::class, 'update'])->name('update');
+
+    Route::delete('/{document}', [DocumentController::class, 'destroy'])->name('destroy');
+    Route::get('/{document}/download', [DocumentController::class, 'download'])->name('download');
+     });
 
 
 
