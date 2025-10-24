@@ -325,7 +325,6 @@
     {{-- PAGINATION AND MODALS --}}
     <div class="card-footer d-flex align-items-center"><a href="{{ route('internal-solutions.export') }}" class="btn btn-outline-primary">Export All Details to Excel</a><div class="ms-auto">{{ $solutions->links() }}</div></div>
     @foreach($solutions as $solution)
-        {{-- Delete Modal (This is unchanged) --}}
         <div class="modal modal-blur fade" id="delete-modal-{{ $solution->ID }}" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>
             <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -340,9 +339,6 @@
             </div>
         </div>
 
-       {{-- ======================================================= --}}
-        {{-- NEW: Details Modal for each solution is added here --}}
-        {{-- ======================================================= --}}
         <div class="modal modal-blur fade" id="details-modal-{{ $solution->ID }}" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
