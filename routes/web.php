@@ -67,12 +67,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('divisional-members', \App\Http\Controllers\DivisionalMemberController::class)->except(['show']);
         Route::resource('application-groups', \App\Http\Controllers\ApplicationGroupController::class);
         Route::resource('fields-of-specializations', \App\Http\Controllers\FieldOfSpecializationController::class);
-            Route::resource('partners', \App\Http\Controllers\PartnerController::class);    });
+        
+        //partners
+        Route::resource('partners', \App\Http\Controllers\PartnerController::class);    });
 
-    // Partner routes
-    Route::prefix('reference-data')->name('reference-data.')->group(function () {
-        Route::resource('partners', \App\Http\Controllers\PartnerController::class);
-    });
+    
 
 
 

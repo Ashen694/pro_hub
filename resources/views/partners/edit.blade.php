@@ -1,68 +1,87 @@
-{{-- edit.blade.php --}}
 @extends('layouts.app')
 
+@push('styles')
+<style>
+    .partners-content-wrapper {
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .partners-content-wrapper h1, .partners-content-wrapper h2, .partners-content-wrapper h3, .partners-content-wrapper label, .partners-content-wrapper p {
+        color: #212529 !important;
+    }
+    .partners-content-wrapper .form-control,
+    .partners-content-wrapper .form-select {
+        background-color: #ffffff !important;
+        border: 1px solid #ced4da !important;
+        color: #212529 !important;
+    }
+</style>
+@endpush
+
+@section('page-title', 'Edit Partner')
+
 @section('content')
-    <div class="container mt-5">
-        <h2>Edit Partner: {{ $partner->organization_name }}</h2>
+<div class="partners-content-wrapper">
+    <h2>Edit Partner: {{ $partner->organization_name }}</h2>
 
-        {{-- Form points to the UPDATE route and uses PUT method --}}
-        <form method="POST" action="{{ route('partners.update', $partner) }}">
-            @csrf
-            @method('PUT') {{-- <-- IMPORTANT for updates --}}
+    <form method="POST" action="{{ route('reference-data.partners.update', $partner) }}" class="mt-4">
+        @csrf
+        @method('PUT')
 
-            <div class="mb-3">
-                <label>Organization Name</label>
-                {{-- We add the 'value' attribute to show existing data --}}
-                <input type="text" class="form-control" name="organization_name"
-                       value="{{ old('organization_name', $partner->organization_name) }}" required>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Organization Name</label>
+            <input type="text" class="form-control" name="organization_name"
+                   value="{{ old('organization_name', $partner->organization_name) }}" required>
+        </div>
 
-            <div class="mb-3">
-                <label>Contact Person Title</label>
-                <select class="form-select" name="contact_person_title">
-                    <option value="">Select</option>
-                    @foreach($titles as $title)
-                        {{-- We add 'selected' if the title matches the partner's title --}}
-                        <option value="{{ $title }}"
-                                @if(old('contact_person_title', $partner->contact_person_title) == $title) selected @endif>
-                            {{ $title }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Contact Person Title</label>
+            <select class="form-select" name="contact_person_title">
+                <option value="">Select</option>
+                @foreach($titles as $title)
+                    <option value="{{ $title }}"
+                            @if(old('contact_person_title', $partner->contact_person_title) == $title) selected @endif>
+                        {{ $title }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-            <div class="mb-3">
-                <label>Contact Person Name</label>
-                <input type="text" class="form-control" name="contact_person_name"
-                       value="{{ old('contact_person_name', $partner->contact_person_name) }}" required>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Contact Person Name</label>
+            <input type="text" class="form-control" name="contact_person_name"
+                   value="{{ old('contact_person_name', $partner->contact_person_name) }}" required>
+        </div>
 
-            <div class="mb-3">
-                <label>Contact Person Email</label>
-                <input type="email" class="form-control" name="contact_person_email"
-                       value="{{ old('contact_person_email', $partner->contact_person_email) }}" required>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Contact Person Email</label>
+            <input type="email" class="form-control" name="contact_person_email"
+                   value="{{ old('contact_person_email', $partner->contact_person_email) }}" required>
+        </div>
 
-            <div class="mb-3">
-                <label>Phone 1</label>
-                <input type="text" class="form-control" name="contact_person_phone_1"
-                       value="{{ old('contact_person_phone_1', $partner->contact_person_phone_1) }}">
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Phone 1</label>
+            <input type="text" class="form-control" name="contact_person_phone_1"
+                   value="{{ old('contact_person_phone_1', $partner->contact_person_phone_1) }}">
+        </div>
 
-            <div class="mb-3">
-                <label>Phone 2</label>
-                <input type="text" class="form-control" name="contact_person_phone_2"
-                       value="{{ old('contact_person_phone_2', $partner->contact_person_phone_2) }}">
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Phone 2</label>
+            <input type="text" class="form-control" name="contact_person_phone_2"
+                   value="{{ old('contact_person_phone_2', $partner->contact_person_phone_2) }}">
+        </div>
 
-            <div class="mb-3">
-                <label>Designation</label>
-                <input type="text" class="form-control" name="contact_person_designation"
-                       value="{{ old('contact_person_designation', $partner->contact_person_designation) }}">
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Designation</label>
+            <input type="text" class="form-control" name="contact_person_designation"
+                   value="{{ old('contact_person_designation', $partner->contact_person_designation) }}">
+        </div>
 
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ route('partners.index') }}" class="btn btn-secondary">Cancel</a>
-        </form>
-    </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('reference-data.partners.index') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
 @endsection
