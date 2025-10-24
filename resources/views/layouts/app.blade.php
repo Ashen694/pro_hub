@@ -321,8 +321,8 @@
                         </span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Internal Solutions Documents</a>
-                        <a class="dropdown-item" href="#">External Solutions Documents</a>
+                        <a class="dropdown-item" href="{{ route('dms.index', ['type' => 'internal']) }}">Internal Solutions Documents</a>
+                        <a class="dropdown-item" href="{{ route('dms.index', ['type' => 'external']) }}">External Solutions Documents</a>
                     </div>
                 </li>
 

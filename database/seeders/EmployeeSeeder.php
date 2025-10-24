@@ -16,8 +16,6 @@ class EmployeeSeeder extends Seeder
     public function run(): void
     {
         
-        DB::table('Employee')->truncate();
-
         $faker = Faker::create();
 
         Employee::create([
