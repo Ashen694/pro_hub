@@ -249,8 +249,8 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'operational']) }}">External Solutions - Operational</a>
                         <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'prospective']) }}">External Solutions - Prospective</a>
-                        <a class="dropdown-item" href="#">External Solutions - Retired</a>
-                        <a class="dropdown-item" href="#">External Solutions - Abandoned</a>
+                        <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'retired']) }}">External Solutions - Retired</a>
+                        <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'abandoned']) }}">External Solutions - Abandoned</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Internal Solutions - Backup Matrix</a>
                         <a class="dropdown-item" href="#">External Solutions - Backup Matrix</a>
