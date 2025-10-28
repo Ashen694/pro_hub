@@ -18,7 +18,7 @@ class ExternalSolutionFactory extends Factory
             'developed_team' => $this->faker->word,
             'start_date' => $this->faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d'),
             'target_date' => $this->faker->dateTimeBetween('now', '+1 years')->format('Y-m-d'),
-            'dplo_stage' => $this->faker->randomElement(['Proposal/Preparation','Requirement Gathering','Development']),
+
             'sdlc_stage' => $this->faker->randomElement(['Proposal/Preparation','Requirement Gathering','Development']),
             'percentage_done' => (string)$this->faker->numberBetween(0,100),
             'bitbucket_repository_name' => $this->faker->word,

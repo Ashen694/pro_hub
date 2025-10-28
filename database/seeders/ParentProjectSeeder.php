@@ -13,11 +13,6 @@ class ParentProjectSeeder extends Seeder
      */
     public function run(): void
     {
-        // Truncate the table before seeding to avoid duplicates on re-run
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ParentProject::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
         $groups = [
             ['ParentProjectGroup' => 'BILLING SUPPORT', 'OperationScope' => 'Finance'],
             ['ParentProjectGroup' => 'CUSTOMER EXPERIENCE', 'OperationScope' => 'Marketing'],
@@ -28,7 +23,10 @@ class ParentProjectSeeder extends Seeder
         ];
 
         foreach ($groups as $group) {
-            ParentProject::create($group);
+            ParentProject::firstOrCreate(
+                ['ParentProjectGroup' => $group['ParentProjectGroup']], // Check by group name
+                $group // Create with this data if not found
+            );
         }
     }
 }

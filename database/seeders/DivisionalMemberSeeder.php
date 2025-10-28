@@ -10,15 +10,16 @@ class DivisionalMemberSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DivisionalMember::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
         $members = [
             ['name' => 'Amal Silva', 'division' => 'Technology', 'email' => 'amal.silva@example.test', 'position' => 'Senior Engineer'],
             ['name' => 'Bhasha Perera', 'division' => 'Operations', 'email' => 'bhasha.perera@example.test', 'position' => 'Operations Manager'],
         ];
 
-        foreach ($members as $m) DivisionalMember::create($m);
+        foreach ($members as $memberData) {
+            DivisionalMember::firstOrCreate(
+                ['email' => $memberData['email']], // Check by email
+                $memberData // Create with this data if not found
+            );
+        }
     }
 }

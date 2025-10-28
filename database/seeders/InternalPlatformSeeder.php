@@ -15,10 +15,7 @@ class InternalPlatformSeeder extends Seeder
      */
     public function run(): void
     {
-        // Truncate the table before seeding
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        InternalPlatform::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        // Clear existing data safely
 
         $faker = Faker::create();
 
