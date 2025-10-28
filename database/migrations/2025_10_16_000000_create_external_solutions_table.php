@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('developed_team')->nullable();
             $table->date('start_date')->nullable();
             $table->date('target_date')->nullable();
-            $table->string('dplo_stage')->nullable();
+            $table->string('sdlc_stage')->nullable();
             $table->string('percentage_done')->nullable();
             $table->string('bitbucket_repository_name')->nullable();
             $table->string('sales_team_involved')->nullable();

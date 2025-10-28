@@ -15,15 +15,22 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-            // This must run first because InternalPlatformSeeder depends on it
+            EmployeeSeeder::class,
             ParentProjectSeeder::class,
+            MainPlatformsSeeder::class,
             
-            // This runs second, using the data from the seeder above
+
+            // Reference data seeders
+            CompanySeeder::class,
+            CustomerContactSeeder::class,
+            DivisionalMemberSeeder::class,
+            FieldOfSpecializationSeeder::class,
+
             InternalPlatformSeeder::class,
 
-            // Also keep your SDLC seeder
+         
             SDLCphaseSeeder::class,
-            \Database\Seeders\ExternalSolutionSeeder::class,
+            ExternalSolutionSeeder::class,
         ]);
     }
 }

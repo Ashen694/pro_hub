@@ -11,10 +11,13 @@
     <link href="{{ asset('tabler/css/tabler-payments.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/tabler-vendors.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/demo.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('tabler/libs/litepicker/dist/litepicker.css') }}" rel="stylesheet"/> 
+    <link href="{{ asset('tabler/libs/litepicker/dist/litepicker.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+
     <style>
   body {
-    background-color: #0C1631;
+
     font-family: "Inter", sans-serif;
   }
 
@@ -134,6 +137,32 @@
   box-shadow: 0 0 8px rgba(0,0,0,0.2);
 }
 
+    :root{
+        --slt-primary:#2258a7; --slt-primary-600:#1c4b8f; --slt-primary-700:#163e77;
+        --slt-info:#46b6ef; --slt-accent:#5fb545;
+        --slt-white:#ffffff; --slt-ink:#0c1b2a; --slt-muted:#6b7a8a;
+        --slt-border:#e6eef8; --slt-focus:0 0 0 .25rem rgba(34,88,167,.25);
+        --slt-radius-lg:16px; --slt-radius-md:12px;
+    }
+
+    #particleCanvas {
+        position: fixed; 
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1; 
+        background-color: var(--slt-ink); 
+        pointer-events: none;
+    }
+
+    .page {
+        background-color: transparent; 
+        position: relative; 
+        /* z-index: 1;  */
+    }
+    
+
 </style>
 
     @stack('styles')
@@ -155,7 +184,7 @@
           <div class="navbar-nav flex-row order-md-last">
              <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                    
+
                     @php
                         // Get user's name
                         $name = Auth::user()->name;
@@ -173,14 +202,14 @@
 
                     <div class="d-none d-xl-block ps-2">
                         <div>{{ Auth::user()->name }}</div>
-                        <div class="mt-1 small text-muted">Admin</div> 
+                        <div class="mt-1 small text-muted">Admin</div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <!-- Logout Form -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <a href="{{ route('logout') }}" class="dropdown-item" 
+                        <a href="{{ route('logout') }}" class="dropdown-item"
                         onclick="event.preventDefault(); this.closest('form').submit();">
                         Logout
                         </a>
@@ -245,7 +274,7 @@
                         <a class="dropdown-item" href="#">My Applications - Backup Matrix</a>
                     </div>
                 </li>
-                
+
                 <!-- Report Incidents Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-incidents" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
@@ -260,19 +289,29 @@
                     </div>
                 </li>
 
-                <!-- Reference Data Dropdown -->
+                <!-- Reference Data Dropdown--> 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-refdata" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                         <span class="nav-link-title">
                         Reference Data
                         </span>
                     </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Companies/Customers</a>
-                        <a class="dropdown-item" href="#">Customer Contacts</a>
-                        <a class="dropdown-item" href="#">Divisional Members</a>
-                        <a class="dropdown-item" href="#">Application Groups</a>
-                        <a class="dropdown-item" href="#">Fields of Specialization</a>
+          <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ route('reference-data.companies.index') }}">Companies/Customers</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.customer-contacts.index') }}">Customer Contacts</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.divisional-members.index') }}">Divisional Members</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.application-groups.index') }}">Application Groups</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.fields-of-specializations.index') }}">Fields of Specialization</a>
+                    </div>
+                </li>
+                       
+                    </a>
+          <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ route('reference-data.companies.index') }}">Companies/Customers</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.customer-contacts.index') }}">Customer Contacts</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.divisional-members.index') }}">Divisional Members</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.application-groups.index') }}">Application Groups</a>
+                        <a class="dropdown-item" href="{{ route('reference-data.fields-of-specializations.index') }}">Fields of Specialization</a>
                     </div>
                 </li>
 
@@ -284,8 +323,8 @@
                         </span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Internal Solutions Documents</a>
-                        <a class="dropdown-item" href="#">External Solutions Documents</a>
+                        <a class="dropdown-item" href="{{ route('dms.index', ['type' => 'internal']) }}">Internal Solutions Documents</a>
+                        <a class="dropdown-item" href="{{ route('dms.index', ['type' => 'external']) }}">External Solutions Documents</a>
                     </div>
                 </li>
 
@@ -302,7 +341,7 @@
                         <a class="dropdown-item" href="#">OverTime Data</a>
                     </div>
                 </li>
-                
+
                 <!-- Trainees Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-trainees" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
@@ -318,17 +357,15 @@
                 </li>
 
                 <!-- Partners Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-                        <span class="nav-link-title">
-                        Partners
-                        </span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">All Partners</a>
-                    </div>
-                </li>
-
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                          <span class="nav-link-title">Partners</span>
+                      </a>
+                      <div class="dropdown-menu">
+                          <a class="dropdown-item" href="{{ route('reference-data.partners.index') }}">All Partners</a>
+                          <a class="dropdown-item" href="{{ route('reference-data.partners.create') }}">Create Partner</a>
+                      </div>
+                  </li>
                 <!-- Freelancers -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
@@ -343,7 +380,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="page-wrapper">
         <!-- Page header -->
         <div class="page-header d-print-none">
@@ -384,7 +421,7 @@
     <script src="{{ asset('tabler/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('tabler/js/demo.min.js') }}" defer></script>
     <!-- datepicker -->
-    <script src="{{ asset('tabler/libs/litepicker/dist/litepicker.js') }}" defer></script> 
+    <script src="{{ asset('tabler/libs/litepicker/dist/litepicker.js') }}" defer></script>
 
   @stack('scripts')
 

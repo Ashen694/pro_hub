@@ -1,24 +1,20 @@
 <?php
 
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 // --- Import Controllers ---
 use App\Http\Controllers\InternalSolutionController;
-use App\Http\Controllers\ConsumerServicePlatformController;   
-use App\Http\Controllers\ExternalSolutionController;  
-
+use App\Http\Controllers\ConsumerServicePlatformController;
+use App\Http\Controllers\ExternalSolutionController;
+use App\Http\Controllers\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 // Redirect root URL to login page
@@ -33,26 +29,62 @@ Route::get('/dashboard', function () {
 
 // All authenticated routes will be inside this group
 Route::middleware('auth')->group(function () {
-    
+
     // --- Profile Routes ---
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    // --- Internal Solutions Routes (CORRECT ORDER) ---
-    Route::get('/internal-solutions/{solution}/change-requests', [InternalSolutionController::class, 'showChangeRequests'])->name('internal-solutions.change-requests');
-    
-    // This route shows the details of ANY internal solution (Main App or CR)
-    Route::get('/internal-solutions/{solution}/show', [InternalSolutionController::class, 'show'])->name('internal-solutions.show');
 
+    // --- Internal Solutions Routes ---
+
+    // NEW: Redirect from the base URL to a default status page
+    Route::get('/internal-solutions', function () {
+        return redirect()->route('internal-solutions.index', ['status' => 'operational']);
+    });
+
+    Route::get('/internal-solutions/export', [InternalSolutionController::class, 'exportAll'])->name('internal-solutions.export');
     Route::get('/internal-solutions/yearly-contribution', [InternalSolutionController::class, 'yearlyContribution'])->name('internal-solutions.yearly-contribution');
     Route::get('/internal-solutions-create', [InternalSolutionController::class, 'create'])->name('internal-solutions.create');
+    Route::get('/internal-solutions/{solution}/change-requests', [InternalSolutionController::class, 'showChangeRequests'])->name('internal-solutions.change-requests');
+    Route::get('/internal-solutions/{solution}/edit', [InternalSolutionController::class, 'edit'])->name('internal-solutions.edit');
     Route::post('/internal-solutions', [InternalSolutionController::class, 'store'])->name('internal-solutions.store');
-    
+    Route::put('/internal-solutions/{solution}', [InternalSolutionController::class, 'update'])->name('internal-solutions.update');
     Route::get('/internal-solutions/{status}', [InternalSolutionController::class, 'index'])->name('internal-solutions.index');
-    
+
+
     // --- Consumer Service Platforms Route ---
     Route::get('/consumer-service-platforms', [ConsumerServicePlatformController::class, 'index'])->name('consumer-service.index');
+
+    Route::get('/internal-solutions/yearly-contribution/{year}', [InternalSolutionController::class, 'yearlyContributionDetails'])->name('internal-solutions.yearly-contribution.details');
+
+
+    // --- Reference Data Routes ---
+        Route::prefix('reference-data')->name('reference-data.')->group(function () {
+        // Companies CRUD
+        Route::resource('companies', \App\Http\Controllers\CompanyController::class)->except(['show']);
+        // Customer Contacts CRUD (restored)
+        Route::resource('customer-contacts', \App\Http\Controllers\CustomerContactController::class);
+        // Other reference data
+        Route::resource('divisional-members', \App\Http\Controllers\DivisionalMemberController::class)->except(['show']);
+        Route::resource('application-groups', \App\Http\Controllers\ApplicationGroupController::class);
+        Route::resource('fields-of-specializations', \App\Http\Controllers\FieldOfSpecializationController::class);
+        
+        //partners
+        Route::resource('partners', \App\Http\Controllers\PartnerController::class);    });
+
+        // --- DMS (Document Management System) Routes ---
+    Route::prefix('dms')->name('dms.')->group(function () {
+    Route::get('/{type}', [DocumentController::class, 'index'])->name('index');  
+    Route::get('/{type}/create', [DocumentController::class, 'create'])->name('create');
+    Route::post('/{type}', [DocumentController::class, 'store'])->name('store');
+
+    Route::get('/{document}/edit', [DocumentController::class, 'edit'])->name('edit');
+    Route::put('/{document}', [DocumentController::class, 'update'])->name('update');
+
+    Route::delete('/{document}', [DocumentController::class, 'destroy'])->name('destroy');
+    Route::get('/{document}/download', [DocumentController::class, 'download'])->name('download');
+     });
+
 
 
     // Route for showing the list of external solutions based on their status
