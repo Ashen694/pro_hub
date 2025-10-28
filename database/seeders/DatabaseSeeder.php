@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             CustomerContactSeeder::class,
             DivisionalMemberSeeder::class,
-            ApplicationGroupSeeder::class,
             FieldOfSpecializationSeeder::class,
 
             InternalPlatformSeeder::class,
