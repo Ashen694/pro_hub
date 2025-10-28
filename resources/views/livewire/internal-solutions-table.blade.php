@@ -290,10 +290,10 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
                                 </a>
 
-                                <!-- Documents Button -->
-                                <a href="#" class="btn btn-action btn-action-docs" title="Documents">
+                                <!-- Documents Button (Triggers Modal) -->
+                                <button class="btn btn-action btn-action-docs" data-bs-toggle="modal" data-bs-target="#documents-modal-{{ $solution->ID }}" title="Documents">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-text" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 9l1 0" /><path d="M9 13l6 0" /><path d="M9 17l6 0" /></svg>
-                                </a>
+                                </button>
 
                                 <!-- Change Requests Button -->
                                 @if ($solution->App_Category == 'Main Application' && in_array($status, ['operational', 'in-progress', 'recently-launched']))
@@ -409,5 +409,51 @@
                 </div>
             </div>
         </div>
+
+         <div class="modal modal-blur fade" id="documents-modal-{{ $solution->ID }}" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Documents for: {{ $solution->App_Name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-vcenter card-table">
+                            <thead>
+                                <tr>
+                                    <th>Document Name</th>
+                                    <th>Uploaded Time</th>
+                                    <th>Uploaded By</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($solution->documents as $doc)
+                                <tr>
+                                    <td>{{ $doc->Doc_Name }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($doc->Created_Time)->format('Y-m-d H:i') }}</td>
+                                    <td>{{ $doc->uploader->name ?? 'N/A' }}</td>
+                                    <td class="text-end">
+                                        <a href="{{ route('dms.download', $doc->ID) }}" class="btn btn-sm btn-outline-primary" target="_blank">Download</a>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-4">
+                                        No documents found for this solution.
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     @endforeach
 </div>

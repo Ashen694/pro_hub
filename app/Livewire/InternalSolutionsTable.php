@@ -90,7 +90,7 @@ class InternalSolutionsTable extends Component
     // Render method to fetch data and return the view
     public function render()
     {
-        $query = InternalPlatform::with(['parentProject', 'mainApplicationParent', 'comments'])
+        $query = InternalPlatform::with(['parentProject', 'mainApplicationParent', 'comments', 'documents.uploader'])
             ->when($this->filterAppName, fn ($q) => $q->where('App_Name', 'like', '%' . $this->filterAppName . '%'))
             ->when($this->filterSdlcPhase, fn ($q) => $q->where('SDLCPhase', $this->filterSdlcPhase))
             ->when($this->filterDevelopedBy, fn ($q) => $q->where('Developed_By', $this->filterDevelopedBy))
