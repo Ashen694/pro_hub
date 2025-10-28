@@ -61,11 +61,11 @@ Route::middleware('auth')->group(function () {
     // --- Reference Data Routes ---
         Route::prefix('reference-data')->name('reference-data.')->group(function () {
         // Companies CRUD
-        Route::resource('companies', \App\Http\Controllers\CompanyController::class)->except(['show']);
+        Route::resource('companies', \App\Http\Controllers\CompanyController::class);
         // Customer Contacts CRUD (restored)
         Route::resource('customer-contacts', \App\Http\Controllers\CustomerContactController::class);
         // Other reference data
-        Route::resource('divisional-members', \App\Http\Controllers\DivisionalMemberController::class)->except(['show']);
+        Route::resource('divisional-members', \App\Http\Controllers\DivisionalMemberController::class);
         Route::resource('application-groups', \App\Http\Controllers\ApplicationGroupController::class);
         Route::resource('fields-of-specializations', \App\Http\Controllers\FieldOfSpecializationController::class);
         

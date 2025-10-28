@@ -2,20 +2,112 @@
 @section('page-title','Members')
 @section('content')
 <style>
-    /* White table with black borders */
-    .divisional-members-table { background: #fff !important; }
-    .divisional-members-table thead th { color: #000 !important; background: #fff !important; }
-    .divisional-members-table tbody td { color: #000 !important; background: #fff !important; }
-    /* Black visible borders */
-    .divisional-members-table, .divisional-members-table th, .divisional-members-table td { 
-        border: 1px solid #000 !important; 
-        border-collapse: collapse !important;
+    /* White container with rounded corners */
+    .members-container {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px;
+        margin: 20px auto;
+        max-width: 1000px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .divisional-members-table tr:hover td { background: #f8f9fa !important; }
-    /* Make all text visible with black color */
-    .container label, .container .small, .container a, .container .text-muted { color: #000 !important; }
-    .container .btn { color: #000 !important; background: #fff !important; border: 1px solid #000 !important; }
-    .container .form-control, .container .form-select { color: #000 !important; background: #fff !important; border: 1px solid #000 !important; }
+    
+    .members-container h4 {
+        color: #666;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    
+    /* Table styling */
+    .members-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    
+    .members-table th {
+        background: #f8f9fa;
+        color: #666;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 12px 16px;
+        border: none;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .members-table td {
+        padding: 16px;
+        border-bottom: 1px solid #e9ecef;
+        color: #333;
+        vertical-align: middle;
+    }
+    
+    .members-table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    /* Action buttons - circular icons */
+    .action-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 14px;
+    }
+    
+    .action-btn-view {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .action-btn-view:hover {
+        background-color: #218838;
+        transform: scale(1.1);
+    }
+    
+    .action-btn-edit {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .action-btn-edit:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
+    
+    .action-btn-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .action-btn-delete:hover {
+        background-color: #c82333;
+        transform: scale(1.1);
+    }
+    
+    /* Create New button */
+    .btn-create-new {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .btn-create-new:hover {
+        background-color: #0056b3;
+        color: white;
+    }
 </style>
 
 <!-- Particle Background -->
@@ -23,55 +115,92 @@
     <canvas id="particleCanvas" style="width: 100%; height: 100%;"></canvas>
 </div>
 <div class="container">
-    <div class="row mb-2">
-        <div class="col-6">
-            <a href="{{ route('reference-data.divisional-members.create') }}" class="btn btn-primary btn-sm">Create New</a>
-            <a href="#" class="ms-3">Divisional Members</a>
-            <a href="#" class="ms-2">View Only Users</a>
+    <div class="members-container">
+        <!-- Header with title and Create New button -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4>Members</h4>
+            <a href="{{ route('reference-data.divisional-members.create') }}" class="btn btn-create-new">Create New</a>
         </div>
-        <div class="col-6 text-end">
-            <form method="GET" class="d-inline-block">
-                <label class="me-2 small">Show</label>
-                <select name="perPage" class="form-select form-select-sm d-inline-block" style="width:80px; color:#000;" onchange="this.form.submit()">
-                    <option value="10" @if(request('perPage')==10) selected @endif>10</option>
-                    <option value="25" @if(request('perPage')==25) selected @endif>25</option>
-                </select>
-                <label class="ms-2 small">entries</label>
-            </form>
-            <form method="GET" class="d-inline-block ms-3">
-                <label class="small me-2">Search</label>
-                <input type="search" name="q" value="{{ request('q') }}" class="form-control form-control-sm d-inline-block" style="width:200px;">
-                <button type="submit" class="btn btn-sm btn-secondary ms-2">Go</button>
-            </form>
-        </div>
-    </div>
 
-    <table class="table table-bordered divisional-members-table">
-        <thead>
-            <tr>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Contact Mobile Number</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($members as $m)
+        <!-- Search and Show entries -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center">
+                <span class="me-2" style="color: #666; font-size: 14px;">Show</span>
+                <form method="GET" class="d-inline">
+                    <input type="hidden" name="q" value="{{ request('q') }}">
+                    <select name="perPage" onchange="this.form.submit()" class="form-select form-select-sm" style="width: 80px; color: #000; background: #fff; border: 1px solid #ddd;">
+                        <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10</option>
+                        <option value="25" {{ request('perPage', 10) == 25 ? 'selected' : '' }}>25</option>
+                        <option value="50" {{ request('perPage', 10) == 50 ? 'selected' : '' }}>50</option>
+                    </select>
+                </form>
+                <span class="ms-2" style="color: #666; font-size: 14px;">entries</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="me-2" style="color: #666; font-size: 14px;">Search:</span>
+                <form method="GET" class="d-flex">
+                    <input type="hidden" name="perPage" value="{{ request('perPage', 10) }}">
+                    <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" style="width: 200px; color: #000; background: #fff; border: 1px solid #ddd;" placeholder="Search...">
+                    <button type="submit" class="btn btn-sm btn-primary ms-2">Go</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <table class="members-table">
+            <thead>
                 <tr>
-                    <td>{{ $m->name }}</td>
-                    <td>{{ $m->email }}</td>
-                    <td>{{ $m->contact_mobile ?? '' }}</td>
-                    <td class="text-end"><a href="#">Edit</a></td>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Contact Mobile Number</th>
+                    <th>Actions</th>
                 </tr>
-            @empty
-                <tr><td colspan="4">No members</td></tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse($members as $m)
+                    <tr>
+                        <td style="font-weight: 500;">{{ $m->name }}</td>
+                        <td>{{ $m->email }}</td>
+                        <td>{{ $m->contact_mobile ?? 'Not provided' }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <!-- View Button -->
+                                <button class="action-btn action-btn-view" title="View Details" onclick="window.location='{{ route('reference-data.divisional-members.show', $m) }}'">
+                                    <i class="ti ti-eye"></i>
+                                </button>
+                                
+                                <!-- Edit Button -->
+                                <button class="action-btn action-btn-edit" title="Edit" onclick="window.location='{{ route('reference-data.divisional-members.edit', $m) }}'">
+                                    <i class="ti ti-pencil"></i>
+                                </button>
+                                
+                                <!-- Delete Button -->
+                                <form action="{{ route('reference-data.divisional-members.destroy', $m) }}" method="POST" style="display:inline" onsubmit="return confirm('Are you sure you want to delete this member?');">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="action-btn action-btn-delete" title="Delete">
+                                        <i class="ti ti-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #666; padding: 40px;">No members found</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-    <div class="d-flex justify-content-between">
-        <div class="small text-muted">Showing {{ $members->firstItem() ?? 0 }} to {{ $members->lastItem() ?? 0 }} of {{ $members->total() }} entries</div>
-        <div>{{ $members->links() }}</div>
+        <!-- Pagination and entries info -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div style="color: #666; font-size: 14px;">
+                Showing {{ $members->firstItem() ?? 0 }} to {{ $members->lastItem() ?? 0 }} of {{ $members->total() }} entries
+            </div>
+            <div>
+                {{ $members->appends(request()->query())->links() }}
+            </div>
+        </div>
     </div>
 </div>
 

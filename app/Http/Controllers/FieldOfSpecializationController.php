@@ -9,7 +9,18 @@ class FieldOfSpecializationController extends Controller
 {
     public function index()
     {
-        $items = FieldOfSpecialization::orderBy('name')->paginate(20);
+        $perPage = request('perPage', 10);
+        $search = request('q');
+        
+        $query = FieldOfSpecialization::orderBy('name');
+        
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('notes', 'like', "%{$search}%");
+        }
+        
+        $items = $query->paginate($perPage)->withQueryString();
+        
         return view('reference-data.fields-of-specializations.index', compact('items'));
     }
 

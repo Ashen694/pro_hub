@@ -10,6 +10,7 @@ class DivisionalMember extends Model
         'name',
         'division',
         'email',
+        'contact_mobile',
         'position',
     ];
 }

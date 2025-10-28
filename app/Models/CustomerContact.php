@@ -8,6 +8,7 @@ class CustomerContact extends Model
 {
     protected $fillable = [
         'company_id',
+        'title',
         'name',
         'email',
         'phone',

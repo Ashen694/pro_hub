@@ -40,6 +40,11 @@ class CompanyController extends Controller
         return redirect()->route('reference-data.companies.index')->with('success', 'Company created.');
     }
 
+    public function show(Company $company)
+    {
+        return view('reference-data.companies.show', compact('company'));
+    }
+
     public function edit(Company $company)
     {
         return view('reference-data.companies.edit', compact('company'));

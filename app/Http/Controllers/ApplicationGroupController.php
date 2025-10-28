@@ -9,7 +9,18 @@ class ApplicationGroupController extends Controller
 {
     public function index()
     {
-        $groups = ParentProject::orderBy('ParentProjectGroup')->paginate(20);
+        $perPage = request('perPage', 10);
+        $search = request('q');
+        
+        $query = ParentProject::orderBy('ParentProjectGroup');
+        
+        if ($search) {
+            $query->where('ParentProjectGroup', 'like', "%{$search}%")
+                  ->orWhere('OperationScope', 'like', "%{$search}%");
+        }
+        
+        $groups = $query->paginate($perPage)->withQueryString();
+        
         return view('reference-data.application-groups.index', compact('groups'));
     }
 

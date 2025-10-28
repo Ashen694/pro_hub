@@ -122,6 +122,30 @@
             <a href="{{ route('reference-data.application-groups.create') }}" class="btn btn-create-new">Create New</a>
         </div>
 
+        <!-- Search and Show entries -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center">
+                <span class="me-2" style="color: #666; font-size: 14px;">Show</span>
+                <form method="GET" class="d-inline">
+                    <input type="hidden" name="q" value="{{ request('q') }}">
+                    <select name="perPage" onchange="this.form.submit()" class="form-select form-select-sm" style="width: 80px; color: #000; background: #fff; border: 1px solid #ddd;">
+                        <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10</option>
+                        <option value="25" {{ request('perPage', 10) == 25 ? 'selected' : '' }}>25</option>
+                        <option value="50" {{ request('perPage', 10) == 50 ? 'selected' : '' }}>50</option>
+                    </select>
+                </form>
+                <span class="ms-2" style="color: #666; font-size: 14px;">entries</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="me-2" style="color: #666; font-size: 14px;">Search:</span>
+                <form method="GET" class="d-flex">
+                    <input type="hidden" name="perPage" value="{{ request('perPage', 10) }}">
+                    <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" style="width: 200px; color: #000; background: #fff; border: 1px solid #ddd;" placeholder="Search...">
+                    <button type="submit" class="btn btn-sm btn-primary ms-2">Go</button>
+                </form>
+            </div>
+        </div>
+
         <!-- Table -->
         <table class="app-groups-table">
             <thead>
@@ -165,6 +189,16 @@
                 @endforelse
             </tbody>
         </table>
+
+        <!-- Pagination and entries info -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div style="color: #666; font-size: 14px;">
+                Showing {{ $groups->firstItem() ?? 0 }} to {{ $groups->lastItem() ?? 0 }} of {{ $groups->total() }} entries
+            </div>
+            <div>
+                {{ $groups->appends(request()->query())->links() }}
+            </div>
+        </div>
     </div>
 </div>
 

@@ -41,6 +41,7 @@ class CustomerContactController extends Controller
     {
         $data = $request->validate([
             'company_id' => 'required|exists:companies,id',
+            'title' => 'required|string|max:10',
             'name' => 'required|string|max:255',
             'email' => 'nullable|email',
             'phone' => 'nullable|string',
@@ -66,6 +67,7 @@ class CustomerContactController extends Controller
     {
         $data = $request->validate([
             'company_id' => 'required|exists:companies,id',
+            'title' => 'required|string|max:10',
             'name' => 'required|string|max:255',
             'email' => 'nullable|email',
             'phone' => 'nullable|string',

@@ -1,73 +1,121 @@
 @extends('layouts.app')
-
-@section('page-title', 'Companies/Customers')
-
+@section('page-title','Companies/Customers')
 @section('content')
 <style>
-    /* Page-scoped: white table with black borders */
-    .companies-page table { background: #fff !important; }
-    .companies-page table thead th { color: #000 !important; background: #fff !important; }
-    .companies-page table tbody td { color: #000 !important; background: #fff !important; }
-    .companies-page .link-details { color: #0dcaf0 !important; }
-    /* Black visible borders */
-    .companies-page table, .companies-page table th, .companies-page table td { 
-        border: 1px solid #000 !important; 
-        border-collapse: collapse !important;
+    /* White container with rounded corners */
+    .companies-container {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px;
+        margin: 20px auto;
+        max-width: 900px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .companies-page table tr:hover td { background: #f8f9fa !important; }
     
-    /* Action button styles */
-    .btn-action {
+    .companies-container h4 {
+        color: #666;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    
+    /* Table styling */
+    .companies-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    
+    .companies-table th {
+        background: #f8f9fa;
+        color: #666;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 12px 16px;
+        border: none;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .companies-table td {
+        padding: 16px;
+        border-bottom: 1px solid #e9ecef;
+        color: #333;
+        vertical-align: middle;
+    }
+    
+    .companies-table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    /* Action buttons - circular icons */
+    .action-btn {
         width: 32px;
         height: 32px;
-        border-radius: 6px;
+        border-radius: 50%;
         border: none;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin: 0 2px;
-        font-size: 16px;
+        margin: 0 4px;
         cursor: pointer;
         transition: all 0.2s ease;
+        font-size: 14px;
     }
     
-    .btn-action-view {
+    .action-btn-view {
         background-color: #28a745;
         color: white;
     }
     
-    .btn-action-view:hover {
+    .action-btn-view:hover {
         background-color: #218838;
-        color: white;
+        transform: scale(1.1);
     }
     
-    .btn-action-edit {
+    .action-btn-edit {
         background-color: #007bff;
         color: white;
     }
     
-    .btn-action-edit:hover {
+    .action-btn-edit:hover {
         background-color: #0056b3;
-        color: white;
+        transform: scale(1.1);
     }
     
-    .btn-action-delete {
+    .action-btn-delete {
         background-color: #dc3545;
         color: white;
     }
     
-    .btn-action-delete:hover {
+    .action-btn-delete:hover {
         background-color: #c82333;
-        color: white;
+        transform: scale(1.1);
     }
     
-    .btn-action-contacts {
+    .action-btn-contacts {
         background-color: #17a2b8;
         color: white;
     }
     
-    .btn-action-contacts:hover {
+    .action-btn-contacts:hover {
         background-color: #138496;
+        transform: scale(1.1);
+    }
+    
+    /* Create New button */
+    .btn-create-new {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .btn-create-new:hover {
+        background-color: #0056b3;
         color: white;
     }
 </style>
@@ -76,105 +124,93 @@
 <div class="slt-bg-wrap" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: transparent;">
     <canvas id="particleCanvas" style="width: 100%; height: 100%;"></canvas>
 </div>
-<div class="container companies-page">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-        <div>
-            <div class="mt-2">
-                <a href="{{ route('reference-data.companies.create') }}" class="btn btn-primary btn-sm">Create New</a>
-            </div>
+<div class="container">
+    <div class="companies-container">
+        <!-- Header with title and Create New button -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4>Companies/Customers</h4>
+            <a href="{{ route('reference-data.companies.create') }}" class="btn btn-create-new">Create New</a>
         </div>
-        <div class="text-end">
-            {{-- right-side Create New removed per design; left 'Create New' link is primary --}}
-        </div>
-    </div>
-    <div class="row mb-2 align-items-center">
-        <div class="col-md-6">
+
+        <!-- Search and Show entries -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="d-flex align-items-center">
-                <label class="me-2 small">Show</label>
-                <form id="perPageForm" method="GET">
-                    <input type="hidden" name="q" value="{{ $q }}" />
-                    <select name="perPage" onchange="document.getElementById('perPageForm').submit()" class="form-select form-select-sm" style="width:80px; display:inline-block; color:#000; background-color:#fff; border: 1px solid #ccc;">
-                        <option value="10" {{ $perPage == 10 ? 'selected' : '' }} style="color:#000; background-color:#fff;">10</option>
-                        <option value="25" {{ $perPage == 25 ? 'selected' : '' }} style="color:#000; background-color:#fff;">25</option>
-                        <option value="50" {{ $perPage == 50 ? 'selected' : '' }} style="color:#000; background-color:#fff;">50</option>
-                        <option value="100" {{ $perPage == 100 ? 'selected' : '' }} style="color:#000; background-color:#fff;">100</option>
+                <span class="me-2" style="color: #666; font-size: 14px;">Show</span>
+                <form method="GET" class="d-inline">
+                    <input type="hidden" name="q" value="{{ request('q') }}">
+                    <select name="perPage" onchange="this.form.submit()" class="form-select form-select-sm" style="width: 80px; color: #000; background: #fff; border: 1px solid #ddd;">
+                        <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10</option>
+                        <option value="25" {{ request('perPage', 10) == 25 ? 'selected' : '' }}>25</option>
+                        <option value="50" {{ request('perPage', 10) == 50 ? 'selected' : '' }}>50</option>
                     </select>
-                    <label class="ms-2 small">entries</label>
+                </form>
+                <span class="ms-2" style="color: #666; font-size: 14px;">entries</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="me-2" style="color: #666; font-size: 14px;">Search:</span>
+                <form method="GET" class="d-flex">
+                    <input type="hidden" name="perPage" value="{{ request('perPage', 10) }}">
+                    <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" style="width: 200px; color: #000; background: #fff; border: 1px solid #ddd;" placeholder="Search...">
+                    <button type="submit" class="btn btn-sm btn-primary ms-2">Go</button>
                 </form>
             </div>
         </div>
-        <div class="col-md-6 text-end">
-            <form method="GET" class="d-inline-block">
-                <input type="hidden" name="perPage" value="{{ $perPage }}" />
-                <label class="small me-2">Search:</label>
-                <input type="text" name="q" value="{{ $q }}" class="form-control form-control-sm d-inline-block" style="width:200px; display:inline-block;" />
-                <button class="btn btn-sm btn-secondary ms-2" type="submit">Go</button>
-            </form>
-        </div>
-    </div>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th style="width:70%">Company Name</th>
-                <th style="width:30%">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($companies as $company)
+        <!-- Table -->
+        <table class="companies-table">
+            <thead>
                 <tr>
-                    <td style="min-height:150px; vertical-align:top">&nbsp;{{ $company->name }}</td>
-                    <td class="align-top">
-                        <div class="d-flex align-items-center">
-                            <!-- View Button -->
-                            <button class="btn btn-action btn-action-view" title="View Details" onclick="alert('View details for {{ $company->name }}')">
-                                <i class="ti ti-eye"></i>
-                            </button>
-                            
-                            <!-- Edit Button -->
-                            <a href="{{ route('reference-data.companies.edit', $company) }}" class="btn btn-action btn-action-edit" title="Edit">
-                                <i class="ti ti-pencil"></i>
-                            </a>
-                            
-                            <!-- Delete Button -->
-                            <form action="{{ route('reference-data.companies.destroy', $company) }}" method="POST" style="display:inline" onsubmit="return confirm('Delete this company?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-action btn-action-delete" title="Delete">
-                                    <i class="ti ti-trash"></i>
-                                </button>
-                            </form>
-                            
-                            <!-- Customer Contacts Button -->
-                            <button class="btn btn-action btn-action-contacts" title="Customer Contacts" onclick="alert('Customer contacts for {{ $company->name }}')">
-                                <i class="ti ti-address-book"></i>
-                            </button>
-                        </div>
-                    </td>
+                    <th>Company Name</th>
+                    <th>Actions</th>
                 </tr>
-            @empty
-                <tr><td colspan="2">No companies found.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse($companies as $company)
+                    <tr>
+                        <td style="font-weight: 500;">{{ $company->name }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <!-- View Button -->
+                                <button class="action-btn action-btn-view" title="View Details" onclick="window.location='{{ route('reference-data.companies.show', $company) }}'">
+                                    <i class="ti ti-eye"></i>
+                                </button>
+                                
+                                <!-- Edit Button -->
+                                <button class="action-btn action-btn-edit" title="Edit" onclick="window.location='{{ route('reference-data.companies.edit', $company) }}'">
+                                    <i class="ti ti-pencil"></i>
+                                </button>
+                                
+                                <!-- Delete Button -->
+                                <form action="{{ route('reference-data.companies.destroy', $company) }}" method="POST" style="display:inline" onsubmit="return confirm('Are you sure you want to delete this company?');">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="action-btn action-btn-delete" title="Delete">
+                                        <i class="ti ti-trash"></i>
+                                    </button>
+                                </form>
+                                
+                                <!-- Customer Contacts Button -->
+                                <button class="action-btn action-btn-contacts" title="Customer Contacts" onclick="window.location='{{ route('reference-data.customer-contacts.index') }}?company={{ $company->id }}'">
+                                    <i class="ti ti-address-book"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="2" style="text-align: center; color: #666; padding: 40px;">No companies found</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-    <div class="d-flex justify-content-between align-items-center">
-        <?php
-            $from = ($companies->currentPage() - 1) * $companies->perPage() + 1;
-            $to = min($companies->currentPage() * $companies->perPage(), $companies->total());
-        ?>
-    <div class="small text-muted">Showing {{ $from }} to {{ $to }} of {{ $companies->total() }} entries</div>
-        <div>
-            <?php $current = $companies->currentPage(); $last = $companies->lastPage(); ?>
-            <nav aria-label="Page navigation">
-                <ul class="pagination mb-0">
-                    <li class="page-item {{ $current == 1 ? 'disabled' : '' }}"><a class="page-link" href="{{ $companies->url(max(1, $current - 1)) }}">Previous</a></li>
-                    @for ($p = 1; $p <= min(4, $last); $p++)
-                        <li class="page-item {{ $p == $current ? 'active' : '' }}"><a class="page-link" href="{{ $companies->url($p) }}">{{ $p }}</a></li>
-                    @endfor
-                    <li class="page-item {{ $current == $last ? 'disabled' : '' }}"><a class="page-link" href="{{ $companies->url(min($last, $current + 1)) }}">Next</a></li>
-                </ul>
-            </nav>
+        <!-- Pagination and entries info -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div style="color: #666; font-size: 14px;">
+                Showing {{ $companies->firstItem() ?? 0 }} to {{ $companies->lastItem() ?? 0 }} of {{ $companies->total() }} entries
+            </div>
+            <div>
+                {{ $companies->appends(request()->query())->links() }}
+            </div>
         </div>
     </div>
 </div>

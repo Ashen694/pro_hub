@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('page-title','Edit Company')
+@section('page-title','Member Details')
 @section('content')
 <style>
-    /* White form container with black text */
-    .form-container { 
+    /* White details container with black text */
+    .details-container { 
         background: #fff !important; 
         padding: 30px; 
         border-radius: 12px; 
@@ -11,21 +11,28 @@
         max-width: 600px;
         margin: 20px auto;
     }
-    .form-container h4, .form-container label, .form-container .form-text { color: #000 !important; }
-    .form-container .form-control, .form-container .form-select { 
+    .details-container h4, .details-container label, .details-container p, .details-container strong { 
         color: #000 !important; 
-        background: #fff !important; 
-        border: 1px solid #ddd !important; 
     }
-    .form-container .btn { 
+    .details-container .btn { 
         color: #fff !important; 
         border: none !important; 
     }
-    .form-container .btn-secondary {
+    .details-container .btn-secondary {
         background: #6c757d !important;
     }
-    .form-container .btn-primary {
+    .details-container .btn-primary {
         background: #007bff !important;
+    }
+    .details-container .btn-danger {
+        background: #dc3545 !important;
+    }
+    .detail-row { 
+        border-bottom: 1px solid #eee; 
+        padding: 15px 0; 
+    }
+    .detail-row:last-child { 
+        border-bottom: none; 
     }
 </style>
 
@@ -35,31 +42,55 @@
 </div>
 
 <div class="container">
-    <div class="form-container">
-        <h4 class="mb-4">Edit Company</h4>
+    <div class="details-container">
+        <h4 class="mb-4">Member Details</h4>
         
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        <div class="detail-row">
+            <strong>Name:</strong>
+            <p class="mb-0 mt-2">{{ $member->name }}</p>
+        </div>
         
-        <form action="{{ route('reference-data.companies.update', $company) }}" method="POST">
-            @csrf
-            @method('PUT')
-            
-            <div class="mb-3">
-                <label for="name" class="form-label">Company Name</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                       id="name" name="name" value="{{ old('name', $company->name) }}" required>
-                @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+        <div class="detail-row">
+            <strong>Email:</strong>
+            <p class="mb-0 mt-2">{{ $member->email ?? 'Not provided' }}</p>
+        </div>
+        
+        <div class="detail-row">
+            <strong>Contact Mobile:</strong>
+            <p class="mb-0 mt-2">{{ $member->contact_mobile ?? 'Not provided' }}</p>
+        </div>
+        
+        <div class="detail-row">
+            <strong>Division:</strong>
+            <p class="mb-0 mt-2">{{ $member->division ?? 'Not specified' }}</p>
+        </div>
+        
+        <div class="detail-row">
+            <strong>Position:</strong>
+            <p class="mb-0 mt-2">{{ $member->position ?? 'Not specified' }}</p>
+        </div>
+        
+        <div class="detail-row">
+            <strong>Created:</strong>
+            <p class="mb-0 mt-2">{{ $member->created_at->format('M d, Y \a\t g:i A') }}</p>
+        </div>
+        
+        <div class="detail-row">
+            <strong>Last Updated:</strong>
+            <p class="mb-0 mt-2">{{ $member->updated_at->format('M d, Y \a\t g:i A') }}</p>
+        </div>
+        
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{{ route('reference-data.divisional-members.index') }}" class="btn btn-secondary">Back to List</a>
+            <div>
+                <a href="{{ route('reference-data.divisional-members.edit', $member) }}" class="btn btn-primary me-2">Edit</a>
+                <form action="{{ route('reference-data.divisional-members.destroy', $member) }}" method="POST" style="display:inline" onsubmit="return confirm('Are you sure you want to delete this member?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
-            
-            <div class="d-flex justify-content-between">
-                <a href="{{ route('reference-data.companies.index') }}" class="btn btn-secondary">Cancel</a>
-                <button type="submit" class="btn btn-primary">Update Company</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
