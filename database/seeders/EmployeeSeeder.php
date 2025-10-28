@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Employee; // Employee model ಅನ್ನು ಇಂಪೋರ್ಟ್ ಮಾಡಿ
+use App\Models\Employee; 
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
