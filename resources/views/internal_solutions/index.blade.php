@@ -4,12 +4,6 @@
 
 @section('content')
 
-{{-- 
-    NOTE: The success/error alert messages are now handled inside the Livewire component 
-    (resources/views/livewire/internal-solutions-table.blade.php).
-    So, they are no longer needed here. This keeps the main layout cleaner.
---}}
-
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">{{ $title }}</h3>
@@ -23,7 +17,6 @@
 
     </div>
 
-    {{-- The Livewire component is loaded here, which contains the alerts, filters, and table --}}
     @livewire('internal-solutions-table', ['status' => $status])
     
 </div>

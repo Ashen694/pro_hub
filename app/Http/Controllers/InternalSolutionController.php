@@ -13,6 +13,11 @@ use App\Models\TargetEndUser;
 use App\Models\InternalProjectComment;  
 use Illuminate\Support\Facades\Auth;  
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\InternalSolutionsExport;
+
+use Carbon\Carbon;
+
 class InternalSolutionController extends Controller
 {
     /**
@@ -236,21 +241,58 @@ class InternalSolutionController extends Controller
      */
     public function yearlyContribution()
     {
-        // This function is unchanged
+        // 1. Get all currently active projects.
+        // We assume 'active' means they are in the 'Maintenance' phase, 
+        // have a launch date, and have a price greater than zero.
+        $activeProjects = InternalPlatform::where('SDLCPhase', 'Maintenance')
+                                          ->whereNotNull('LaunchedDate')
+                                          ->where('Price', '>', 0)
+                                          ->orderBy('LaunchedDate', 'asc')
+                                          ->get(['LaunchedDate', 'Price']);
+
+        // If there are no active projects, return the view with empty data.
+        if ($activeProjects->isEmpty()) {
+            return view('internal_solutions.yearly_contribution', ['yearlyData' => []]);
+        }
+
+        // 2. Determine the year range for the report.
+        $firstYear = Carbon::parse($activeProjects->first()->LaunchedDate)->year;
+        $lastYear = Carbon::now()->year; // Report runs up to the current year.
+
         $yearlyData = [];
-        $currentYear = now()->year;
-        for ($year = 2005; $year <= $currentYear; $year++) {
-            $solutionValue = rand(500000, 2000000);
-            $maintenanceEffort = rand(100000, 500000);
+        $cumulativeValue = 0.00; // This will track the total value of projects from previous years.
+
+        // 3. Loop through each year and calculate the values.
+        for ($year = $firstYear; $year <= $lastYear; $year++) {
+            
+            // a) Calculate the total value of solutions launched IN THIS specific year.
+            $newSolutionsValue = $activeProjects->filter(function ($project) use ($year) {
+                return Carbon::parse($project->LaunchedDate)->year == $year;
+            })->sum('Price');
+
+            // b) Calculate the maintenance effort (10%) based on the cumulative value from ALL PREVIOUS years.
+            $maintenanceValue = $cumulativeValue * 0.10;
+
+            // c) Calculate the grand total for the year.
+            $grandTotal = $newSolutionsValue + $maintenanceValue;
+
+            // d) Add the calculated data for the year to our results array.
             $yearlyData[] = (object)[
                 'year' => $year,
-                'solution_value' => $solutionValue,
-                'maintenance_effort' => $maintenanceEffort,
-                'grand_total' => $solutionValue + $maintenanceEffort,
+                'new_solutions_value' => $newSolutionsValue,
+                'maintenance_value' => $maintenanceValue,
+                'grand_total' => $grandTotal,
             ];
+
+            // e) IMPORTANT: Add this year's new solution value to the cumulative total 
+            //    so it can be used for the NEXT year's maintenance calculation.
+            $cumulativeValue += $newSolutionsValue;
         }
-        $yearlyData = array_reverse($yearlyData);
-        return view('internal_solutions.yearly_contribution', ['yearlyData' => $yearlyData]);
+
+        // 4. Send the data to the view. We reverse it to show the most recent year first.
+        return view('internal_solutions.yearly_contribution', [
+            'yearlyData' => collect($yearlyData) // It's already sorted ascending by year, no need to reverse if you want chronological order. Let's keep it chronological like the image.
+        ]);
     }
 
     /**
@@ -263,6 +305,54 @@ class InternalSolutionController extends Controller
             'mainApplication' => $solution,
             'changeRequests' => $changeRequests
         ]);
+    }
+
+    public function yearlyContributionDetails($year)
+    {
+        // 1. Validate that the year is a valid number.
+        if (!is_numeric($year) || $year < 1900 || $year > 2100) {
+            abort(404, 'Invalid year provided.');
+        }
+
+        // 2. Fetch all active projects launched in or before the selected year.
+        $projects = InternalPlatform::where('SDLCPhase', 'Maintenance')
+                                    ->whereNotNull('LaunchedDate')
+                                    ->where('Price', '>', 0)
+                                    ->whereYear('LaunchedDate', '<=', $year) // Get projects launched up to this year
+                                    ->orderBy('LaunchedDate', 'asc')
+                                    ->get();
+
+        // 3. Process the collection to add calculated values for the view.
+        $projectsForYear = $projects->map(function ($project) use ($year) {
+            $launchedYear = Carbon::parse($project->LaunchedDate)->year;
+
+            // a) Value for the year (only if launched in the selected year)
+            $project->value_for_the_year = ($launchedYear == $year) ? $project->Price : 0;
+
+            // b) Maintenance effort (10% only if launched in a previous year)
+            $project->maintenance_effort = ($launchedYear < $year) ? ($project->Price * 0.10) : 0;
+            
+            // Add launched year for easy display
+            $project->launched_year = $launchedYear;
+
+            return $project;
+        });
+
+        // 4. Pass the data to the new view file.
+        return view('internal_solutions.yearly_contribution_details', [
+            'year' => $year,
+            'projects' => $projectsForYear,
+        ]);
+    }
+
+
+    /**
+     * Handle the export of all internal solutions to an Excel file.
+     */
+    public function exportAll()
+    {
+        
+        return Excel::download(new InternalSolutionsExport, 'internal-solutions-all.xlsx');
     }
 
 }

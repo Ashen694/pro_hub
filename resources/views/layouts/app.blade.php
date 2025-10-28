@@ -11,10 +11,13 @@
     <link href="{{ asset('tabler/css/tabler-payments.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/tabler-vendors.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/demo.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('tabler/libs/litepicker/dist/litepicker.css') }}" rel="stylesheet"/> 
+    <link href="{{ asset('tabler/libs/litepicker/dist/litepicker.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+
     <style>
   body {
-    background-color: #0C1631;
+
     font-family: "Inter", sans-serif;
   }
 
@@ -134,11 +137,38 @@
   box-shadow: 0 0 8px rgba(0,0,0,0.2);
 }
 
+    :root{
+        --slt-primary:#2258a7; --slt-primary-600:#1c4b8f; --slt-primary-700:#163e77;
+        --slt-info:#46b6ef; --slt-accent:#5fb545;
+        --slt-white:#ffffff; --slt-ink:#0c1b2a; --slt-muted:#6b7a8a;
+        --slt-border:#e6eef8; --slt-focus:0 0 0 .25rem rgba(34,88,167,.25);
+        --slt-radius-lg:16px; --slt-radius-md:12px;
+    }
+
+    #particleCanvas {
+        position: fixed; 
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1; 
+        background-color: var(--slt-ink); 
+        pointer-events: none;
+    }
+
+    .page {
+        background-color: transparent; 
+        position: relative; 
+        /* z-index: 1;  */
+    }
+    
+
 </style>
 
     @stack('styles')
   </head>
   <body >
+    <canvas id="particleCanvas"></canvas>
     <div class="page">
       <!-- Navbar -->
       <header class="navbar navbar-expand-md navbar-light d-print-none">
@@ -154,7 +184,7 @@
           <div class="navbar-nav flex-row order-md-last">
              <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                    
+
                     @php
                         // Get user's name
                         $name = Auth::user()->name;
@@ -172,14 +202,14 @@
 
                     <div class="d-none d-xl-block ps-2">
                         <div>{{ Auth::user()->name }}</div>
-                        <div class="mt-1 small text-muted">Admin</div> 
+                        <div class="mt-1 small text-muted">Admin</div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <!-- Logout Form -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <a href="{{ route('logout') }}" class="dropdown-item" 
+                        <a href="{{ route('logout') }}" class="dropdown-item"
                         onclick="event.preventDefault(); this.closest('form').submit();">
                         Logout
                         </a>
@@ -244,7 +274,7 @@
                         <a class="dropdown-item" href="#">My Applications - Backup Matrix</a>
                     </div>
                 </li>
-                
+
                 <!-- Report Incidents Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-incidents" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
@@ -293,8 +323,8 @@
                         </span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Internal Solutions Documents</a>
-                        <a class="dropdown-item" href="#">External Solutions Documents</a>
+                        <a class="dropdown-item" href="{{ route('dms.index', ['type' => 'internal']) }}">Internal Solutions Documents</a>
+                        <a class="dropdown-item" href="{{ route('dms.index', ['type' => 'external']) }}">External Solutions Documents</a>
                     </div>
                 </li>
 
@@ -311,7 +341,7 @@
                         <a class="dropdown-item" href="#">OverTime Data</a>
                     </div>
                 </li>
-                
+
                 <!-- Trainees Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-trainees" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
@@ -327,17 +357,15 @@
                 </li>
 
                 <!-- Partners Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-                        <span class="nav-link-title">
-                        Partners
-                        </span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">All Partners</a>
-                    </div>
-                </li>
-
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                          <span class="nav-link-title">Partners</span>
+                      </a>
+                      <div class="dropdown-menu">
+                          <a class="dropdown-item" href="{{ route('reference-data.partners.index') }}">All Partners</a>
+                          <a class="dropdown-item" href="{{ route('reference-data.partners.create') }}">Create Partner</a>
+                      </div>
+                  </li>
                 <!-- Freelancers -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
@@ -352,7 +380,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="page-wrapper">
         <!-- Page header -->
         <div class="page-header d-print-none">
@@ -393,8 +421,100 @@
     <script src="{{ asset('tabler/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('tabler/js/demo.min.js') }}" defer></script>
     <!-- datepicker -->
-    <script src="{{ asset('tabler/libs/litepicker/dist/litepicker.js') }}" defer></script> 
+    <script src="{{ asset('tabler/libs/litepicker/dist/litepicker.js') }}" defer></script>
 
     @stack('scripts')
+     <script>
+        // Particles Background
+        (function() {
+            const canvas = document.getElementById('particleCanvas');
+            if (!canvas) return;  
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const rootStyles = getComputedStyle(document.documentElement);
+            const colors = [
+                rootStyles.getPropertyValue('--slt-primary').trim(),
+                rootStyles.getPropertyValue('--slt-info').trim(),
+                rootStyles.getPropertyValue('--slt-accent').trim()
+            ];
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = Math.random() * 2.5 + 1.5;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.alpha = Math.random() * 0.5 + 0.5;
+                }
+                update() {
+                    this.x += this.vx; this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = this.alpha;
+                    ctx.fill();
+                    ctx.globalAlpha = 1; 
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = this.color;
+                    ctx.fill();
+                    ctx.shadowBlur = 0; 
+                }
+            }
+            const particleCount = window.innerWidth < 768 ? 60 : 120;
+            const particles = Array.from({ length: particleCount }, () => new Particle());
+
+            function drawConnections() {
+                const maxDistance = 180;
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < maxDistance) {
+                            const opacity = (1 - distance / maxDistance) * 0.5;
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(200, 200, 200, ${opacity})`;
+                            ctx.lineWidth = 1;
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            (function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                drawConnections();
+                requestAnimationFrame(animate);
+            })();
+        })();
+    </script>
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('close-modal', (event) => {
+                const backdrops = document.querySelectorAll('.modal-backdrop');
+                backdrops.forEach(backdrop => {
+                    backdrop.remove();
+                });
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            });
+        });
+    </script>
   </body>
 </html>

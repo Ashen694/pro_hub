@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    // database/migrations/xxxx_xx_xx_xxxxxx_create_internal_platforms_table.php
+ 
     public function up(): void
     {
         Schema::create('Internal_Platforms', function (Blueprint $table) {
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('Status')->default('in-progress');
             $table->date('StatusDate')->nullable();
             $table->string('Bus_Owner')->nullable();
-            $table->string('App_Category'); // This is where "Main Application" or "Change Request" goes
+            $table->string('App_Category');  
             $table->string('Scope')->nullable();
             $table->string('App_IP')->nullable();
             $table->string('App_URL')->nullable();
