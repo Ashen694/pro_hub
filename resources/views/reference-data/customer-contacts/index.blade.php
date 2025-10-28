@@ -7,8 +7,11 @@
     .customer-contacts-table thead th { color: #000 !important; background:#fff !important; }
     .customer-contacts-table tbody td { color: #000 !important; background:#fff !important; }
     .link-details { color: #0dcaf0; }
-    /* Optional: soften borders on white */
-    .customer-contacts-table, .customer-contacts-table th, .customer-contacts-table td { border-color: #e9ecef !important; }
+    /* Black visible borders */
+    .customer-contacts-table, .customer-contacts-table th, .customer-contacts-table td { 
+        border: 1px solid #000 !important; 
+        border-collapse: collapse !important;
+    }
     .customer-contacts-table tr:hover td { background: #f8f9fa !important; }
     </style>
 <!-- Particle Background -->

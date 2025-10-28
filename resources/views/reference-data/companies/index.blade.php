@@ -4,10 +4,17 @@
 
 @section('content')
 <style>
-    /* Page-scoped: dark table like other lists */
-    .companies-page table thead th { color:#fff !important; background:transparent !important; }
-    .companies-page table tbody td { color:#fff !important; }
-    .companies-page .link-details { color:#0dcaf0 !important; } /* match Details color used elsewhere */
+    /* Page-scoped: white table with black borders */
+    .companies-page table { background: #fff !important; }
+    .companies-page table thead th { color: #000 !important; background: #fff !important; }
+    .companies-page table tbody td { color: #000 !important; background: #fff !important; }
+    .companies-page .link-details { color: #0dcaf0 !important; }
+    /* Black visible borders */
+    .companies-page table, .companies-page table th, .companies-page table td { 
+        border: 1px solid #000 !important; 
+        border-collapse: collapse !important;
+    }
+    .companies-page table tr:hover td { background: #f8f9fa !important; }
 </style>
 
 <!-- Particle Background -->
