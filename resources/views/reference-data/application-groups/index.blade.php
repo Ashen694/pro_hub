@@ -2,64 +2,110 @@
 @section('page-title','Application Groups')
 @section('content')
 <style>
-    /* White table with black borders */
-    .ag-table { background: #fff !important; }
-    .ag-table thead th { color: #000 !important; background: #fff !important; }
-    .ag-table tbody td { color: #000 !important; background: #fff !important; }
-    .link-details { color: #0dcaf0; }
-    /* Black visible borders */
-    .ag-table, .ag-table th, .ag-table td { 
-        border: 1px solid #000 !important; 
-        border-collapse: collapse !important;
+    /* White container with rounded corners */
+    .app-groups-container {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px;
+        margin: 20px auto;
+        max-width: 900px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .ag-table tr:hover td { background: #f8f9fa !important; }
-    /* Make all text visible with black color */
-    .container label, .container .small, .container a, .container .text-muted { color: #000 !important; }
-    .container .btn { color: #000 !important; background: #fff !important; border: 1px solid #000 !important; }
-    .container .form-control, .container .form-select { color: #000 !important; background: #fff !important; border: 1px solid #000 !important; }
     
-    /* Action button styles */
-    .btn-action {
+    .app-groups-container h4 {
+        color: #666;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    
+    /* Table styling */
+    .app-groups-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    
+    .app-groups-table th {
+        background: #f8f9fa;
+        color: #666;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 12px 16px;
+        border: none;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .app-groups-table td {
+        padding: 16px;
+        border-bottom: 1px solid #e9ecef;
+        color: #333;
+        vertical-align: middle;
+    }
+    
+    .app-groups-table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    /* Action buttons - circular icons */
+    .action-btn {
         width: 32px;
         height: 32px;
-        border-radius: 6px;
+        border-radius: 50%;
         border: none;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin: 0 2px;
-        font-size: 16px;
+        margin: 0 4px;
         cursor: pointer;
         transition: all 0.2s ease;
+        font-size: 14px;
     }
     
-    .btn-action-view {
+    .action-btn-view {
         background-color: #28a745;
         color: white;
     }
     
-    .btn-action-view:hover {
+    .action-btn-view:hover {
         background-color: #218838;
-        color: white;
+        transform: scale(1.1);
     }
     
-    .btn-action-edit {
+    .action-btn-edit {
         background-color: #007bff;
         color: white;
     }
     
-    .btn-action-edit:hover {
+    .action-btn-edit:hover {
         background-color: #0056b3;
-        color: white;
+        transform: scale(1.1);
     }
     
-    .btn-action-delete {
+    .action-btn-delete {
         background-color: #dc3545;
         color: white;
     }
     
-    .btn-action-delete:hover {
+    .action-btn-delete:hover {
         background-color: #c82333;
+        transform: scale(1.1);
+    }
+    
+    /* Create New button */
+    .btn-create-new {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .btn-create-new:hover {
+        background-color: #0056b3;
         color: white;
     }
 </style>
@@ -69,68 +115,56 @@
     <canvas id="particleCanvas" style="width: 100%; height: 100%;"></canvas>
 </div>
 <div class="container">
-    <div class="ag-content-wrapper">
-    <div class="row mb-2">
-        <div class="col-6">
-            <a href="{{ route('reference-data.application-groups.create') }}">Create New</a>
+    <div class="app-groups-container">
+        <!-- Header with title and Create New button -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4>Application Groups</h4>
+            <a href="{{ route('reference-data.application-groups.create') }}" class="btn btn-create-new">Create New</a>
         </div>
-        <div class="col-6 text-end">
-            <form method="GET" class="d-inline-block">
-                <label class="small me-2">Search:</label>
-                <input type="search" name="q" value="{{ request('q') }}" class="form-control form-control-sm d-inline-block" style="width:200px;">
-                <button type="submit" class="btn btn-sm btn-secondary ms-2">Go</button>
-            </form>
-        </div>
-    </div>
 
-    <table class="table table-bordered ag-table">
-        <thead>
-        <tr>
-            <th>Application Group</th>
-            <th>Description</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @forelse($groups as $g)
-            <tr>
-                <td style="text-transform:uppercase;">{{ $g->name }}</td>
-                <td>{{ $g->description }}</td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <!-- View Button -->
-                        <button class="btn btn-action btn-action-view" title="View" onclick="window.location='{{ route('reference-data.application-groups.show', $g) }}'">
-                            <i class="ti ti-eye"></i>
-                        </button>
-                        
-                        <!-- Edit Button -->
-                        <button class="btn btn-action btn-action-edit" title="Edit" onclick="window.location='{{ route('reference-data.application-groups.edit', $g) }}'">
-                            <i class="ti ti-pencil"></i>
-                        </button>
-                        
-                        <!-- Delete Button -->
-                        <form action="{{ route('reference-data.application-groups.destroy', $g) }}" method="POST" style="display:inline" onsubmit="return confirm('Are you sure you want to delete this group?');">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-action btn-action-delete" title="Delete">
-                                <i class="ti ti-trash"></i>
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        @empty
-            <tr><td colspan="3">No groups</td></tr>
-        @endforelse
-        </tbody>
-    </table>
-
-    <div class="d-flex justify-content-between">
-        <div>
-            Showing {{ $groups->firstItem() ?? 0 }} to {{ $groups->lastItem() ?? 0 }} of {{ $groups->total() }} entries
-        </div>
-        <div>
-            {{ $groups->links() }}
-        </div>
+        <!-- Table -->
+        <table class="app-groups-table">
+            <thead>
+                <tr>
+                    <th>Application Group</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($groups as $g)
+                    <tr>
+                        <td style="text-transform: uppercase; font-weight: 500;">{{ $g->name }}</td>
+                        <td>{{ $g->description }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <!-- View Button -->
+                                <button class="action-btn action-btn-view" title="View Details" onclick="window.location='{{ route('reference-data.application-groups.show', $g) }}'">
+                                    <i class="ti ti-eye"></i>
+                                </button>
+                                
+                                <!-- Edit Button -->
+                                <button class="action-btn action-btn-edit" title="Edit" onclick="window.location='{{ route('reference-data.application-groups.edit', $g) }}'">
+                                    <i class="ti ti-pencil"></i>
+                                </button>
+                                
+                                <!-- Delete Button -->
+                                <form action="{{ route('reference-data.application-groups.destroy', $g) }}" method="POST" style="display:inline" onsubmit="return confirm('Are you sure you want to delete this application group?');">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="action-btn action-btn-delete" title="Delete">
+                                        <i class="ti ti-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="3" style="text-align: center; color: #666; padding: 40px;">No application groups found</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 
