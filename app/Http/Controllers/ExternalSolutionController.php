@@ -18,16 +18,33 @@ class ExternalSolutionController extends Controller
         // Determine view partial
         $viewPartial = $status === 'prospective' ? '_table_prospective' : '_table_operational';
 
-        // Query DB and filter by status if you have a status column
-        // For now, we'll treat 'prospective' as items with launched_date NULL
+        // Query DB and filter by status
         $query = ExternalSolution::query();
         if ($status === 'prospective') {
             $query->whereNull('launched_date');
         } else {
+            // Treat 'in-progress' and others as launched/operational
             $query->whereNotNull('launched_date');
         }
 
-        $solutions = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        // Search filter
+        $search = request()->query('q');
+        if (!empty($search)) {
+            $query->where(function ($sub) use ($search) {
+                $sub->where('application_name', 'like', "%{$search}%")
+                    ->orWhere('developed_by', 'like', "%{$search}%")
+                    ->orWhere('company_customer', 'like', "%{$search}%");
+            });
+        }
+
+        // Per-page selection
+        $allowed = [10,25,50,100];
+        $perPage = (int) request()->query('per_page', 50);
+        if (!in_array($perPage, $allowed)) {
+            $perPage = 50;
+        }
+
+        $solutions = $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
 
         return view('external_solutions.index', compact('solutions', 'title', 'status', 'viewPartial'));
     }
