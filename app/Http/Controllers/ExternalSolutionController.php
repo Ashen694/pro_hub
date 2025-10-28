@@ -15,15 +15,32 @@ class ExternalSolutionController extends Controller
     {
         $title = 'External Solutions - ' . ucfirst($status);
 
-        // Determine view partial
-        $viewPartial = $status === 'prospective' ? '_table_prospective' : '_table_operational';
+        // Determine view partial based on status
+        // Supported statuses: prospective, in-progress, retired, abandoned
+        // Map retired/abandoned to the archive partial (same structure)
+        if ($status === 'prospective') {
+            $viewPartial = '_table_prospective';
+        } elseif (in_array($status, ['in-progress', 'operational'])) {
+            $viewPartial = '_table_operational';
+        } elseif (in_array($status, ['retired', 'abandoned'])) {
+            $viewPartial = '_table_archive';
+        } else {
+            $viewPartial = '_table_operational';
+        }
 
         // Query DB and filter by status
         $query = ExternalSolution::query();
         if ($status === 'prospective') {
             $query->whereNull('launched_date');
+        } elseif ($status === 'retired') {
+            // For now, treat retired as items that have a launched date
+            $query->whereNotNull('launched_date');
+        } elseif ($status === 'abandoned') {
+            // For now, treat abandoned as items without a launched date
+            // (separate from 'prospective' so the page is distinct)
+            $query->whereNull('launched_date');
         } else {
-            // Treat 'in-progress' and others as launched/operational
+            // in-progress/operational and any other status -> launched
             $query->whereNotNull('launched_date');
         }
 
