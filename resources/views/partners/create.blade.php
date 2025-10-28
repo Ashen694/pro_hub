@@ -12,7 +12,7 @@
     .partners-content-wrapper h1, .partners-content-wrapper h2, .partners-content-wrapper h3, .partners-content-wrapper label, .partners-content-wrapper p {
         color: #212529 !important;
     }
-    .partners-content-wrapper .form-control, 
+    .partners-content-wrapper .form-control,
     .partners-content-wrapper .form-select {
         background-color: #ffffff !important;
         border: 1px solid #ced4da !important;
@@ -28,7 +28,47 @@
 @section('page-title', 'Create Partner')
 
 @section('content')
-<div class="partners-content-wrapper">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const phone1 = document.getElementById("contact_person_phone_1");
+            const phone2 = document.getElementById("contact_person_phone_2");
+            const email = document.getElementById("contact_person_email");
+            const form = document.querySelector("form");
+
+            // Allow only digits, max length 10
+            [phone1, phone2].forEach(input => {
+                input.addEventListener("input", function(e) {
+                    this.value = this.value.replace(/\D/g, ''); // remove non-digits
+                    if (this.value.length > 10) this.value = this.value.slice(0, 10);
+                });
+            });
+
+            // Form validation before submit
+            form.addEventListener("submit", function(e) {
+                let errors = [];
+
+                if (phone1.value && phone1.value.length !== 10) {
+                    errors.push("Phone 1 must be exactly 10 digits.");
+                }
+                if (phone2.value && phone2.value.length !== 0 && phone2.value.length !== 10) {
+                    errors.push("Phone 2 must be exactly 10 digits or empty.");
+                }
+                if (phone1.value && phone1.value === phone2.value && phone2.value !== "") {
+                    errors.push("Phone 1 and Phone 2 cannot be the same.");
+                }
+                if (!email.value.includes("@")) {
+                    errors.push("Email must contain '@'.");
+                }
+
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    alert(errors.join("\n"));
+                }
+            });
+        });
+    </script>
+
+    <div class="partners-content-wrapper">
     <h2>Create Partner</h2>
 
     <form method="POST" action="{{ route('reference-data.partners.store') }}" class="mt-4">

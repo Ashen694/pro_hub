@@ -26,16 +26,39 @@ class PartnerController extends Controller
             'contact_person_title' => 'nullable|string|max:255',
             'contact_person_name' => 'required|string|max:255',
             'contact_person_email' => 'required|email|max:255',
-            'contact_person_phone_1' => 'nullable|string|max:20',
-            'contact_person_phone_2' => 'nullable|string|max:20',
+            'contact_person_phone_1' => [
+                'nullable',
+                'digits:10',
+                'regex:/^[0-9]{10}$/'
+            ],
+            'contact_person_phone_2' => [
+                'nullable',
+                'digits:10',
+                'regex:/^[0-9]{10}$/',
+                'different:contact_person_phone_1'
+            ],
             'contact_person_designation' => 'nullable|string|max:255',
+        ], [
+            'contact_person_phone_1.regex' => 'Phone number must be 10 digits only.',
+            'contact_person_phone_2.regex' => 'Phone number must be 10 digits only.',
+            'contact_person_phone_2.different' => 'Phone 2 cannot be the same as Phone 1.',
         ]);
 
-        Partner::create($request->all());
+        // Duplicate check by name + email
+        $exists = \App\Models\Partner::where('organization_name', $request->organization_name)
+            ->where('contact_person_email', $request->contact_person_email)
+            ->exists();
+
+        if ($exists) {
+            return back()->withErrors(['duplicate' => 'This partner already exists.'])->withInput();
+        }
+
+        \App\Models\Partner::create($request->all());
 
         return redirect()->route('reference-data.partners.index')
             ->with('success', 'Partner created successfully.');
     }
+
 
     public function show(Partner $partner)
     {

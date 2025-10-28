@@ -80,7 +80,30 @@
 @section('page-title', 'Partners')
 
 @section('content')
-<div class="partners-content-wrapper">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Confirmation popup
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (confirm('Are you sure you want to delete this partner?')) {
+                        this.closest('form').submit();
+                    }
+                });
+            });
+
+            // Auto-hide success message after 3 seconds
+            const successAlert = document.querySelector('.alert-success');
+            if (successAlert) {
+                setTimeout(() => {
+                    successAlert.style.transition = "opacity 0.5s";
+                    successAlert.style.opacity = "0";
+                    setTimeout(() => successAlert.remove(), 500);
+                }, 3000);
+            }
+        });
+    </script>
+
+    <div class="partners-content-wrapper">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Partners</h1>
         <a href="{{ route('reference-data.partners.create') }}" class="btn btn-primary">Create Partner</a>
@@ -117,13 +140,14 @@
                                 <a href="{{ route('reference-data.partners.edit', $partner) }}" class="action-btn action-btn-edit" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <form action="{{ route('reference-data.partners.destroy', $partner) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this partner?');">
+                                <form action="{{ route('reference-data.partners.destroy', $partner) }}" method="POST" class="delete-form d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="action-btn action-btn-delete" title="Delete">
+                                    <button type="button" class="action-btn action-btn-delete delete-btn" title="Delete">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
+
                             </div>
                         </td>
                     </tr>

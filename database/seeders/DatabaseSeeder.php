@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
 
          
             SDLCphaseSeeder::class,
-            TargetEndUserSeeder::class,
+            ExternalSolutionSeeder::class,
         ]);
     }
 }
