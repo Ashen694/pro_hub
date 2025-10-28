@@ -15,6 +15,61 @@
         border-collapse: collapse !important;
     }
     .companies-page table tr:hover td { background: #f8f9fa !important; }
+    
+    /* Action button styles */
+    .btn-action {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 2px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-action-view {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .btn-action-view:hover {
+        background-color: #218838;
+        color: white;
+    }
+    
+    .btn-action-edit {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .btn-action-edit:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+    
+    .btn-action-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .btn-action-delete:hover {
+        background-color: #c82333;
+        color: white;
+    }
+    
+    .btn-action-contacts {
+        background-color: #17a2b8;
+        color: white;
+    }
+    
+    .btn-action-contacts:hover {
+        background-color: #138496;
+        color: white;
+    }
 </style>
 
 <!-- Particle Background -->
@@ -61,8 +116,8 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th style="width:70%">Company_Name</th>
-                <th style="width:30%"></th>
+                <th style="width:70%">Company Name</th>
+                <th style="width:30%">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -70,15 +125,30 @@
                 <tr>
                     <td style="min-height:150px; vertical-align:top">&nbsp;{{ $company->name }}</td>
                     <td class="align-top">
-                        <div class="small">
-                            <a href="{{ route('reference-data.companies.edit', $company) }}">Edit</a> |
-                            <a href="#" class="link-details">Details</a> |
+                        <div class="d-flex align-items-center">
+                            <!-- View Button -->
+                            <button class="btn btn-action btn-action-view" title="View Details" onclick="alert('View details for {{ $company->name }}')">
+                                <i class="ti ti-eye"></i>
+                            </button>
+                            
+                            <!-- Edit Button -->
+                            <a href="{{ route('reference-data.companies.edit', $company) }}" class="btn btn-action btn-action-edit" title="Edit">
+                                <i class="ti ti-pencil"></i>
+                            </a>
+                            
+                            <!-- Delete Button -->
                             <form action="{{ route('reference-data.companies.destroy', $company) }}" method="POST" style="display:inline" onsubmit="return confirm('Delete this company?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-link p-0 text-danger">Delete</button>
-                            </form> |
-                            <a href="#">Customer Contacts</a>
+                                <button type="submit" class="btn btn-action btn-action-delete" title="Delete">
+                                    <i class="ti ti-trash"></i>
+                                </button>
+                            </form>
+                            
+                            <!-- Customer Contacts Button -->
+                            <button class="btn btn-action btn-action-contacts" title="Customer Contacts" onclick="alert('Customer contacts for {{ $company->name }}')">
+                                <i class="ti ti-address-book"></i>
+                            </button>
                         </div>
                     </td>
                 </tr>
