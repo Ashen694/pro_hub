@@ -12,7 +12,7 @@
         width: 36px;
         height: 36px;
         border-radius: 8px;
-        text-decoration: none;
+        text-decoration: none !important;
         transition: all 0.2s ease-in-out;
         border: none;
     }

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             EmployeeSeeder::class,
             ParentProjectSeeder::class,
             MainPlatformsSeeder::class,
+            TargetEndUserSeeder::class,
             
 
             // Reference data seeders

@@ -1,3 +1,100 @@
+@push('styles')
+<style>
+/* === Card & Table Container === */
+.card {
+    border-radius: 14px !important;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+}
+
+/* === Collapsible Filter Card === */
+#filter-card.card {
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    background-color: #fafafa;
+}
+
+/* === Table Wrapper === */
+.table-responsive {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+
+
+/* === Table Header === */
+.table thead th {
+    background-color: #f9fafb;
+    color: #495057;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    border-bottom: 2px solid #dee2e6;
+    padding: 0.75rem;
+}
+
+/* Rounded header corners */
+.table thead tr:first-child th:first-child {
+    border-top-left-radius: 12px;
+}
+.table thead tr:first-child th:last-child {
+    border-top-right-radius: 12px;
+}
+
+/* === Table Rows === */
+.table tbody tr {
+    transition: all 0.2s ease-in-out;
+}
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.005);
+}
+
+/* === Table Cells === */
+.table td {
+    padding: 0.75rem;
+    border-top: 1px solid #f1f3f5;
+    vertical-align: middle;
+}
+
+/* Rounded bottom corners */
+.table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+.table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+/* === Action Buttons === */
+.btn.btn-outline-primary {
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+.btn.btn-outline-primary:hover {
+    background-color: #0056b3;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* === Badges === */
+.badge {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 0.4em 0.75em;
+    font-size: 0.75rem;
+}
+
+/* === Pagination Footer === */
+.card-footer {
+    background-color: #f9fafb;
+    border-top: 1px solid #e9ecef;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+</style>
+@endpush
+
+
 <div>
     {{-- FILTER SECTION --}}
     <div class="card-body border-bottom py-3">

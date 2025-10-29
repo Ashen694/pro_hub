@@ -33,72 +33,104 @@
             margin-bottom: 1.5rem;
         }
 
-        .btn-action {
-            width: 36px;
-            height: 36px;
-            padding: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            border: none;
-            transition: all 0.2s ease-in-out;
-        }
+    /* --- New Styles for Action Buttons --- */
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        text-decoration: none !important;
+        transition: all 0.2s ease-in-out;
+        border: none;
+        cursor: pointer;  
+    }
 
-        .btn-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* View Button (Blue) */
-        .btn-action-view {
-            background-color: #e7f5ff;  
-            color: #1c7ed6;             
-        }
-        .btn-action-view:hover {
-            background-color: #d0ebff;
-            color: #1971c2;
-        }
+    .action-btn i {
+        font-size: 16px;
+    }
 
-        /* Edit Button (Green) */
-        .btn-action-edit {
-            background-color: #e6fcf5;  
-            color: #2f9e44;            
-        }
-        .btn-action-edit:hover {
-            background-color: #c3fae8;
-            color: #2b8a3e;
-        }
+    /* View Button (Green) */
+    .action-btn-view {
+        background-color: #e3f9e5;
+    }
+    .action-btn-view i {
+        color: #28a745;
+    }
+    .action-btn-view:hover {
+        background-color: #c1f2c6;
+    }
 
-        /* Delete Button (Red) */
-        .btn-action-delete {
-            background-color: #fff5f5;  
-            color: #e03131;             
-        }
-        .btn-action-delete:hover {
-            background-color: #ffc9c9;
-            color: #c92a2a;
-        }
+    /* Edit Button (Blue) */
+    .action-btn-edit {
+        background-color: #e6f0ff;
+    }
+    .action-btn-edit i {
+        color: #0057ff;
+    }
+    .action-btn-edit:hover {
+        background-color: #cce0ff;
+    }
 
-        /* Documents Button (Gray) */
-        .btn-action-docs {
-            background-color: #f8f9fa;  
-            color: #868e96;            
-        }
-        .btn-action-docs:hover {
-            background-color: #e9ecef;
-            color: #495057;
-        }
+    /* Delete Button (Red) */
+    .action-btn-delete {
+        background-color: #ffe6e6;
+    }
+    .action-btn-delete i {
+        color: #dc3545;
+    }
+    .action-btn-delete:hover {
+        background-color: #ffcccc;
+    }
 
-        /* Change Request Button (Orange) */
-        .btn-action-cr {
-            background-color: #fff4e6;  
-            color: #f76707;            
-        }
-        .btn-action-cr:hover {
-            background-color: #ffe8cc;
-            color: #d9480f;
-        }    
+    /* Documents Button (Gray) */
+    .action-btn-docs {
+        background-color: #f1f3f5;
+    }
+    .action-btn-docs i {
+        color: #495057;
+    }
+    .action-btn-docs:hover {
+        background-color: #e9ecef;
+    }
+
+    /* Change Request Button (Orange) */
+    .action-btn-cr {
+        background-color: #fff4e6;
+    }
+    .action-btn-cr i {
+        color: #f76707;
+    }
+    .action-btn-cr:hover {
+        background-color: #ffe8cc;
+    } 
+    
+    .card, .table-responsive, .table {
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #fff;
+}
+
+.table td, .table th {
+    border: 1px solid #f0f0f0;
+}
+
+/* Optional row rounding for smoother edges */
+.table tbody tr td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.table tbody tr td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
 
     </style>
     @endpush
@@ -273,38 +305,38 @@
                     @endif
 
                     <td class="text-center">
-                        <div class="btn-list flex-nowrap justify-content-center">
+                        <div class="d-flex justify-content-center gap-2">
                             @if(in_array($status, ['retired', 'abandoned']))
                                 <!-- View Button -->
-                                <button class="btn btn-action btn-action-view" data-bs-toggle="modal" data-bs-target="#details-modal-{{ $solution->ID }}" title="View Details">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                                <button type="button" class="action-btn action-btn-view" data-bs-toggle="modal" data-bs-target="#details-modal-{{ $solution->ID }}" title="View Details">
+                                    <i class="fas fa-eye"></i>
                                 </button>
                             @else
                                 <!-- View Button -->
-                                <button class="btn btn-action btn-action-view" data-bs-toggle="modal" data-bs-target="#details-modal-{{ $solution->ID }}" title="View Details">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                                <button type="button" class="action-btn action-btn-view" data-bs-toggle="modal" data-bs-target="#details-modal-{{ $solution->ID }}" title="View Details">
+                                    <i class="fas fa-eye"></i>
                                 </button>
                                 
                                 <!-- Edit Button -->
-                                <a href="{{ route('internal-solutions.edit', $solution->ID) }}" class="btn btn-action btn-action-edit" title="Edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                                <a href="{{ route('internal-solutions.edit', $solution->ID) }}" class="action-btn action-btn-edit" title="Edit">
+                                    <i class="fas fa-pencil-alt"></i>
                                 </a>
 
-                                <!-- Documents Button (Triggers Modal) -->
-                                <button class="btn btn-action btn-action-docs" data-bs-toggle="modal" data-bs-target="#documents-modal-{{ $solution->ID }}" title="Documents">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-text" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 9l1 0" /><path d="M9 13l6 0" /><path d="M9 17l6 0" /></svg>
+                                <!-- Documents Button -->
+                                <button type="button" class="action-btn action-btn-docs" data-bs-toggle="modal" data-bs-target="#documents-modal-{{ $solution->ID }}" title="Documents">
+                                    <i class="fas fa-file-alt"></i>
                                 </button>
 
                                 <!-- Change Requests Button -->
                                 @if ($solution->App_Category == 'Main Application' && in_array($status, ['operational', 'in-progress', 'recently-launched']))
-                                    <a href="{{ route('internal-solutions.change-requests', $solution->ID) }}" class="btn btn-action btn-action-cr" title="Change Requests">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-git-pull-request" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M6 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M18 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M6 8l0 8" /><path d="M11 6h5a2 2 0 0 1 2 2v8" /><path d="M14 9l-3 -3l3 -3" /></svg>
+                                    <a href="{{ route('internal-solutions.change-requests', $solution->ID) }}" class="action-btn action-btn-cr" title="Change Requests">
+                                        <i class="fas fa-code-branch"></i>
                                     </a>
                                 @endif
 
                                 <!-- Delete Button -->
-                                <button class="btn btn-action btn-action-delete" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $solution->ID }}" title="Delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                <button type="button" class="action-btn action-btn-delete" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $solution->ID }}" title="Delete">
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
                             @endif
                         </div>
