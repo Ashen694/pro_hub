@@ -14,29 +14,8 @@ class ExternalSolutionController extends Controller
         if (!in_array($status, $validStatuses)) {
             abort(404);
         }
-
         $title = 'External Solutions - ' . ucfirst($status);
-
-        $viewPartial = match ($status) {
-            'prospective' => '_table_prospective',
-            'operational' => '_table_operational',
-            'retired', 'abandoned' => '_table_archive',
-        };
-
-        $query = ExternalSolution::query()->where('status', $status);
-
-        $search = request()->query('q');
-        if ($search) {
-            $query->where(function ($sub) use ($search) {
-                $sub->where('platform_name', 'like', "%{$search}%")
-                    ->orWhere('developed_by', 'like', "%{$search}%")
-                    ->orWhere('platform_owner', 'like', "%{$search}%");
-            });
-        }
-
-        $solutions = $query->orderBy('start_date', 'desc')->paginate(25)->withQueryString();
-
-        return view('external_solutions.index', compact('solutions', 'title', 'status', 'viewPartial'));
+        return view('external_solutions.index', compact('title', 'status'));
     }
 
     public function show($id)
