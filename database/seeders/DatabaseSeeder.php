@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
 
          
             SDLCphaseSeeder::class,
-            ExternalSolutionSeeder::class,
+         
         ]);
     }
 }
