@@ -367,13 +367,17 @@
                       </div>
                   </li>
                 <!-- Freelancers -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#navbar-partners" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-                        <span class="nav-link-title">
-                        Freelancers
-                        </span>
-                    </a>
-                </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#navbar-freelancers" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                          <span class="nav-link-title">
+                          Freelancers
+                          </span>
+                      </a>
+                      <div class="dropdown-menu">
+                          <a class="dropdown-item" href="{{ route('freelancers.all') }}">All Freelancers</a>
+                          <a class="dropdown-item" href="{{ route('freelancers.create') }}">Create New Freelancer</a>
+                      </div>
+                  </li>
 
             </ul>
             </div>
