@@ -1,0 +1,97 @@
+:root{
+  --st-primary:#2258a7;
+  --st-info:#46b6ef;
+  --st-accent:#5fb545; /* SLT green */
+  --st-border:#e6eef8;
+  --st-focus:0 0 0 .2rem rgba(34,88,167,.28);
+  --st-dark:#0b2a5b;   /* Dark blue */
+}
+
+/* Wrapper: dark blue background, full-width, gradient top bar */
+.stl-nav{
+  position: relative;
+  background: var(--st-dark);
+  color:#fff;
+  border-bottom:1px solid transparent !important;
+}
+.stl-nav:before{
+  content:"";
+  position:absolute; inset:0 0 auto 0; height:4px;
+  background: linear-gradient(90deg,var(--st-primary),var(--st-info),var(--st-accent));
+  opacity:.9;
+}
+
+/* Link underline reset */
+.stl-nav a,
+.stl-nav a:hover,
+.stl-nav a:focus,
+.stl-nav .stl-trigger,
+.stl-nav .stl-trigger:hover,
+.stl-nav .stl-trigger:focus,
+.stl-nav .stl-dd a,
+.stl-nav .stl-dd a:hover,
+.stl-nav .stl-dd a:focus,
+.stl-mobile a,
+.stl-mobile a:hover,
+.stl-mobile a:focus{
+  text-decoration: none !important;
+}
+
+/* Top-level links/triggers */
+.stl-link,
+.stl-trigger{
+  color:#ffffff;
+  font-weight:700;
+  transition: color .15s ease, opacity .15s ease;
+}
+.stl-link:hover,
+.stl-trigger:hover{ color:#ffffff; opacity:.9; }
+
+/* Active state hint */
+.stl-link[aria-current="page"]{
+  color:#ffffff;
+  position:relative;
+}
+.stl-link[aria-current="page"]::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-12px; height:3px;
+  border-radius:999px;
+  background: linear-gradient(90deg,var(--st-accent),var(--st-info));
+}
+
+/* Dropdown panel */
+.stl-dd{
+  background:#fff;
+  border:1px solid var(--st-border);
+  border-radius:12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.stl-dd a{
+  display:block; padding:.6rem .85rem; font-weight:700; color:#334155;
+  transition: background .15s ease, color .15s ease, padding-left .15s ease;
+}
+.stl-dd a:hover{
+  background: linear-gradient(90deg, rgba(34,88,167,.10), rgba(70,182,239,.10));
+  color: var(--st-primary);
+  padding-left: 1.05rem;
+}
+
+/* Mobile menu shell */
+.stl-mobile{ border-top:1px solid var(--st-border); background:#fff; }
+
+/* Focus ring */
+.stl-nav a:focus-visible,
+.stl-nav button:focus-visible{
+  outline:none; box-shadow: var(--st-focus); border-radius:10px;
+}
+
+/* Brand text */
+.stl-brand-name{
+  font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  font-weight: 750;
+  color: var(--st-accent);
+  letter-spacing: .2px;
+  font-size:25px;
+}

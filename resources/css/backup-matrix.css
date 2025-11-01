@@ -1,0 +1,64 @@
+:root{
+  --slt-primary:#2258a7; --slt-primary-600:#1c4b8f; --slt-primary-700:#163e77;
+  --slt-info:#46b6ef; --slt-accent:#5fb545;
+  --slt-white:#ffffff; --slt-ink:#0c1b2a; --slt-muted:#6b7a8a;
+  --slt-border:#e6eef8; --slt-focus:0 0 0 .25rem rgba(34,88,167,.25);
+  --slt-radius-lg:16px; --slt-radius-md:12px;
+
+  /* subtle tints from palette */
+  --slt-primary-veil: rgba(34,88,167,.06);
+  --slt-info-veil:    rgba(70,182,239,.12);
+  --slt-card-veil:    rgba(34,88,167,.10);
+}
+
+/* shell */
+.slt-container{position:relative;z-index:10}
+.slt-page-title{color:var(--slt-white);font-weight:800;letter-spacing:-.3px;margin:0;text-shadow:0 2px 4px rgba(34,88,167,.1);font-size:clamp(1.25rem, 2vw + .5rem, 1.75rem)}
+
+/* card */
+.slt-card{
+    background:rgba(255,255,255,.98);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border:1px solid rgba(34,88,167,.15);
+    border-radius:var(--slt-radius-lg);
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+    overflow:hidden;
+    position:relative;
+    padding: 2rem;
+}
+.slt-card::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;border-radius:var(--slt-radius-lg) var(--slt-radius-lg) 0 0;background:linear-gradient(90deg,var(--slt-primary),var(--slt-info),var(--slt-accent));opacity:.9}
+
+/* text + buttons */
+.slt-muted{color:var(--slt-muted);font-size:.96rem}
+.slt-btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;border:1px solid transparent;border-radius:12px;padding:.8rem 1.15rem;min-height:48px;font-weight:800;font-size:1rem;text-decoration:none!important;cursor:pointer;white-space:nowrap;transition:transform .06s ease,box-shadow .2s ease,filter .2s ease}
+.slt-btn:focus-visible{outline:none;box-shadow:var(--slt-focus)}
+.slt-btn svg{flex:0 0 auto}
+.slt-btn-primary{color:#fff!important;background:linear-gradient(90deg,var(--slt-primary),var(--slt-info));box-shadow:0 10px 24px rgba(34,88,167,.28)}
+.slt-btn-primary:hover{filter:brightness(1.05);box-shadow:0 12px 30px rgba(34,88,167,.34)}
+.slt-btn-primary:active{transform:translateY(1px)}
+.slt-btn-outline{color:var(--slt-primary)!important;background:#fff;border:1px solid rgba(34,88,167,.2)}
+.slt-btn-outline:hover{border-color:rgba(34,88,167,.4);box-shadow:0 10px 22px rgba(0,0,0,.08)}
+.slt-btn-outline:active{transform:translateY(1px)}
+.slt-actions{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));align-items:stretch}
+
+/* modal */
+.slt-modal-backdrop{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(12,27,42,.55); backdrop-filter:blur(2px); z-index:100;}
+.slt-modal{background:#fff; width:min(720px, calc(100vw - 32px)); border:1px solid var(--slt-card-veil); border-radius:20px; box-shadow:0 30px 60px rgba(0,0,0,.28); overflow:hidden;}
+.slt-modal-head{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:18px 20px; background:linear-gradient(0deg, rgba(255,255,255,.9), rgba(255,255,255,.9)), linear-gradient(90deg, var(--slt-primary-veil), var(--slt-info-veil)); border-bottom:1px solid var(--slt-border);}
+.slt-modal-title{ font-weight:800; color:var(--slt-primary-700); letter-spacing:.2px; font-size:1.25rem; }
+.slt-x{ appearance:none; border:0; background:transparent; cursor:pointer; padding:6px; line-height:0; color:#64748b; }
+.slt-x:hover{ color:#0f172a; }
+.slt-alert{ margin:16px 20px 0; padding:14px 14px; border-radius:12px; background:var(--slt-info-veil); color:#0c1b2a; border:1px solid var(--slt-border); display:flex; align-items:center; gap:.6rem; font-weight:700; }
+.slt-modal-body{ padding:14px 20px 8px; }
+.slt-kv{ display:grid; grid-template-columns: 240px 1fr; row-gap:12px; column-gap:20px; margin:14px 0 6px; }
+.slt-kv dt{ color:#334155; font-weight:800; }
+.slt-kv dd{ color:#0f172a; margin:0; }
+.slt-modal-actions{ display:flex; justify-content:flex-end; gap:10px; padding:18px 20px; border-top:1px solid var(--slt-border); background:#fafcff; }
+.slt-hidden{ display:none !important; }
+
+/* responsive tweaks */
+@media (min-width:1024px){ .slt-card .slt-muted{font-size:1rem} }
+@media (max-width:768px){ .slt-card { padding: 1.5rem; } }
+@media (max-width:640px){ .slt-kv{ grid-template-columns:1fr; } }
+@media (max-width:420px){ .slt-btn{font-size:.95rem;min-height:46px} }
