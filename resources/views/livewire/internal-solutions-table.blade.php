@@ -33,103 +33,103 @@
             margin-bottom: 1.5rem;
         }
 
-    /* --- New Styles for Action Buttons --- */
-    .action-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        text-decoration: none !important;
-        transition: all 0.2s ease-in-out;
-        border: none;
-        cursor: pointer;  
-    }
+        /* --- New Styles for Action Buttons --- */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            text-decoration: none !important;
+            transition: all 0.2s ease-in-out;
+            border: none;
+            cursor: pointer;  
+        }
 
-    .action-btn i {
-        font-size: 16px;
-    }
+        .action-btn i {
+            font-size: 16px;
+        }
 
-    /* View Button (Green) */
-    .action-btn-view {
-        background-color: #e3f9e5;
-    }
-    .action-btn-view i {
-        color: #28a745;
-    }
-    .action-btn-view:hover {
-        background-color: #c1f2c6;
-    }
+        /* View Button (Green) */
+        .action-btn-view {
+            background-color: #e3f9e5;
+        }
+        .action-btn-view i {
+            color: #28a745;
+        }
+        .action-btn-view:hover {
+            background-color: #c1f2c6;
+        }
 
-    /* Edit Button (Blue) */
-    .action-btn-edit {
-        background-color: #e6f0ff;
-    }
-    .action-btn-edit i {
-        color: #0057ff;
-    }
-    .action-btn-edit:hover {
-        background-color: #cce0ff;
-    }
+        /* Edit Button (Blue) */
+        .action-btn-edit {
+            background-color: #e6f0ff;
+        }
+        .action-btn-edit i {
+            color: #0057ff;
+        }
+        .action-btn-edit:hover {
+            background-color: #cce0ff;
+        }
 
-    /* Delete Button (Red) */
-    .action-btn-delete {
-        background-color: #ffe6e6;
-    }
-    .action-btn-delete i {
-        color: #dc3545;
-    }
-    .action-btn-delete:hover {
-        background-color: #ffcccc;
-    }
+        /* Delete Button (Red) */
+        .action-btn-delete {
+            background-color: #ffe6e6;
+        }
+        .action-btn-delete i {
+            color: #dc3545;
+        }
+        .action-btn-delete:hover {
+            background-color: #ffcccc;
+        }
 
-    /* Documents Button (Gray) */
-    .action-btn-docs {
-        background-color: #f1f3f5;
-    }
-    .action-btn-docs i {
-        color: #495057;
-    }
-    .action-btn-docs:hover {
-        background-color: #e9ecef;
-    }
+        /* Documents Button (Gray) */
+        .action-btn-docs {
+            background-color: #f1f3f5;
+        }
+        .action-btn-docs i {
+            color: #495057;
+        }
+        .action-btn-docs:hover {
+            background-color: #e9ecef;
+        }
 
-    /* Change Request Button (Orange) */
-    .action-btn-cr {
-        background-color: #fff4e6;
-    }
-    .action-btn-cr i {
-        color: #f76707;
-    }
-    .action-btn-cr:hover {
-        background-color: #ffe8cc;
-    } 
-    
-    .card, .table-responsive, .table {
-    border-radius: 12px !important;
-    overflow: hidden;
-}
+        /* Change Request Button (Orange) */
+        .action-btn-cr {
+            background-color: #fff4e6;
+        }
+        .action-btn-cr i {
+            color: #f76707;
+        }
+        .action-btn-cr:hover {
+            background-color: #ffe8cc;
+        } 
+        
+        .card, .table-responsive, .table {
+        border-radius: 12px !important;
+        overflow: hidden;
+        }
 
-.table {
-    border-collapse: separate;
-    border-spacing: 0;
-    background-color: #fff;
-}
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: #fff;
+        }
 
-.table td, .table th {
-    border: 1px solid #f0f0f0;
-}
+        .table td, .table th {
+            border: 1px solid #f0f0f0;
+        }
 
-/* Optional row rounding for smoother edges */
-.table tbody tr td:first-child {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-.table tbody tr td:last-child {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-}
+        /* Optional row rounding for smoother edges */
+        .table tbody tr td:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        .table tbody tr td:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
 
 
     </style>

@@ -8,7 +8,6 @@
     <div class="card-header">
         <h3 class="card-title">{{ $title }}</h3>
         
-        {{-- For operational, in-progress, and recently-launched pages --}}
         @if($status == 'operational' || $status == 'in-progress' || $status == 'recently-launched')
             <div class="card-options">
                 <a href="{{ route('internal-solutions.create') }}" class="btn btn-primary">Create New</a>

@@ -109,17 +109,35 @@ Route::middleware('auth')->group(function () {
         Route::resource('partners', \App\Http\Controllers\PartnerController::class);    });
 
         // --- DMS (Document Management System) Routes ---
-    Route::prefix('dms')->name('dms.')->group(function () {
-    Route::get('/{type}', [DocumentController::class, 'index'])->name('index');  
-    Route::get('/{type}/create', [DocumentController::class, 'create'])->name('create');
-    Route::post('/{type}', [DocumentController::class, 'store'])->name('store');
+        Route::prefix('dms')->name('dms.')->group(function () {
+        Route::get('/{type}', [DocumentController::class, 'index'])->name('index');  
+        Route::get('/{type}/create', [DocumentController::class, 'create'])->name('create');
+        Route::post('/{type}', [DocumentController::class, 'store'])->name('store');
 
-    Route::get('/{document}/edit', [DocumentController::class, 'edit'])->name('edit');
-    Route::put('/{document}', [DocumentController::class, 'update'])->name('update');
+        Route::get('/{document}/edit', [DocumentController::class, 'edit'])->name('edit');
+        Route::put('/{document}', [DocumentController::class, 'update'])->name('update');
 
-    Route::delete('/{document}', [DocumentController::class, 'destroy'])->name('destroy');
-    Route::get('/{document}/download', [DocumentController::class, 'download'])->name('download');
-     });
+        Route::delete('/{document}', [DocumentController::class, 'destroy'])->name('destroy');
+        Route::get('/{document}/download', [DocumentController::class, 'download'])->name('download');
+        });
+
+
+     // --- Freelancers Routes ---
+        Route::prefix('freelancers')->name('freelancers.')->group(function () {
+        Route::get('/all', [App\Http\Controllers\FreelancerController::class, 'allFreelancers'])->name('all');
+        Route::get('/create', [App\Http\Controllers\FreelancerController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\FreelancerController::class, 'store'])->name('store');
+        Route::get('/{freelancer}/edit', [App\Http\Controllers\FreelancerController::class, 'edit'])->name('edit');
+        Route::put('/{freelancer}', [App\Http\Controllers\FreelancerController::class, 'update'])->name('update');
+        Route::delete('/{freelancer}', [App\Http\Controllers\FreelancerController::class, 'destroy'])->name('destroy');
+    });
+
+    // --- Task Routes (for editing/deleting individual tasks) ---
+    Route::prefix('tasks')->name('tasks.')->group(function () {
+        Route::get('/{task}/edit', [App\Http\Controllers\TaskController::class, 'edit'])->name('edit');
+        Route::put('/{task}', [App\Http\Controllers\TaskController::class, 'update'])->name('update');
+        Route::delete('/{task}', [App\Http\Controllers\TaskController::class, 'destroy'])->name('destroy');
+    });
 
 
 
