@@ -269,9 +269,9 @@
                         </span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Update Weekly Plan</a>
-                        <a class="dropdown-item" href="#">Weekly Plan - Report</a>
-                        <a class="dropdown-item" href="#">My Applications - Backup Matrix</a>
+                        <a class="dropdown-item" href="{{ route('my-work.weekly.update') }}">Update Weekly Plan</a>
+                        <a class="dropdown-item" href="{{ route('my-work.weekly.report') }}">Weekly Plan - Report</a>
+                        <a class="dropdown-item" href="{{ route('my-work.backup-matrix') }}">My Applications - Backup Matrix</a>
                     </div>
                 </li>
 

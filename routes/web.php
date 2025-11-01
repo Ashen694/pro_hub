@@ -10,6 +10,7 @@ use App\Http\Controllers\InternalSolutionController;
 use App\Http\Controllers\ConsumerServicePlatformController;
 use App\Http\Controllers\ExternalSolutionController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\MyWork\WeeklyPlanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,41 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/internal-solutions/yearly-contribution/{year}', [InternalSolutionController::class, 'yearlyContributionDetails'])->name('internal-solutions.yearly-contribution.details');
 
+    // --- My Work ---
+    Route::prefix('my-work')->name('my-work.')->group(function () {
+
+        // Weekly Plan
+        Route::get('/weekly-plan/update', [WeeklyPlanController::class,'updateIndex'])
+            ->name('weekly.update');
+
+        Route::get('/weekly-plan/report', [WeeklyPlanController::class,'report'])
+            ->name('weekly.report');
+
+        Route::get('/weekly-plan/create', [WeeklyPlanController::class,'create'])
+            ->name('weekly.create');
+
+        Route::post('/weekly-plan', [WeeklyPlanController::class,'store'])
+            ->name('weekly.store');
+
+        Route::get('/weekly-plan/{plan}/edit', [WeeklyPlanController::class,'edit'])
+            ->name('weekly.edit');
+
+        Route::put('/weekly-plan/{plan}', [WeeklyPlanController::class,'update'])
+            ->name('weekly.update.save');
+
+        Route::delete('/weekly-plan/{plan}', [WeeklyPlanController::class,'destroy'])
+            ->name('weekly.destroy');
+
+        Route::get('/weekly-plan/report/export', [WeeklyPlanController::class,'exportWeek'])
+            ->name('weekly.report.export');
+
+        // Backup Matrix (READ-ONLY)
+        Route::get('/backup-matrix', [WeeklyPlanController::class,'backupMatrixIndex'])
+            ->name('backup-matrix');
+
+        Route::get('/backup-matrix/download', [WeeklyPlanController::class,'backupMatrixDownload'])
+            ->name('backup-matrix.download');
+    });
 
     // --- Reference Data Routes ---
         Route::prefix('reference-data')->name('reference-data.')->group(function () {

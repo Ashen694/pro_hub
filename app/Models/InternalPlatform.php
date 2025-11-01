@@ -54,7 +54,6 @@ class InternalPlatform extends Model
 
     public function documents()
     {
-        // InternalPlatform එකක ID එක, Document table එකේ Solution_ID එකට සම්බන්ධ වේ.
         return $this->hasMany(\App\Models\Document::class, 'Solution_ID', 'ID');
     }
 }
