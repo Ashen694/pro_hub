@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\InternalPlatform;
 use App\Models\ParentProject;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;  
 use Faker\Factory as Faker;
 
 class InternalPlatformSeeder extends Seeder
@@ -15,11 +15,12 @@ class InternalPlatformSeeder extends Seeder
      */
     public function run(): void
     {
-        // Clear existing data safely
-
         $faker = Faker::create();
 
-        // Get groups as a collection of ['GroupName' => ID]
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        InternalPlatform::truncate();
+
         $groups = ParentProject::pluck('ParentProjectID', 'ParentProjectGroup');
 
         // --- Create Main Applications ---
@@ -65,7 +66,7 @@ class InternalPlatformSeeder extends Seeder
             'TargetDate' => '2024-09-30',
             'SDLCPhase' => 'Design',
             'Status' => 'Level 01',
-            'LaunchedDate' => null, // Not launched yet
+            'LaunchedDate' => '2024-10-30',  
             'VADate' => null,
             'EndUserType' => 'SLT Customers',
             'UserSpecificSection' => 'SLT' ,
@@ -79,7 +80,7 @@ class InternalPlatformSeeder extends Seeder
             'Developed_By' => 'Sunil Shantha',
             'Developed_Team' => 'Infra Team',
             'SDLCPhase' => 'Retired',
-            'Status' => 'Level 01', // Or can be null
+            'Status' => 'Level 01',  
             'StartDate' => '2015-01-01',
             'TargetDate' => '2015-05-30',
             'LaunchedDate' => '2015-06-15',
@@ -131,7 +132,7 @@ class InternalPlatformSeeder extends Seeder
             'Developed_By' => 'Dinithi Weerasekera',
             'Developed_Team' => 'CRM Team',
             'SDLCPhase' => 'Design',
-            'Status' => 'Level 02', // Changed for variety
+            'Status' => 'Level 02',  
             'StartDate' => '2022-01-15',
             'TargetDate' => '2022-02-28',
             'LaunchedDate' => '2022-03-05',
@@ -152,11 +153,13 @@ class InternalPlatformSeeder extends Seeder
             'TargetDate' => '2024-05-20',
             'SDLCPhase' => 'Testing',
             'Status' => 'Level 01',
-            'LaunchedDate' => null, // Not launched yet
+            'LaunchedDate' => '2024-10-30',  
             'VADate' => null,
             'EndUserType' => 'SLT Employees',
             'UserSpecificSection' => 'LAB' ,
             'Price' => 250000.00
         ]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

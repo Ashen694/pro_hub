@@ -42,8 +42,8 @@
                         <select class="form-select" name="solution_id">
                             <option value="" selected disabled>Please select a solution</option>
                             @foreach($solutions as $solution)
-                                <option value="{{ $type === 'internal' ? $solution->ID : $solution->id }}" {{ old('solution_id') == ($type === 'internal' ? $solution->ID : $solution->id) ? 'selected' : '' }}>
-                                    {{ $type === 'internal' ? $solution->App_Name : $solution->name }}
+                                <option value="{{ $type === 'internal' ? $solution->ID : $solution->platform_id }}" {{ old('solution_id') == ($type === 'internal' ? $solution->ID : $solution->platform_id) ? 'selected' : '' }}>
+                                    {{ $type === 'internal' ? $solution->App_Name : $solution->platform_name }}
                                 </option>
                             @endforeach
                         </select>

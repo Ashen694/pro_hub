@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ParentProjectSeeder::class,
             MainPlatformsSeeder::class,
             TargetEndUserSeeder::class,
+            SDLCphaseSeeder::class,
             
 
             // Reference data seeders
@@ -28,9 +29,10 @@ class DatabaseSeeder extends Seeder
             FieldOfSpecializationSeeder::class,
 
             InternalPlatformSeeder::class,
+            ExternalPlatformSeeder::class,
 
          
-            SDLCphaseSeeder::class,
+            
          
         ]);
     }

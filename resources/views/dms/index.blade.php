@@ -257,60 +257,159 @@
 <div class="modal modal-blur fade" id="view-modal-{{ $doc->ID }}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Document Details: {{ $doc->Doc_Name }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header bg-primary text-white"> <!-- Added background color to header -->
+                <h5 class="modal-title">
+                    <i class="ti ti-file-text me-2"></i> Document Details: <strong class="ms-1">{{ $doc->Doc_Name }}</strong>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button> <!-- Changed close button color -->
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Platform</label>
-                        <div class="form-control-plaintext">{{ $doc->Platform_ID == 1 ? 'Internal' : 'External' }}</div>
+            <div class="modal-body py-4"> <!-- Added vertical padding -->
+                <div class="row g-3"> <!-- Used g-3 for consistent gutter spacing -->
+
+                    <!-- Section: General Information -->
+                    <div class="col-12">
+                        <div class="card card-sm mb-3"> <!-- Using a smaller card for subtle grouping -->
+                            <div class="card-header">
+                                <h4 class="card-title"><i class="ti ti-info-circle me-2"></i> General Information</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cards"> <!-- Using row-cards for tighter spacing -->
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label class="form-label text-muted">Platform:</label>
+                                            <p class="form-control-plaintext">
+                                                @if($doc->Platform_ID == 1)
+                                                    <span class="badge bg-blue-lt">Internal</span>
+                                                @else
+                                                    <span class="badge bg-purple-lt">External</span>
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label class="form-label text-muted">Solution:</label>
+                                            <p class="form-control-plaintext">{{ $doc->internalSolution->App_Name ?? 'N/A' }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label class="form-label text-muted">Document Name:</label>
+                                            <p class="form-control-plaintext"><strong>{{ $doc->Doc_Name }}</strong></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label class="form-label text-muted">Classification:</label>
+                                            <p class="form-control-plaintext">{{ $doc->Doc_classification ?? '-' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Solution</label>
-                        <div class="form-control-plaintext">{{ $doc->internalSolution->App_Name ?? 'N/A' }}</div>
+
+                    <!-- Section: Upload Details -->
+                    <div class="col-12">
+                        <div class="card card-sm mb-3">
+                            <div class="card-header">
+                                <h4 class="card-title"><i class="ti ti-upload me-2"></i> Upload Details</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cards">
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label class="form-label text-muted">Uploaded By:</label>
+                                            <p class="form-control-plaintext">{{ $doc->uploader->name ?? 'N/A' }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label class="form-label text-muted">Uploaded Time:</label>
+                                            <p class="form-control-plaintext">{{ \Carbon\Carbon::parse($doc->Created_Time)->format('Y-m-d H:i:s') }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label class="form-label text-muted">Document Type:</label>
+                                            <p class="form-control-plaintext">
+                                                @if($doc->Doc_Type)
+                                                    <span class="badge bg-dark-lt">{{ strtoupper($doc->Doc_Type) }}</span>
+                                                @else
+                                                    <span class="text-muted">-</span>
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label class="form-label text-muted">Confidentiality:</label>
+                                            <p class="form-control-plaintext">
+                                                @if($doc->Confidential == 'High')
+                                                    <span class="badge bg-red-lt">{{ $doc->Confidential }}</span>
+                                                @elseif($doc->Confidential == 'Medium')
+                                                    <span class="badge bg-yellow-lt">{{ $doc->Confidential }}</span>
+                                                @else
+                                                    <span class="badge bg-green-lt">{{ $doc->Confidential ?? '-' }}</span>
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Document Name</label>
-                        <div class="form-control-plaintext">{{ $doc->Doc_Name }}</div>
+
+                    <!-- Section: Additional Details -->
+                    <div class="col-12">
+                        <div class="card card-sm">
+                            <div class="card-header">
+                                <h4 class="card-title"><i class="ti ti-tag me-2"></i> Additional Details</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label text-muted">Tags:</label>
+                                    <p class="form-control-plaintext">
+                                        @if($doc->Tags)
+                                            @foreach(explode(',', $doc->Tags) as $tag)
+                                                <span class="badge bg-info-lt me-1">{{ trim($tag) }}</span>
+                                            @endforeach
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </p>
+                                </div>
+                                <div>
+                                    <label class="form-label text-muted">Document URL (Path):</label>
+                                    <p class="form-control-plaintext text-truncate" title="{{ $doc->Doc_URL }}">
+                                        @if($doc->Doc_URL)
+                                            <a href="{{ Storage::disk('public')->url($doc->Doc_URL) }}" target="_blank" class="text-decoration-none">
+                                                <i class="ti ti-link me-1"></i> {{ $doc->Doc_URL }}
+                                            </a>
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Uploaded By</label>
-                        <div class="form-control-plaintext">{{ $doc->uploader->name ?? 'N/A' }}</div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Uploaded Time</label>
-                        <div class="form-control-plaintext">{{ \Carbon\Carbon::parse($doc->Created_Time)->format('Y-m-d H:i:s') }}</div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Document Type</label>
-                        <div class="form-control-plaintext">{{ $doc->Doc_Type ?? '-' }}</div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Document Classification</label>
-                        <div class="form-control-plaintext">{{ $doc->Doc_classification ?? '-' }}</div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Confidentiality</label>
-                        <div class="form-control-plaintext">{{ $doc->Confidential ?? '-' }}</div>
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="form-label text-muted">Tags</label>
-                        <div class="form-control-plaintext">{{ $doc->Tags ?? '-' }}</div>
-                    </div>
-                     <div class="col-12 mb-3">
-                        <label class="form-label text-muted">Document URL (Path)</label>
-                        <div class="form-control-plaintext">{{ $doc->Doc_URL ?? '-' }}</div>
-                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* Custom styles for better badge colors or specific alignments */
+    .modal-header .btn-close-white {
+        filter: invert(1) grayscale(100%) brightness(200%); /* Makes the close icon white */
+    }
+</style>
 
 <div class="modal modal-blur fade" id="delete-modal-{{ $doc->ID }}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">

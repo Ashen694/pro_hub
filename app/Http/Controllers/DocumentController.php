@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Document;
 use App\Models\InternalPlatform;
+use App\Models\ExternalPlatform; 
 use App\Models\Employee;  
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,7 @@ class DocumentController extends Controller
             $solutions = InternalPlatform::orderBy('App_Name')->get();
             $title = 'Internal Solutions Documents';
         } else {
-            $solutions = collect();
+            $solutions = ExternalPlatform::orderBy('platform_name')->get(); // Fetch external platforms
             $title = 'External Solutions Documents';
         }
 
@@ -60,6 +61,7 @@ class DocumentController extends Controller
             $solutions = InternalPlatform::orderBy('App_Name')->get();
             $title = 'Add New Internal Document';
         } else {
+            $solutions = ExternalPlatform::orderBy('platform_name')->get();  
             $title = 'Add New External Document';
         }
 
