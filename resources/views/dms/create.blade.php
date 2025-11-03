@@ -48,7 +48,6 @@
                             @endforeach
                         </select>
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label required">Document Name</label>
                         <input type="text" class="form-control" name="doc_name" placeholder="Enter document name" value="{{ old('doc_name') }}">
@@ -72,6 +71,8 @@
                     <div class="mb-3">
                         <label class="form-label required">Confidentiality</label>
                         <select class="form-select" name="confidentiality">
+                            {{-- Confidentiality සඳහා ද placeholder එකක් යෙදීම වඩාත් සුදුසුය --}}
+                            <option value="" @if(!old('confidentiality')) selected @endif disabled>Select confidentiality</option>
                             <option value="Low" {{ old('confidentiality') == 'Low' ? 'selected' : '' }}>Low</option>
                             <option value="Medium" {{ old('confidentiality') == 'Medium' ? 'selected' : '' }}>Medium</option>
                             <option value="High" {{ old('confidentiality') == 'High' ? 'selected' : '' }}>High</option>
