@@ -283,9 +283,9 @@
                         </span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">External Solutions</a>
-                        <a class="dropdown-item" href="#">Internal Solutions</a>
-                        <a class="dropdown-item" href="#">Other Solutions</a>
+                        <a class="dropdown-item" href="{{ route('incidents.external.index') }}">External Solutions</a>
+                        <a class="dropdown-item" href="{{ route('incidents.internal.index') }}">Internal Solutions</a>
+                        <a class="dropdown-item" href="{{ route('incidents.other.index') }}">Other Solutions</a>
                     </div>
                 </li>
 

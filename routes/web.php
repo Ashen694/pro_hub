@@ -11,6 +11,7 @@ use App\Http\Controllers\ConsumerServicePlatformController;
 use App\Http\Controllers\ExternalSolutionController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\MyWork\WeeklyPlanController;
+use App\Http\Controllers\IssueReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -138,6 +139,36 @@ Route::middleware('auth')->group(function () {
         Route::put('/{task}', [App\Http\Controllers\TaskController::class, 'update'])->name('update');
         Route::delete('/{task}', [App\Http\Controllers\TaskController::class, 'destroy'])->name('destroy');
     });
+
+  
+
+        Route::prefix('report-incidents')->name('incidents.')->group(function () {
+
+            // Internal Issues Routes
+            Route::prefix('internal')->name('internal.')->group(function () {
+                Route::get('/', [\App\Http\Controllers\InternalIssueController::class, 'index'])->name('index');
+                Route::get('/create', [\App\Http\Controllers\InternalIssueController::class, 'create'])->name('create');
+                Route::post('/', [\App\Http\Controllers\InternalIssueController::class, 'store'])->name('store');
+                Route::get('/{id}', [\App\Http\Controllers\InternalIssueController::class, 'show'])->name('show');
+                Route::get('/{id}/edit', [\App\Http\Controllers\InternalIssueController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [\App\Http\Controllers\InternalIssueController::class, 'update'])->name('update');
+                Route::delete('/{id}', [\App\Http\Controllers\InternalIssueController::class, 'destroy'])->name('destroy');
+            });
+
+            // External Issues Routes
+            Route::prefix('external')->name('external.')->group(function () {
+                Route::get('/', [\App\Http\Controllers\ExternalIssueController::class, 'index'])->name('index');
+                Route::get('/create', [\App\Http\Controllers\ExternalIssueController::class, 'create'])->name('create');
+                Route::post('/', [\App\Http\Controllers\ExternalIssueController::class, 'store'])->name('store');
+                Route::get('/{id}', [\App\Http\Controllers\ExternalIssueController::class, 'show'])->name('show');
+                Route::get('/{id}/edit', [\App\Http\Controllers\ExternalIssueController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [\App\Http\Controllers\ExternalIssueController::class, 'update'])->name('update');
+                Route::delete('/{id}', [\App\Http\Controllers\ExternalIssueController::class, 'destroy'])->name('destroy');
+            });
+            
+            Route::get('/other', [IssueReportController::class, 'recentIssuesIndex'])->name('other.index');
+
+        });
 
 
 
