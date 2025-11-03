@@ -59,9 +59,13 @@ class PartnerController extends Controller
             ->with('success', 'Partner created successfully.');
     }
 
-
     public function show(Partner $partner)
     {
+        // Return JSON for AJAX request (modal)
+        if (request()->ajax()) {
+            return response()->json($partner);
+        }
+        // Fallback to view for direct access
         return view('partners.show', compact('partner'));
     }
 
