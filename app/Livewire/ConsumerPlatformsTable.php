@@ -4,8 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\InternalPlatform;  
-
+use App\Models\InternalPlatform;
 use App\Models\SDLCphase;
 use App\Models\Employee;
 use Livewire\Attributes\On;
@@ -13,15 +12,19 @@ use Livewire\Attributes\On;
 class ConsumerPlatformsTable extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap'; // Use bootstrap for pagination styling
 
     // Filtering properties
     public $filterAppName = '';
     public $filterSdlcPhase = '';
     public $filterDevelopedBy = '';
 
+    // Sorting properties
     public $sortBy = 'App_Name';
     public $sortDirection = 'asc';
     
+    // This property will hold the data for the platform selected for the modal
+    public $selectedPlatform;
 
     // Reset page on any filter update
     public function updated()
@@ -29,7 +32,7 @@ class ConsumerPlatformsTable extends Component
         $this->resetPage();
     }
 
-   #[On('callSortByConsumer')]
+    #[On('callSortByConsumer')]
     public function sortBy($field)
     {
         if ($this->sortBy === $field) {
@@ -47,6 +50,15 @@ class ConsumerPlatformsTable extends Component
         $this->resetPage();
     }
 
+  
+    /**
+     * This method is called when the "Details" button is clicked.
+     * It finds the platform by its ID and loads it into our public property.
+     */
+    public function showDetails($platformId)
+    {
+        $this->selectedPlatform = InternalPlatform::find($platformId);
+    }
 
     public function render()
     {
@@ -63,18 +75,25 @@ class ConsumerPlatformsTable extends Component
         });
 
         $query->when($this->filterDevelopedBy, function ($q) {
+      
             $q->where('Developed_By', $this->filterDevelopedBy);
         });
 
         // Apply sorting
         $query->orderBy($this->sortBy, $this->sortDirection);
 
-        // Paginate the results using Livewire's standard method
+        // Paginate the results
         $platforms = $query->paginate(10);
      
-
-        $sdlcPhasesList = \App\Models\SDLCphase::orderBy('OrderSeq')->pluck('Phase');
-        $developers = \App\Models\Employee::orderBy('Emp_Name')->pluck('Emp_Name');
+        $sdlcPhasesList = SDLCphase::orderBy('OrderSeq')->pluck('Phase');
+        
+        // Assuming 'Developed_By' stores vendor names as strings
+        $developers = InternalPlatform::where('EndUserType', '!=', 'SLT Employees')
+                        ->whereNotNull('Developed_By')
+                        ->where('Developed_By', '!=', '')
+                        ->pluck('Developed_By')
+                        ->unique()
+                        ->sort();
 
         return view('livewire.consumer-platforms-table', [
             'platforms' => $platforms,
