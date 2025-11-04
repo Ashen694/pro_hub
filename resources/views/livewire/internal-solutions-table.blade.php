@@ -142,6 +142,16 @@
         border-bottom-right-radius: 8px;
     }
 
+    /* Style for Retired rows*/
+    .tr-retired td:first-child ~ td {
+        background-color:rgb(252, 251, 194) !important; /* Light Yellow */
+    }
+
+    /* Style for Abandoned rows */
+    .tr-abandoned td:first-child ~ td {
+        background-color:rgb(204, 250, 248) !important; /* Light Blue */
+    }
+
 
     </style>
     @endpush
@@ -273,7 +283,7 @@
                 @forelse ($solutions as $solution)
                 <tr 
                     wire:key="{{ $solution->ID }}" 
-                    class="{{ $status == 'retired' ? 'tr-retired' : '' }} {{ $status == 'abandoned' ? 'tr-abandoned' : '' }}">
+                    class="{{ $solution->SDLCPhase == 'Retired' ? 'tr-retired' : '' }} {{ $solution->SDLCPhase == 'Abandoned' ? 'tr-abandoned' : '' }}">
 
                     @if($status == 'abandoned')
                         <td><strong>{{ $solution->App_Name }}</strong></td>
