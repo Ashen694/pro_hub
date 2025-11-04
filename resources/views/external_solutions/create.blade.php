@@ -29,12 +29,16 @@
 
                     <div class="mb-3">
                         <label class="form-label">Company/Customer</label>
-                        <input type="text" name="company_customer" value="{{ old('company_customer') }}" class="form-control">
+                        <select name="company_customer" class="form-control">
+                            <option value="">Please select</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Developed By</label>
-                        <input type="text" name="developed_by" value="{{ old('developed_by') }}" class="form-control">
+                        <select name="developed_by" class="form-control">
+                            <option value="">Please select</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -56,9 +60,9 @@
                         <label class="form-label">SDLC Stage</label>
                         <select name="sdlc_stage" class="form-control">
                             <option value="">Please select</option>
-                            <option value="Proposal/Preparation" {{ old('sdlc_stage', old('dplo_stage'))=='Proposal/Preparation' ? 'selected' : '' }}>Proposal/Preparation</option>
-                            <option value="Requirement Gathering" {{ old('sdlc_stage', old('dplo_stage'))=='Requirement Gathering' ? 'selected' : '' }}>Requirement Gathering</option>
-                            <option value="Development" {{ old('sdlc_stage', old('dplo_stage'))=='Development' ? 'selected' : '' }}>Development</option>
+                            <option value="Proposal Preparation">Proposal Preparation</option>
+                            <option value="Requirement Gathering">Requirement Gathering</option>
+                            <option value="Development">Development</option>
                         </select>
                     </div>
 
@@ -68,21 +72,18 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Bitbucket Repository Name</label>
+                        <label class="form-label">BitBucket Repository Name</label>
                         <input type="text" name="bitbucket_repository_name" value="{{ old('bitbucket_repository_name') }}" class="form-control">
                     </div>
 
-                </div>
-
-                <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Sales Team Involved</label>
                         <select name="sales_team_involved" class="form-control">
                             <option value="">Please select</option>
-                            <option value="Government Business" {{ old('sales_team_involved')=='Government Business' ? 'selected' : '' }}>Government Business</option>
-                            <option value="Enterprise Business" {{ old('sales_team_involved')=='Enterprise Business' ? 'selected' : '' }}>Enterprise Business</option>
-                            <option value="Carrier Business" {{ old('sales_team_involved')=='Carrier Business' ? 'selected' : '' }}>Carrier Business</option>
-                            <option value="Region Business" {{ old('sales_team_involved')=='Region Business' ? 'selected' : '' }}>Region Business</option>
+                            <option value="Government Business">Government Business</option>
+                            <option value="Enterprise Business">Enterprise Business</option>
+                            <option value="Carrier Business">Carrier Business</option>
+                            <option value="Region Business">Region Business</option>
                         </select>
                     </div>
 
@@ -91,6 +92,9 @@
                         <input type="text" name="sales_account_manager" value="{{ old('sales_account_manager') }}" class="form-control">
                     </div>
 
+                </div>
+
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Sales Manager</label>
                         <input type="text" name="sales_manager" value="{{ old('sales_manager') }}" class="form-control">
@@ -135,9 +139,9 @@
                         <label class="form-label">Support Availability</label>
                         <select name="support_availability" class="form-control">
                             <option value="">Please select</option>
-                            <option value="24x7" {{ old('support_availability')=='24x7' ? 'selected' : '' }}>24x7</option>
-                            <option value="24x5" {{ old('support_availability')=='24x5' ? 'selected' : '' }}>24x5</option>
-                            <option value="8x5" {{ old('support_availability')=='8x5' ? 'selected' : '' }}>8x5</option>
+                            <option value="24x7">24x7</option>
+                            <option value="24x5">24x5</option>
+                            <option value="8x5">8x5</option>
                         </select>
                     </div>
 
