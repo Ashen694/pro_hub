@@ -14,156 +14,156 @@
     <link href="{{ asset('tabler/libs/litepicker/dist/litepicker.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.css" rel="stylesheet">
     <style>
-  body {
+      body {
 
-    font-family: "Inter", sans-serif;
-  }
+        font-family: "Inter", sans-serif;
+      }
 
-  /* 🔹 Top Header (Logo + User Info) */
-  .navbar:first-of-type {
-    background: linear-gradient(90deg, #007C4B 0%, #0057FF 100%);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border-bottom: none;
-    padding: 0.8rem 0;
-  }
+      /* 🔹 Top Header (Logo + User Info) */
+      .navbar:first-of-type {
+        background: linear-gradient(90deg, #007C4B 0%, #0057FF 100%);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border-bottom: none;
+        padding: 0.8rem 0;
+      }
 
-  .navbar-brand a {
-    color: #fff;
-    font-weight: 700;
-    font-size: 22px;
-    letter-spacing: 1px;
-    text-decoration: none;
-  }
+      .navbar-brand a {
+        color: #fff;
+        font-weight: 700;
+        font-size: 22px;
+        letter-spacing: 1px;
+        text-decoration: none;
+      }
 
-  .navbar-brand a:hover {
-    color: #e0e0e0;
-  }
+      .navbar-brand a:hover {
+        color: #e0e0e0;
+      }
 
-  .avatar {
-    background: linear-gradient(135deg, #007C4B, #0057FF);
-    color: #fff;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+      .avatar {
+        background: linear-gradient(135deg, #007C4B, #0057FF);
+        color: #fff;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-  .nav-link.text-reset {
-    color: #fff !important;
-  }
+      .nav-link.text-reset {
+        color: #fff !important;
+      }
 
-  .nav-link.text-reset:hover {
-    color: #d1eaff !important;
-  }
+      .nav-link.text-reset:hover {
+        color: #d1eaff !important;
+      }
 
-  /* 🔹 Second Row (Navigation Bar) */
-  .navbar-expand-md .navbar-light {
-    background: #102046; /* darker blue for contrast */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  }
+      /* 🔹 Second Row (Navigation Bar) */
+      .navbar-expand-md .navbar-light {
+        background: #102046; /* darker blue for contrast */
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      }
 
-  .nav-link {
-    color: #e6e6e6 !important;
-    font-weight: 500;
-    padding: 10px 18px;
-    transition: 0.3s;
-  }
+      .nav-link {
+        color: #e6e6e6 !important;
+        font-weight: 500;
+        padding: 10px 18px;
+        transition: 0.3s;
+      }
 
-  .nav-link:hover, .nav-link.active {
-    color: #fff !important;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-  }
+      .nav-link:hover, .nav-link.active {
+        color: #fff !important;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+      }
 
-  /* 🔹 Dropdown styling */
-  .dropdown-menu {
-    background-color: #0E1C3C;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-  }
+      /* 🔹 Dropdown styling */
+      .dropdown-menu {
+        background-color: #0E1C3C;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+      }
 
-  .dropdown-item {
-    color: #e6e6e6;
-    transition: 0.2s;
-  }
+      .dropdown-item {
+        color: #e6e6e6;
+        transition: 0.2s;
+      }
 
-  .dropdown-item:hover {
-    background-color: rgba(0, 87, 255, 0.2);
-    color: #fff;
-  }
+      .dropdown-item:hover {
+        background-color: rgba(0, 87, 255, 0.2);
+        color: #fff;
+      }
 
-  /* 🔹 Page title area */
-  .page-header {
-    background: radial-gradient(circle at top left, rgba(0, 124, 75, 0.25), rgba(0, 87, 255, 0.15));
-    border-radius: 12px;
-    padding: 24px;
-    margin-top: 16px;
-  }
+      /* 🔹 Page title area */
+      .page-header {
+        background: radial-gradient(circle at top left, rgba(0, 124, 75, 0.25), rgba(0, 87, 255, 0.15));
+        border-radius: 12px;
+        padding: 24px;
+        margin-top: 16px;
+      }
 
-  .page-title {
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 26px;
-  }
+      .page-title {
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 26px;
+      }
 
-  /* 🔹 Footer */
-  .footer {
-    background: #0C1631;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    color: #bfbfbf;
-  }
+      /* 🔹 Footer */
+      .footer {
+        background: #0C1631;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        color: #bfbfbf;
+      }
 
-  .footer a {
-    color: #1E90FF;
-    text-decoration: none;
-  }
+      .footer a {
+        color: #1E90FF;
+        text-decoration: none;
+      }
 
-  .footer a:hover {
-    color: #66b3ff;
-  }
+      .footer a:hover {
+        color: #66b3ff;
+      }
 
-  .colorful-avatar {
-  background: conic-gradient(from 180deg, #007C4B, #00C2FF, #007C4B);
-  color: #fff;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(0,0,0,0.2);
-}
+      .colorful-avatar {
+      background: conic-gradient(from 180deg, #007C4B, #00C2FF, #007C4B);
+      color: #fff;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      }
 
-    :root{
-        --slt-primary:#2258a7; --slt-primary-600:#1c4b8f; --slt-primary-700:#163e77;
-        --slt-info:#46b6ef; --slt-accent:#5fb545;
-        --slt-white:#ffffff; --slt-ink:#0c1b2a; --slt-muted:#6b7a8a;
-        --slt-border:#e6eef8; --slt-focus:0 0 0 .25rem rgba(34,88,167,.25);
-        --slt-radius-lg:16px; --slt-radius-md:12px;
-    }
+        :root{
+            --slt-primary:#2258a7; --slt-primary-600:#1c4b8f; --slt-primary-700:#163e77;
+            --slt-info:#46b6ef; --slt-accent:#5fb545;
+            --slt-white:#ffffff; --slt-ink:#0c1b2a; --slt-muted:#6b7a8a;
+            --slt-border:#e6eef8; --slt-focus:0 0 0 .25rem rgba(34,88,167,.25);
+            --slt-radius-lg:16px; --slt-radius-md:12px;
+        }
 
-    #particleCanvas {
-        position: fixed; 
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1; 
-        background-color: var(--slt-ink); 
-        pointer-events: none;
-    }
+        #particleCanvas {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+            background-color: var(--slt-ink); 
+            pointer-events: none;
+        }
 
-    .page {
-        background-color: transparent; 
-        position: relative; 
-        /* z-index: 1;  */
-    }
-    
+        .page {
+            background-color: transparent; 
+            position: relative; 
+            /* z-index: 1;  */
+        }
+      
 
-</style>
+    </style>
 
     @stack('styles')
   </head>
@@ -252,7 +252,7 @@
                         <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'retired']) }}">External Solutions - Retired</a>
                         <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'abandoned']) }}">External Solutions - Abandoned</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Internal Solutions - Backup Matrix</a>
+                        <a class="dropdown-item" href="{{ route('internal-solutions.backup-matrix.export') }}">Internal Solutions - Backup Matrix</a>
                         <a class="dropdown-item" href="#">External Solutions - Backup Matrix</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">External Solutions - Projected Revenue</a>
@@ -427,6 +427,9 @@
     <!-- datepicker -->
     <script src="{{ asset('tabler/libs/litepicker/dist/litepicker.js') }}" defer></script>
 
+    <!--  Tom Select JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+    
     @stack('scripts')
      <script>
         // Particles Background

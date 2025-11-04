@@ -4,10 +4,27 @@
 
 @push('styles')
 <style>
-    /* Style for fields that can be disabled */
-    .disabled-field {
-        background-color: #f8f9fa; /* Light grey background */
-        cursor: not-allowed;      /* Disabled cursor icon */
+    #parent-app-wrapper {
+        position: relative;
+    }
+
+    .disabled-overlay {
+        display: none; 
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10; 
+        cursor: not-allowed; 
+    }
+
+    #parent-app-wrapper.field-is-disabled .disabled-overlay {
+        display: block; 
+    }
+
+    #parent-app-wrapper.field-is-disabled .ts-control {
+         background-color: #f8f9fa !important;
     }
 </style>
 @endpush
@@ -35,7 +52,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label required">Application Group</label>
-                        <select class="form-select" name="application_group">
+                        <select class="form-select" name="application_group" id="select-app-group">
                             <option value="" selected disabled>Please select</option>
                             @foreach($applicationGroups as $group)
                                 <option value="{{ $group->ParentProjectID }}">{{ $group->ParentProjectGroup }}</option>
@@ -104,14 +121,17 @@
 
                 {{-- Right Column (12 fields) --}}
                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Main (Parent) Application</label>
-                        <select class="form-select" name="parent_application" id="parent_application" disabled>
-                            <option value="" selected disabled>Please select</option>
-                            @foreach($mainApplications as $app)
-                                <option value="{{ $app->ID }}" data-group="{{ $app->ParentProjectID }}">{{ $app->App_Name }}</option>
-                            @endforeach
-                        </select>
+                    <div id="parent-app-wrapper">
+                        <div class="mb-3">
+                            <label class="form-label">Main (Parent) Application</label>
+                            <select class="form-select" name="parent_application" id="parent_application" disabled>
+                                <option value="" selected disabled>Please select</option>
+                                @foreach($mainApplications as $app)
+                                    <option value="{{ $app->ID }}" data-group="{{ $app->ParentProjectID }}">{{ $app->App_Name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="disabled-overlay"></div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label required">Application Name</label>
@@ -180,6 +200,17 @@
 @push('scripts')
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // --- Tom Select Initialization ---
+    const tomSelectAppGroup = new TomSelect('#select-app-group',{
+		create: false,
+		sortField: { field: "text", direction: "asc" }
+	});
+    const tomSelectParentApp = new TomSelect('#parent_application',{
+		create: false,
+		sortField: { field: "text", direction: "asc" }
+	});
+
+    // --- Litepicker Initialization ---
     const datepickerConfig = {
         buttonText: {
             previousMonth: `<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="15 6 9 12 15 18" /></svg>`,
@@ -187,7 +218,6 @@
         },
         format: 'YYYY-MM-DD'
     };
-
     const dateInputIds = ['start_date', 'target_date', 'uat_date', 'va_date', 'launched_date'];
     dateInputIds.forEach(id => { 
         if(document.getElementById(id)) {
@@ -195,18 +225,19 @@
         }
     });
     
+    // --- Main Logic ---
     const applicationCategorySelect = document.querySelector('select[name="application_category"]');
     const parentApplicationSelect = document.getElementById('parent_application');
-    const applicationGroupSelect = document.querySelector('select[name="application_group"]');
+    const parentAppWrapper = document.getElementById('parent-app-wrapper'); // Get our new wrapper
 
     function toggleParentApplicationField() {
         if (applicationCategorySelect.value === 'Change Request') {
-            parentApplicationSelect.disabled = false;
-            parentApplicationSelect.classList.remove('disabled-field');
+            tomSelectParentApp.enable();
+            parentAppWrapper.classList.remove('field-is-disabled');
         } else {
-            parentApplicationSelect.disabled = true;
-            parentApplicationSelect.classList.add('disabled-field');
-            parentApplicationSelect.value = '';
+            tomSelectParentApp.disable();
+            tomSelectParentApp.clear();
+            parentAppWrapper.classList.add('field-is-disabled');
         }
     }
 
@@ -214,13 +245,15 @@
     
     parentApplicationSelect.addEventListener('change', function() {
         const selectedOption = this.options[this.selectedIndex];
-        const group = selectedOption.getAttribute('data-group');
-        
-        if (group) {
-            applicationGroupSelect.value = group;
+        if (selectedOption && selectedOption.value) { 
+            const group = selectedOption.getAttribute('data-group');
+            if (group) {
+                tomSelectAppGroup.setValue(group);
+            }
         }
     });
 
+    // Run on page load
     toggleParentApplicationField();
   });
 </script>

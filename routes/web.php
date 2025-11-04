@@ -58,7 +58,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/consumer-service-platforms', [ConsumerServicePlatformController::class, 'index'])->name('consumer-service.index');
 
     Route::get('/internal-solutions/yearly-contribution/{year}', [InternalSolutionController::class, 'yearlyContributionDetails'])->name('internal-solutions.yearly-contribution.details');
-
+    // --- Backup matrix export ---
+    Route::get('/internal-solutions/backup-matrix/export', [InternalSolutionController::class, 'exportBackupMatrix'])->name('internal-solutions.backup-matrix.export');
+  
     // --- My Work ---
     Route::prefix('my-work')->name('my-work.')->group(function () {
 
