@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\InternalSolutionsExport;
+use App\Exports\InternalBackupMatrixExport; 
 
 use Carbon\Carbon;
 
@@ -353,6 +354,11 @@ class InternalSolutionController extends Controller
     {
         
         return Excel::download(new InternalSolutionsExport, 'internal-solutions-all.xlsx');
+    }
+
+    public function exportBackupMatrix()
+    {
+        return Excel::download(new InternalBackupMatrixExport, 'internal-solutions-backup-matrix.xlsx');
     }
 
 }

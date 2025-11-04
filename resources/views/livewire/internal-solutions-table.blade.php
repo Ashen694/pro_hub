@@ -106,30 +106,41 @@
             background-color: #ffe8cc;
         } 
         
-        .card, .table-responsive, .table {
-        border-radius: 12px !important;
-        overflow: hidden;
-        }
+         /* --- CORRECTED STYLES FOR SCROLLING TABLE --- */
 
-        .table {
-            border-collapse: separate;
-            border-spacing: 0;
-            background-color: #fff;
-        }
+    /* Rule 1: Keep the main card rounded and hide anything that pokes out of IT */
+    .card {
+      border-radius: 12px !important;
+      overflow: hidden;
+    }
+    
+    /* Rule 2: THIS IS THE FIX. Allow the .table-responsive div to scroll horizontally */
+    .table-responsive {
+      overflow-x: auto !important;
+    }
 
-        .table td, .table th {
-            border: 1px solid #f0f0f0;
-        }
+    /* Rule 3: Make the table have its own full width */
+    .table {
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: max-content;   
+    }
 
-        /* Optional row rounding for smoother edges */
-        .table tbody tr td:first-child {
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-        }
-        .table tbody tr td:last-child {
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
+    /* Rule 4: Style the individual cells */
+    .table td, .table th {
+        background-color: #fff;  
+        border: 1px solid #f0f0f0;
+    }
+
+    /* Rule 5: Keep the rounded corners on the first and last cells of each row */
+    .table tbody tr td:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+    .table tbody tr td:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
 
 
     </style>
