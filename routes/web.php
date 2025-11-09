@@ -125,6 +125,10 @@ Route::middleware('auth')->group(function () {
         });
 
 
+        // --- OverTime Data Routes ---
+        Route::resource('overtime', \App\Http\Controllers\OverTimeDataController::class)
+            ->names('project-activities.overtime');
+
      // --- Freelancers Routes ---
         Route::prefix('freelancers')->name('freelancers.')->group(function () {
         Route::get('/all', [App\Http\Controllers\FreelancerController::class, 'allFreelancers'])->name('all');
