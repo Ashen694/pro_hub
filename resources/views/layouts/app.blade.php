@@ -338,7 +338,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#">Internal Solutions Activities</a>
                         <a class="dropdown-item" href="#">External Solutions Activities</a>
-                        <a class="dropdown-item" href="#">OverTime Data</a>
+                        <a class="dropdown-item" href="{{ route('project-activities.overtime.index') }}">OverTime Data</a>
                     </div>
                 </li>
 
