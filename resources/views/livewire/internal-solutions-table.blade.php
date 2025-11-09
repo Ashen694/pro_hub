@@ -378,16 +378,41 @@
     {{-- PAGINATION AND MODALS --}}
     <div class="card-footer d-flex align-items-center"><a href="{{ route('internal-solutions.export') }}" class="btn btn-outline-primary">Export All Details to Excel</a><div class="ms-auto">{{ $solutions->links() }}</div></div>
     @foreach($solutions as $solution)
+        {{-- DELETE MODAL --}}
         <div class="modal modal-blur fade" id="delete-modal-{{ $solution->ID }}" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="modal-status bg-danger"></div>
-                    <div class="modal-body text-center py-4"><svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" /></svg><h3>Are you sure?</h3><div class="text-muted">Do you really want to delete <strong>{{ $solution->App_Name }}</strong>?</div></div>
-                    <div class="modal-footer"><div class="w-100"><div class="row">
-                        <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">Cancel</a></div>
-                        <div class="col"><button type="button" class="btn btn-danger w-100" wire:click="delete({{ $solution->ID }})" data-bs-dismiss="modal">Delete</button></div>
-                    </div></div></div>
+                    <div class="modal-header" style="background-color: #d12f34; color: white;">
+                        <h5 class="modal-title">Delete Record</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body py-4">
+                        <div class="p-3 mb-4" style="border: 1px solid #f5c2c7; border-left: 5px solid #d12f34; border-radius: 4px;">
+                            <strong style="color: #d12f34;">Confirm Deletion</strong>
+                            <div>This action cannot be undone.</div>
+                        </div>
+
+                        <p>Are you sure you want to permanently delete the following record?</p>
+
+                        <div class="border rounded p-3" style="background-color: #f8f9fa;">
+                            <div class="row mb-2">
+                               <div class="col-4"><strong>Application Name:</strong></div>
+                               <div class="col-8">{{ $solution->App_Name }}</div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-4"><strong>Developed By:</strong></div>
+                               <div class="col-8">{{ $solution->Developed_By }}</div>
+                            </div>
+                             <div class="row">
+                               <div class="col-4"><strong>SDLC Phase:</strong></div>
+                               <div class="col-8">{{ $solution->SDLCPhase }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" wire:click="delete({{ $solution->ID }})" data-bs-dismiss="modal">Yes, Delete This Record</button>
+                    </div>
                 </div>
             </div>
         </div>
