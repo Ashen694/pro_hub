@@ -12,6 +12,7 @@ use App\Http\Controllers\ExternalSolutionController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\MyWork\WeeklyPlanController;
 use App\Http\Controllers\IssueReportController;
+use App\Http\Controllers\ProjectActivityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,9 +126,30 @@ Route::middleware('auth')->group(function () {
         });
 
 
-        // --- OverTime Data Routes ---
-        Route::resource('overtime', \App\Http\Controllers\OverTimeDataController::class)
-            ->names('project-activities.overtime');
+ // --- Project Activities Routes ---
+        Route::prefix('project-activities')->name('project-activities.')->middleware('auth')->group(function () {
+        Route::resource('overtime', \App\Http\Controllers\OverTimeDataController::class);
+        Route::get('/{type}', [ProjectActivityController::class, 'index'])
+            ->where('type', 'internal|external')->name('index');
+        
+        Route::get('/{type}/create', [ProjectActivityController::class, 'create'])
+            ->where('type', 'internal|external')->name('create');
+            
+        Route::post('/{type}', [ProjectActivityController::class, 'store'])
+            ->where('type', 'internal|external')->name('store');
+
+            // Route for getting activity details (for the view modal)
+        Route::get('/{activity}/show', [ProjectActivityController::class, 'show'])->name('show');
+    
+            // Route for deleting an activity
+        Route::delete('/{activity}', [ProjectActivityController::class, 'destroy'])->name('destroy');    
+         // Route to show the edit form
+        Route::get('/{activity}/edit', [ProjectActivityController::class, 'edit'])->name('edit');
+    
+         // Route to handle the update submission
+        Route::put('/{activity}', [ProjectActivityController::class, 'update'])->name('update');
+        
+    });
 
      // --- Freelancers Routes ---
         Route::prefix('freelancers')->name('freelancers.')->group(function () {
