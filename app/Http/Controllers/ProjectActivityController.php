@@ -129,7 +129,7 @@ class ProjectActivityController extends Controller
             'assigned_to' => $activity->assignee->Emp_Name ?? 'N/A',
             'target_date' => \Carbon\Carbon::parse($activity->Target_Date)->format('Y-m-d'),
             'status' => $activity->Status,
-            'updated_by' => $activity->updater->Emp_Name ?? 'Not updated yet',
+            'updated_by' => $activity->updater->name ?? 'Not updated yet',
             'updated_date' => $activity->Updated_Date ? \Carbon\Carbon::parse($activity->Updated_Date)->format('Y-m-d h:i A') : 'Not updated yet',
         ];
 
