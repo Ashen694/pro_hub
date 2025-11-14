@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ExternalPlatform as ExternalSolution;  
+use App\Models\ExternalPlatform as ExternalSolution;
+use App\Models\Company;
 use Illuminate\Validation\Rule;
 
 class ExternalSolutionController extends Controller
@@ -84,7 +85,9 @@ class ExternalSolutionController extends Controller
     public function create()
     {
         $title = 'Add New External Solution';
-        return view('external_solutions.create', compact('title'));
+        // Load companies from reference data so the Company/Customer select is populated
+        $companies = Company::orderBy('name')->get();
+        return view('external_solutions.create', compact('title', 'companies'));
     }
 
     public function store(Request $request)

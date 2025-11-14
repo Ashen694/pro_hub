@@ -29,8 +29,11 @@
 
                     <div class="mb-3">
                         <label class="form-label">Company/Customer</label>
-                        <select name="company_customer" class="form-control">
+                        <select name="company_id" class="form-control">
                             <option value="">Please select</option>
+                            @foreach($companies ?? [] as $company)
+                                <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
