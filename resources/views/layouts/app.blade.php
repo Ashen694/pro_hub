@@ -336,8 +336,8 @@
                         </span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Internal Solutions Activities</a>
-                        <a class="dropdown-item" href="#">External Solutions Activities</a>
+                        <a class="dropdown-item" href="{{ route('project-activities.index', ['type' => 'internal']) }}">Internal Solutions Activities</a>
+                        <a class="dropdown-item" href="{{ route('project-activities.index', ['type' => 'external']) }}">External Solutions Activities</a>
                         <a class="dropdown-item" href="{{ route('project-activities.overtime.index') }}">OverTime Data</a>
                     </div>
                 </li>
