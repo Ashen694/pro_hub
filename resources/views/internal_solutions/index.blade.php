@@ -2,23 +2,28 @@
 
 @section('page-title', $title)
 
+{{-- Add this section to make the main container wider --}}
+@push('styles')
+<style>
+    /* 
+      This targets the main content container of the page layout.
+      We are increasing its max-width to 90% of the viewport width.
+      The !important rule ensures it overrides the default Bootstrap styles.
+    */
+    .container-xl {
+        max-width: 90% !important;
+    }
+</style>
+@endpush
+
+
 @section('content')
 
+{{-- We remove the container-fluid from the previous attempt --}}
 <div class="card">
-    <div class="card-header">
-        <h3 class="card-title">{{ $title }}</h3>
-        
-        @if($status == 'operational' || $status == 'in-progress' || $status == 'recently-launched')
-            <div class="card-options">
-                <a href="{{ route('internal-solutions.create') }}" class="btn btn-primary">Create New</a>
-            </div>
-        @endif
-
-    </div>
-
-    @livewire('internal-solutions-table', ['status' => $status])
-    
+    @livewire('internal-solutions-table', ['status' => $status])    
 </div>
+
 @endsection
 
 @push('scripts')
