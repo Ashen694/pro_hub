@@ -16,77 +16,77 @@
     <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.css" rel="stylesheet">
     <style>
-  body {
-    font-family: "Inter", sans-serif;
-    background: url("{{ asset('images/bg-img2.jpg') }}") no-repeat center center fixed;
-    background-size: cover;
-  }
+      body {
+        font-family: "Inter", sans-serif;
+        background: url("{{ asset('images/bg-img2.jpg') }}") no-repeat center center fixed;
+        background-size: cover;
+      }
 
-  .navbar.navbar-expand-md {
-    background: linear-gradient(90deg, #007C4B 0%, #0057FF 100%);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
+      .navbar.navbar-expand-md {
+        background: linear-gradient(90deg, #007C4B 0%, #0057FF 100%);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
 
-  .navbar-collapse { flex-grow: 1; justify-content: center; }
+      .navbar-collapse { flex-grow: 1; justify-content: center; }
 
-  .avatar {
-    background: linear-gradient(135deg, #007C4B, #0057FF);
-    color: #fff;
-    font-weight: bold;
-    display: flex; align-items: center; justify-content: center;
-  }
+      .avatar {
+        background: linear-gradient(135deg, #007C4B, #0057FF);
+        color: #fff;
+        font-weight: bold;
+        display: flex; align-items: center; justify-content: center;
+      }
 
-  .navbar-nav .nav-link { color: #e6e6e6 !important; font-weight: 500;
-      padding: 10px 18px; transition: 0.3s; }
+      .navbar-nav .nav-link { color: #e6e6e6 !important; font-weight: 500;
+          padding: 10px 18px; transition: 0.3s; }
 
-  .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
-      color: #fff !important;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-  }
+      .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+          color: #fff !important;
+          background-color: rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+      }
 
-  .navbar-nav .nav-link.text-reset { color: #fff !important; }
+      .navbar-nav .nav-link.text-reset { color: #fff !important; }
 
-  .navbar-nav .nav-link.text-reset:hover { color: #d1eaff !important; }
+      .navbar-nav .nav-link.text-reset:hover { color: #d1eaff !important; }
 
-  .dropdown-menu {
-      background-color: #0E1C3C;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-  }
+      .dropdown-menu {
+          background-color: #0E1C3C;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 10px;
+      }
 
-  .dropdown-item {
-      color: #e6e6e6;
-      transition: 0.2s;
-      display: flex; align-items: center;
-  }
+      .dropdown-item {
+          color: #e6e6e6;
+          transition: 0.2s;
+          display: flex; align-items: center;
+      }
 
-  .dropdown-item:hover {
-      background-color: rgba(0, 87, 255, 0.2); color: #fff;
-  }
+      .dropdown-item:hover {
+          background-color: rgba(0, 87, 255, 0.2); color: #fff;
+      }
 
-  .page-header {
-      background: rgba(0, 0, 0, 0.35);
-      border-radius: 12px; padding: 24px; margin-top: 16px;
-  }
+      .page-header {
+          background: rgba(0, 0, 0, 0.35);
+          border-radius: 12px; padding: 24px; margin-top: 16px;
+      }
 
-  .page-title { color: #fff; font-weight: 700; font-size: 26px; }
+      .page-title { color: #fff; font-weight: 700; font-size: 26px; }
 
-  .footer {
-      background: rgba(0, 0, 0, 0.4);
-      border-top: 1px solid rgba(255,255,255,0.1);
-      color: #bfbfbf;
-  }
+      .footer {
+          background: rgba(0, 0, 0, 0.4);
+          border-top: 1px solid rgba(255,255,255,0.1);
+          color: #bfbfbf;
+      }
 
-  .footer a { color: #1E90FF; text-decoration: none; }
-  .footer a:hover { color: #66b3ff; }
-</style>
-
-
+      .footer a { color: #1E90FF; text-decoration: none; }
+      .footer a:hover { color: #66b3ff; }
+    </style>
     @stack('styles')
   </head>
-  <body >
+  <body>
+
+  
     <div class="page">
       <!-- Combined Navbar -->
       <header class="navbar navbar-expand-md navbar-light d-print-none">
@@ -95,16 +95,13 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           
-          
           <!-- Navigation Links -->
           <div class="collapse navbar-collapse" id="navbar-menu">
               <ul class="navbar-nav">
                 <!-- Home/Dashboard Link -->
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('dashboard') }}" >
-                        <span class="nav-link-title">
-                        Dashboard
-                        </span>
+                        <span class="nav-link-title">Dashboard</span>
                     </a>
                 </li>
 
@@ -136,16 +133,18 @@
                 </li>
 
                 <!-- My Work Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-work" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-                        <span class="nav-link-title">My Work</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('my-work.weekly.update') }}"><i class="ti ti-edit me-2"></i>Update Weekly Plan</a>
-                        <a class="dropdown-item" href="{{ route('my-work.weekly.report') }}"><i class="ti ti-file-analytics me-2"></i>Weekly Plan - Report</a>
-                        <a class="dropdown-item" href="{{ route('my-work.backup-matrix') }}"><i class="ti ti-database-cog me-2"></i>My Applications - Backup Matrix</a>
-                    </div>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#navbar-work" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                            <span class="nav-link-title">My Work</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('my-work.weekly.update') }}"><i class="ti ti-edit me-2"></i>Update Weekly Plan</a>
+                            <a class="dropdown-item" href="{{ route('my-work.weekly.report') }}"><i class="ti ti-file-analytics me-2"></i>Weekly Plan - Report</a>
+                            <a class="dropdown-item" href="{{ route('my-work.backup-matrix') }}"><i class="ti ti-database-cog me-2"></i>My Applications - Backup Matrix</a>
+                        </div>
+                    </li>
+      
+
 
                 <!-- Report Incidents Dropdown -->
                 <li class="nav-item dropdown">
@@ -243,12 +242,11 @@
                             $initials .= strtoupper(substr($words[count($words) - 1], 0, 1));
                         }
                     @endphp
-
                     <span class="avatar avatar-sm colorful-avatar">{{ $initials }}</span>
-
                     <div class="d-none d-xl-block ps-2">
                         <div>{{ Auth::user()->name }}</div>
-                        <div class="mt-1 small text-muted">Admin</div>
+                        {{-- User's role will be shown here dynamically --}}
+                        <div class="mt-1 small text-muted">{{ Auth::user()->role ?? 'User' }}</div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
