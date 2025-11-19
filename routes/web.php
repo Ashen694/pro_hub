@@ -14,6 +14,7 @@ use App\Http\Controllers\MyWork\WeeklyPlanController;
 use App\Http\Controllers\IssueReportController;
 use App\Http\Controllers\ProjectActivityController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\AzureAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -217,5 +218,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/internal-solutions/{solution}', [InternalSolutionController::class, 'destroy'])->name('internal-solutions.destroy');
 });
 
-// Authentication routes (login, logout, etc.)
+// Azure SSO Routes
+Route::get('/login/azure', [AzureAuthController::class, 'redirect'])->name('azure.redirect');
+Route::get('/login/azure/callback', [AzureAuthController::class, 'callback'])->name('azure.callback');
+
 require __DIR__.'/auth.php';
