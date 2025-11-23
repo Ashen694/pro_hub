@@ -152,6 +152,9 @@
         background-color:rgb(204, 250, 248) !important; /* Light Blue */
     }
 
+     
+
+
 
     </style>
     @endpush
@@ -178,50 +181,100 @@
 
   
     {{-- FILTER SECTION --}}
-    {{-- FILTER SECTION --}}
 <div class="card-body border-bottom py-3">
-    <div class="d-flex align-items-center">
+    
+    <!-- Parent Container -->
+    <!-- Mobile: flex-column (Items stacked vertically) -->
+    <!-- Desktop (md): flex-row (Items side-by-side) + justify-content-between (Push Left & Right apart) -->
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
 
-        @if(in_array($status, ['retired', 'abandoned']))
-            <div class="btn-group me-auto" role="group"> 
-                {{-- Note: 'me-auto' pushes the advanced filter button to the right --}}
-                <a href="{{ route('internal-solutions.index', ['status' => 'abandoned']) }}" class="btn {{ $status == 'abandoned' ? 'btn-primary' : 'btn-outline-secondary' }}">Abandoned</a>
-                <a href="{{ route('internal-solutions.index', ['status' => 'retired']) }}" class="btn {{ $status == 'retired' ? 'btn-primary' : 'btn-outline-secondary' }}">Retired</a>
+        {{-- LEFT SIDE: Operational / Status Buttons --}}
+        <!-- Mobile: w-100 + justify-content-center (Center align) -->
+        <!-- Desktop: w-md-auto + justify-content-md-start (Left align) -->
+        <div class="d-flex w-100 w-md-auto justify-content-center justify-content-md-start">
+            
+            @if(in_array($status, ['retired', 'abandoned']))
+                <div class="btn-group" role="group">
+                    <a href="{{ route('internal-solutions.index', ['status' => 'abandoned']) }}" 
+                       class="btn {{ $status == 'abandoned' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                       Abandoned
+                    </a>
+                    <a href="{{ route('internal-solutions.index', ['status' => 'retired']) }}" 
+                       class="btn {{ $status == 'retired' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                       Retired
+                    </a>
+                </div>
+            @endif
+
+            @if($status == 'operational')
+                <div class="btn-group" role="group">
+                    <button type="button" wire:click="toggleWithoutCrFilter(false)"
+                            class="btn {{ !$filterWithoutCr ? 'btn-primary' : 'btn-outline-secondary' }}">
+                        Operational
+                    </button>
+                    <button type="button" wire:click="toggleWithoutCrFilter(true)"
+                            class="btn {{ $filterWithoutCr ? 'btn-primary' : 'btn-outline-secondary' }}">
+                        Without CR
+                    </button>
+                </div>
+            @endif
+
+            @if($status == 'in-progress')
+                <div class="btn-group" role="group">
+                    <button type="button" wire:click="$set('filterLevel', 'level1')"
+                            class="btn {{ $filterLevel === 'level1' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                        Level 01
+                    </button>
+                    <button type="button" wire:click="$set('filterLevel', 'others')"
+                            class="btn {{ $filterLevel === 'others' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                        Others
+                    </button>
+                </div>
+            @endif
+        </div>
+
+        {{-- RIGHT SIDE: Filters & Create Buttons --}}
+        <!-- Mobile: w-100 + justify-content-center (Center align) -->
+        <!-- Desktop: w-md-auto + justify-content-md-end (Right align) -->
+        <div class="d-flex w-100 w-md-auto justify-content-center justify-content-md-end">
+            
+            {{-- DESKTOP VERSION (Visible on MD and up) --}}
+            <div class="d-none d-md-flex align-items-center gap-2">
+                @if (in_array($status, ['operational', 'in-progress', 'retired', 'abandoned']))
+                    <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#filter-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z"></path></svg>
+                        Advanced Filters
+                    </button>
+                @endif
+
+                @if($status == 'operational' || $status == 'in-progress' || $status == 'recently-launched')
+                    <a href="{{ route('internal-solutions.create') }}" class="btn btn-primary">
+                        Create New
+                    </a>
+                @endif
             </div>
-        @endif
 
-        @if($status == 'operational')
-        <div class="btn-group" role="group">
-            <button type="button" wire:click="toggleWithoutCrFilter(false)" class="btn {{ !$filterWithoutCr ? 'btn-primary' : 'btn-outline-secondary' }}">Operational</button>
-            <button type="button" wire:click="toggleWithoutCrFilter(true)" class="btn {{ $filterWithoutCr ? 'btn-primary' : 'btn-outline-secondary' }}">Operational without CR</button>
-        </div>
-        @endif
-        
-        @if($status == 'in-progress')  
-        <div class="btn-group" role="group">
-            <button type="button" wire:click="$set('filterLevel', 'level1')" class="btn {{ $filterLevel === 'level1' ? 'btn-primary' : 'btn-outline-secondary' }}">Level 01</button>
-            <button type="button" wire:click="$set('filterLevel', 'others')" class="btn {{ $filterLevel === 'others' ? 'btn-primary' : 'btn-outline-secondary' }}">Others</button>
-        </div>
-        @endif
-        
-        {{-- MODIFIED PART STARTS HERE --}}
-        <div class="ms-auto d-flex align-items-center gap-2">
-            @if (in_array($status, ['operational', 'in-progress', 'retired', 'abandoned']))
-                 <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filter-card">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z"></path></svg>
-                    Advanced Filters
-                </button>
-            @endif
+            {{-- MOBILE VERSION (Visible only on Mobile) --}}
+            <!-- Buttons are centered side-by-side with a gap -->
+            <div class="d-flex d-md-none align-items-center justify-content-center gap-2 w-100">
+                @if (in_array($status, ['operational', 'in-progress', 'retired', 'abandoned']))
+                    <button class="btn btn-outline-primary" style="min-width: 100px;" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#filter-card">
+                        Filters
+                    </button>
+                @endif
 
-            @if($status == 'operational' || $status == 'in-progress' || $status == 'recently-launched')
-                <a href="{{ route('internal-solutions.create') }}" class="btn btn-primary">Create New</a>
-            @endif
-        </div>
-        {{-- MODIFIED PART ENDS HERE --}}
+                @if($status == 'operational' || $status == 'in-progress' || $status == 'recently-launched')
+                    <a href="{{ route('internal-solutions.create') }}" class="btn btn-primary" style="min-width: 100px;">
+                        Create
+                    </a>
+                @endif
+            </div>
 
+        </div>
     </div>
 </div>
-
     {{-- The collapsible filter section --}}
     @if(in_array($status, ['operational', 'in-progress', 'recently-launched', 'retired', 'abandoned']))
     <div class="collapse {{ $status == 'recently-launched' ? 'show' : '' }}" id="filter-card" wire:ignore.self>
