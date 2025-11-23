@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\Employee;
 
 class AzureAuthController extends Controller
 {
@@ -36,6 +37,8 @@ class AzureAuthController extends Controller
         }
 
         $oid = $azureUser->getId();
+        
+        $realName = $azureUser->getName(); 
 
         $user = User::where('email', $email)->first();
 
@@ -58,6 +61,23 @@ class AzureAuthController extends Controller
             return redirect()->route('login')->withErrors([
                 'email' => 'This email is linked to another Microsoft account. Contact the Administrator.',
             ]);
+        }
+
+        if (!empty($realName)) {
+            
+            if ($user->name !== $realName) {
+                $user->name = $realName;
+                $user->save();
+            }
+
+            $employee = Employee::where('Emp_Email', $email)->first();
+            
+            if ($employee) {
+                if ($employee->Emp_Name !== $realName) {
+                    $employee->Emp_Name = $realName;
+                    $employee->save();
+                }
+            }
         }
 
         Auth::login($user, true);
