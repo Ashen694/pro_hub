@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Developer One',
                 'password' => Hash::make('dev@12345'),
-                'role' => 'developer',
+                'role' => 'Developer',
                 'is_active' => true,
             ]
         );
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Menusha',
                 'password' => Hash::make('viewer@123'),
-                'role' => 'view_only_user',
+                'role' => 'View_only_user',
                 'is_active' => true,
             ]
         );
@@ -47,9 +47,9 @@ class UserSeeder extends Seeder
         User::firstOrCreate(
             ['email' => 'inactive@prohub.lk'],
             [
-                'name' => 'Inactive User',
+                'name' => 'Kavindu',
                 'password' => Hash::make('inactive@123'),
-                'role' => 'developer',
+                'role' => 'Inactive_User',
                 'is_active' => false,  
             ]
         );
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Sanuda',
                 'password' => Hash::make('ishamp@123'),
-                'role' => 'ishamp_user',
+                'role' => 'Ishamp_user',
                 'is_active' => true,  
             ]
         );
@@ -71,7 +71,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Ranuki',
                 'password' => Hash::make('dpo@123'),
-                'role' => 'dpo_user',
+                'role' => 'Dpo_user',
                 'is_active' => true,  
             ]
         );

@@ -16,6 +16,7 @@ use App\Http\Controllers\ProjectActivityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AzureAuthController;
 use App\Http\Controllers\TraineeController;  
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -245,5 +246,14 @@ Route::middleware('auth')->group(function () {
 // Azure SSO Routes
 Route::get('/login/azure', [AzureAuthController::class, 'redirect'])->name('azure.redirect');
 Route::get('/login/azure/callback', [AzureAuthController::class, 'callback'])->name('azure.callback');
+
+// Employee Routes
+Route::prefix('employees')->name('employees.')->group(function () {
+    Route::get('/', [EmployeeController::class, 'index'])->name('index');
+    Route::post('/', [EmployeeController::class, 'store'])->name('store');
+    Route::put('/{id}', [EmployeeController::class, 'update'])->name('update');
+    Route::delete('/{id}', [EmployeeController::class, 'destroy'])->name('destroy');
+});
+
 
 require __DIR__.'/auth.php';

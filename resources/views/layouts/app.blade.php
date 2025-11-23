@@ -233,35 +233,42 @@
           </div>
           
           <!-- User Profile Section -->
-          <div class="navbar-nav flex-row order-md-last">
-             <div class="nav-item dropdown">
-                <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                    @php
-                        $name = Auth::user()->name;
-                        $words = explode(" ", $name);
-                        $initials = strtoupper(substr($words[0], 0, 1));
-                        if (count($words) > 1) {
-                            $initials .= strtoupper(substr($words[count($words) - 1], 0, 1));
-                        }
-                    @endphp
-                    <span class="avatar avatar-sm colorful-avatar">{{ $initials }}</span>
-                    <div class="d-none d-xl-block ps-2">
-                        <div>{{ Auth::user()->name }}</div>
-                        {{-- User's role will be shown here dynamically --}}
-                        <div class="mt-1 small text-muted">{{ Auth::user()->role ?? 'User' }}</div>
-                    </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <a href="{{ route('logout') }}" class="dropdown-item"
-                        onclick="event.preventDefault(); this.closest('form').submit();">
-                        <i class="ti ti-logout me-2"></i>Logout
+            <div class="navbar-nav flex-row order-md-last">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+                        @php
+                            $name = Auth::user()->name;
+                            $words = explode(" ", $name);
+                            $initials = strtoupper(substr($words[0], 0, 1));
+                            if (count($words) > 1) {
+                                $initials .= strtoupper(substr($words[count($words) - 1], 0, 1));
+                            }
+                        @endphp
+                        <span class="avatar avatar-sm colorful-avatar">{{ $initials }}</span>
+                        <div class="d-none d-xl-block ps-2">
+                            <div>{{ Auth::user()->name }}</div>
+                            <div class="mt-1 small text-muted">{{ Auth::user()->role ?? 'User' }}</div>
+                        </div>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        
+                        <a href="{{ route('employees.index') }}" class="dropdown-item">
+                            <i class="ti ti-user-plus me-2"></i> Register
                         </a>
-                    </form>
+                        
+                        <div class="dropdown-divider"></div>
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <a href="{{ route('logout') }}" class="dropdown-item"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            <i class="ti ti-logout me-2"></i>Logout
+                            </a>
+                        </form>
+                    </div>
                 </div>
             </div>
-          </div>
         </div>
       </header>
       
