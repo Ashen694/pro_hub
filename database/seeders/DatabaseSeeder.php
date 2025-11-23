@@ -32,6 +32,9 @@ class DatabaseSeeder extends Seeder
             InternalPlatformSeeder::class,
             ExternalPlatformSeeder::class,
 
+            // Trainee seeder
+            TraineeSeeder::class,
+
          
             
          

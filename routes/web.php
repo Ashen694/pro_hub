@@ -15,6 +15,7 @@ use App\Http\Controllers\IssueReportController;
 use App\Http\Controllers\ProjectActivityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AzureAuthController;
+use App\Http\Controllers\TraineeController;  
 
 /*
 |--------------------------------------------------------------------------
@@ -216,6 +217,29 @@ Route::middleware('auth')->group(function () {
 
     //  route for deleting a solution
     Route::delete('/internal-solutions/{solution}', [InternalSolutionController::class, 'destroy'])->name('internal-solutions.destroy');
+
+    // --- Trainee Routes ---
+    // Display routes
+    Route::get('/trainees/active', [TraineeController::class, 'index'])->name('trainees.active');
+    Route::get('/trainees/inactive', [TraineeController::class, 'inactive'])->name('trainees.inactive');
+    Route::get('/trainees/paid', [TraineeController::class, 'paid'])->name('trainees.paid');
+    
+    // Export routes
+    Route::get('/trainees/export/all', [TraineeController::class, 'exportAll'])->name('trainees.all.export');
+    Route::get('/trainees/active/export', [TraineeController::class, 'exportActive'])->name('trainees.active.export');
+    Route::get('/trainees/inactive/export', [TraineeController::class, 'exportInactive'])->name('trainees.inactive.export');
+    Route::get('/trainees/paid/export', [TraineeController::class, 'exportPaid'])->name('trainees.paid.export');
+    Route::get('/trainees/terminated/export', [TraineeController::class, 'exportTerminated'])->name('trainees.terminated.export');
+    
+    // CRUD API routes
+    Route::post('/trainees', [TraineeController::class, 'store'])->name('trainees.store');
+    Route::get('/trainees/{id}', [TraineeController::class, 'show'])->name('trainees.show');
+    Route::put('/trainees/{id}', [TraineeController::class, 'update'])->name('trainees.update');
+    Route::delete('/trainees/{id}', [TraineeController::class, 'destroy'])->name('trainees.destroy');
+    Route::patch('/trainees/{id}/status', [TraineeController::class, 'updateStatus'])->name('trainees.updateStatus');
+    Route::post('/trainees/update-statuses', [TraineeController::class, 'updateStatuses'])->name('trainees.updateStatuses');
+
+
 });
 
 // Azure SSO Routes

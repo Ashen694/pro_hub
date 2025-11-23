@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>@yield('title', 'Dashboard') - ProHub</title>
+
+    <link rel="preload" href="{{ asset('images/bg-img2.jpg') }}" as="image">
     <!-- CSS files -->
     <link href="{{ asset('tabler/css/tabler.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/tabler-flags.min.css') }}" rel="stylesheet"/>
@@ -201,9 +203,9 @@
                         <span class="nav-link-title">Trainees</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#"><i class="ti ti-user-check me-2"></i>Active Trainees</a>
-                        <a class="dropdown-item" href="#"><i class="ti ti-user-off me-2"></i>Inactive Trainees</a>
-                        <a class="dropdown-item" href="#"><i class="ti ti-wallet me-2"></i>Paid Trainees</a>
+                        <a class="dropdown-item" href="{{ route('trainees.active') }}">Active Trainees</a>
+                        <a class="dropdown-item" href="{{ route('trainees.inactive') }}">Inactive Trainees</a>
+                        <a class="dropdown-item" href="{{ route('trainees.paid') }}">Paid Trainees</a>
                     </div>
                 </li>
 
