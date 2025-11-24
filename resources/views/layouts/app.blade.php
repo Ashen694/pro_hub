@@ -255,11 +255,13 @@
 
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                         
-                        <a href="{{ route('employees.index') }}" class="dropdown-item">
-                            <i class="ti ti-user-plus me-2"></i> Register
-                        </a>
-                        
-                        <div class="dropdown-divider"></div>
+                        @if(Auth::user()->role == 'Administrator')
+                            <a href="{{ route('employees.index') }}" class="dropdown-item">
+                                <i class="ti ti-user-plus me-2"></i> Register
+                            </a>
+                            
+                            <div class="dropdown-divider"></div>
+                        @endif
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

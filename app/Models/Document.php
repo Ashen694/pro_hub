@@ -37,6 +37,11 @@ class Document extends Model
         return $this->belongsTo(InternalPlatform::class, 'Solution_ID');
     }
 
+    public function externalSolution()
+    {
+        return $this->belongsTo(ExternalPlatform::class, 'Solution_ID', 'platform_id');
+    }
+
     public function uploader()
     {
         return $this->belongsTo(User::class, 'Created_By');

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\ExternalPlatform;
 use Faker\Factory as Faker;
-use Illuminate\Support\Facades\DB; // මේක අලුතින් එකතු කරන්න
+use Illuminate\Support\Facades\DB;  
 
 class ExternalPlatformSeeder extends Seeder
 {

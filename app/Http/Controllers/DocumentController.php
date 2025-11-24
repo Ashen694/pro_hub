@@ -19,7 +19,7 @@ class DocumentController extends Controller
             abort(404);
         }
 
-        $query = Document::query()->with(['uploader', 'internalSolution']);
+        $query = Document::query()->with(['uploader', 'internalSolution', 'externalSolution']); 
         
         $platformId = ($type === 'internal') ? 1 : 2;
         $query->where('Platform_ID', $platformId);

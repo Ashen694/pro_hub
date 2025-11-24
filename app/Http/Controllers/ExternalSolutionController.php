@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\ExternalPlatform as ExternalSolution;
 use App\Models\Company;
 use Illuminate\Validation\Rule;
+use App\Models\Employee;
+use App\Models\SDLCphase;
 
 class ExternalSolutionController extends Controller
 {
@@ -50,7 +52,7 @@ class ExternalSolutionController extends Controller
             'percentage_done' => 'nullable|integer|min:0|max:100',
             'status' => ['required', Rule::in(['prospective', 'operational', 'retired', 'abandoned'])],
             'status_date' => 'nullable|date',
-            'company_id' => 'nullable|integer', // Assuming you have a companies table
+            'company_id' => 'nullable|integer',  
             'sales_am' => 'nullable|string|max:200',
             'sales_manager' => 'nullable|string|max:200',
             'sales_engineer' => 'nullable|string|max:200',
@@ -85,10 +87,15 @@ class ExternalSolutionController extends Controller
     public function create()
     {
         $title = 'Add New External Solution';
-        // Load companies from reference data so the Company/Customer select is populated
+        
         $companies = Company::orderBy('name')->get();
-        return view('external_solutions.create', compact('title', 'companies'));
+        $employees = Employee::orderBy('Emp_Name')->get(); 
+
+        $sdlc_stages = SDLCphase::orderBy('OrderSeq', 'asc')->get();
+
+        return view('external_solutions.create', compact('title', 'companies', 'employees', 'sdlc_stages'));
     }
+
 
     public function store(Request $request)
     {

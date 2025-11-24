@@ -20,11 +20,13 @@
 
         <form action="{{ route('external-solutions.store') }}" method="POST">
             @csrf
+            <input type="hidden" name="status" value="operational">
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Application/Platform Name</label>
-                        <input type="text" name="application_name" value="{{ old('application_name') }}" class="form-control">
+                        <input type="text" name="platform_name" value="{{ old('platform_name') }}" class="form-control">
                     </div>
 
                     <div class="mb-3">
@@ -32,7 +34,7 @@
                         <select name="company_id" class="form-control">
                             <option value="">Please select</option>
                             @foreach($companies ?? [] as $company)
-                                <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                                <option value="{{ $company->id }}" @if(old('company_id') == $company->id) selected @endif>{{ $company->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -41,6 +43,11 @@
                         <label class="form-label">Developed By</label>
                         <select name="developed_by" class="form-control">
                             <option value="">Please select</option>
+                            @foreach($employees ?? [] as $employee)
+                                <option value="{{ $employee->Emp_Name }}" @if(old('developed_by') == $employee->Emp_Name) selected @endif>
+                                    {{ $employee->Emp_Name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -63,9 +70,11 @@
                         <label class="form-label">SDLC Stage</label>
                         <select name="sdlc_stage" class="form-control">
                             <option value="">Please select</option>
-                            <option value="Proposal Preparation">Proposal Preparation</option>
-                            <option value="Requirement Gathering">Requirement Gathering</option>
-                            <option value="Development">Development</option>
+                            @foreach($sdlc_stages ?? [] as $stage)
+                                <option value="{{ $stage->Phase }}" @if(old('sdlc_stage') == $stage->Phase) selected @endif>
+                                    {{ $stage->Phase }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -76,23 +85,23 @@
 
                     <div class="mb-3">
                         <label class="form-label">BitBucket Repository Name</label>
-                        <input type="text" name="bitbucket_repository_name" value="{{ old('bitbucket_repository_name') }}" class="form-control">
+                        <input type="text" name="bit_bucket_repo" value="{{ old('bit_bucket_repo') }}" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Sales Team Involved</label>
                         <select name="sales_team_involved" class="form-control">
                             <option value="">Please select</option>
-                            <option value="Government Business">Government Business</option>
-                            <option value="Enterprise Business">Enterprise Business</option>
-                            <option value="Carrier Business">Carrier Business</option>
-                            <option value="Region Business">Region Business</option>
+                            <option value="Government Business" @if(old('sales_team_involved') == 'Government Business') selected @endif>Government Business</option>
+                            <option value="Enterprise Business" @if(old('sales_team_involved') == 'Enterprise Business') selected @endif>Enterprise Business</option>
+                            <option value="Carrier Business" @if(old('sales_team_involved') == 'Carrier Business') selected @endif>Carrier Business</option>
+                            <option value="Region Business" @if(old('sales_team_involved') == 'Region Business') selected @endif>Region Business</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Sales Account Manager</label>
-                        <input type="text" name="sales_account_manager" value="{{ old('sales_account_manager') }}" class="form-control">
+                        <input type="text" name="sales_am" value="{{ old('sales_am') }}" class="form-control">
                     </div>
 
                 </div>
@@ -120,31 +129,31 @@
 
                     <div class="mb-3">
                         <label class="form-label">One Time Charge (OTC)</label>
-                        <input type="number" step="0.01" name="one_time_charge" value="{{ old('one_time_charge') }}" class="form-control">
+                        <input type="number" step="0.01" name="platform_otc" value="{{ old('platform_otc') }}" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Monthly Recurrent Charge (MRC)</label>
-                        <input type="number" step="0.01" name="monthly_recurring_charge" value="{{ old('monthly_recurring_charge') }}" class="form-control">
+                        <input type="number" step="0.01" name="platform_mrc" value="{{ old('platform_mrc') }}" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Value of the Software (Out Of Total Solution Value)</label>
-                        <input type="number" step="0.01" name="value_of_software" value="{{ old('value_of_software') }}" class="form-control">
+                        <input type="number" step="0.01" name="software_value" value="{{ old('software_value') }}" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Contract Period (Years)</label>
-                        <input type="number" name="contract_period_years" value="{{ old('contract_period_years') }}" class="form-control">
+                        <input type="text" name="contract_period" value="{{ old('contract_period') }}" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Support Availability</label>
                         <select name="support_availability" class="form-control">
                             <option value="">Please select</option>
-                            <option value="24x7">24x7</option>
-                            <option value="24x5">24x5</option>
-                            <option value="8x5">8x5</option>
+                            <option value="24x7" @if(old('support_availability') == '24x7') selected @endif>24x7</option>
+                            <option value="24x5" @if(old('support_availability') == '24x5') selected @endif>24x5</option>
+                            <option value="8x5" @if(old('support_availability') == '8x5') selected @endif>8x5</option>
                         </select>
                     </div>
 

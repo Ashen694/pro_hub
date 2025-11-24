@@ -200,8 +200,12 @@
                 @forelse ($documents as $doc)
                 <tr>
                     <td>
-                        @if($doc->internalSolution)
+                        @if($doc->Platform_ID == 1 && $doc->internalSolution)
                             {{ $doc->internalSolution->App_Name }}
+                        
+                        @elseif($doc->Platform_ID == 2 && $doc->externalSolution)
+                            {{ $doc->externalSolution->platform_name ?? $doc->externalSolution->name }} 
+                        
                         @else
                             N/A
                         @endif
