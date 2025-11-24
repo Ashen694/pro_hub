@@ -248,10 +248,12 @@
                     </button>
                 @endif
 
-                @if($status == 'operational' || $status == 'in-progress' || $status == 'recently-launched')
-                    <a href="{{ route('internal-solutions.create') }}" class="btn btn-primary">
-                        Create New
-                    </a>
+                @if(in_array(Auth::user()->role, ['Administrator', 'Dpo_user']))
+                    @if($status == 'operational' || $status == 'in-progress' || $status == 'recently-launched')
+                        <a href="{{ route('internal-solutions.create') }}" class="btn btn-primary">
+                            Create New
+                        </a>
+                    @endif
                 @endif
             </div>
 
@@ -388,37 +390,46 @@
                     <td class="text-center">
                         <div class="d-flex justify-content-center gap-2">
                             @if(in_array($status, ['retired', 'abandoned']))
-                                <!-- View Button -->
+                                
+                                <!-- Retired හෝ Abandoned නම් - හැමෝටම View Button එක විතරයි -->
                                 <button type="button" class="action-btn action-btn-view" data-bs-toggle="modal" data-bs-target="#details-modal-{{ $solution->ID }}" title="View Details">
                                     <i class="fas fa-eye"></i>
                                 </button>
+
                             @else
-                                <!-- View Button -->
+                                <!-- Active Statuses (Operational, In-progress, etc.) -->
+                                
+                                <!-- 1. View Button එක මේ අවස්ථාවේදීත් හැමෝටම (View_only_user ඇතුළුව) පෙන්වනවා -->
                                 <button type="button" class="action-btn action-btn-view" data-bs-toggle="modal" data-bs-target="#details-modal-{{ $solution->ID }}" title="View Details">
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 
-                                <!-- Edit Button -->
-                                <a href="{{ route('internal-solutions.edit', $solution->ID) }}" class="action-btn action-btn-edit" title="Edit">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-
-                                <!-- Documents Button -->
-                                <button type="button" class="action-btn action-btn-docs" data-bs-toggle="modal" data-bs-target="#documents-modal-{{ $solution->ID }}" title="Documents">
-                                    <i class="fas fa-file-alt"></i>
-                                </button>
-
-                                <!-- Change Requests Button -->
-                                @if ($solution->App_Category == 'Main Application' && in_array($status, ['operational', 'in-progress', 'recently-launched']))
-                                    <a href="{{ route('internal-solutions.change-requests', $solution->ID) }}" class="action-btn action-btn-cr" title="Change Requests">
-                                        <i class="fas fa-code-branch"></i>
+                                <!-- 2. Edit, Delete, Docs, CR බට්න් ටික Administrator සහ Dpo_user ට විතරක් පෙන්වන්න Condition එක දානවා -->
+                                @if(in_array(Auth::user()->role, ['Administrator', 'Dpo_user']))
+                                
+                                    <!-- Edit Button -->
+                                    <a href="{{ route('internal-solutions.edit', $solution->ID) }}" class="action-btn action-btn-edit" title="Edit">
+                                        <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                @endif
 
-                                <!-- Delete Button -->
-                                <button type="button" class="action-btn action-btn-delete" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $solution->ID }}" title="Delete">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                                    <!-- Documents Button -->
+                                    <button type="button" class="action-btn action-btn-docs" data-bs-toggle="modal" data-bs-target="#documents-modal-{{ $solution->ID }}" title="Documents">
+                                        <i class="fas fa-file-alt"></i>
+                                    </button>
+
+                                    <!-- Change Requests Button -->
+                                    @if ($solution->App_Category == 'Main Application' && in_array($status, ['operational', 'in-progress', 'recently-launched']))
+                                        <a href="{{ route('internal-solutions.change-requests', $solution->ID) }}" class="action-btn action-btn-cr" title="Change Requests">
+                                            <i class="fas fa-code-branch"></i>
+                                        </a>
+                                    @endif
+
+                                    <!-- Delete Button -->
+                                    <button type="button" class="action-btn action-btn-delete" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $solution->ID }}" title="Delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+
+                                @endif
                             @endif
                         </div>
                     </td>
