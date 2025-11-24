@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\OverTimeData;
-use App\Models\Employee; // For 'Approval For' dropdown
-use App\Models\User;     // To be used by the 'creator' relationship
+use App\Models\Employee;  
+use App\Models\User;      
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +22,7 @@ class OverTimeDataController extends Controller
                 $q->where('Work_Description', 'like', '%' . $searchTerm . '%')
                   // Search creator's name from 'users' table
                   ->orWhereHas('creator', function($userQuery) use ($searchTerm) {
-                      $userQuery->where('name', 'like', '%' . $searchTerm . '%'); // Searches the 'name' column
+                      $userQuery->where('name', 'like', '%' . $searchTerm . '%');  
                   })
                   // Search approver's name from 'Employee' table
                   ->orWhereHas('approvalForUser', function($empQuery) use ($searchTerm) {
@@ -37,7 +37,6 @@ class OverTimeDataController extends Controller
 
     public function create()
     {
-        // For the dropdown, we only need employees
         $employees = Employee::orderBy('Emp_Name')->get();
         return view('project-activities.overtime.create', compact('employees'));
     }
@@ -48,13 +47,12 @@ class OverTimeDataController extends Controller
             'date' => 'required|date',
             'no_of_hours' => 'required|numeric|min:0.01',
             'work_description' => 'required|string|max:2000',
-            // Validation for 'Approval For' still points to Employee table
             'approval_for' => 'required|exists:Employee,Emp_ID',
         ]);
 
         try {
             OverTimeData::create([
-                'Created_By' => Auth::id(), // This correctly gets the logged-in USER's ID
+                'Created_By' => Auth::id(), 
                 'Date' => $validatedData['date'],
                 'No_Of_Hours' => $validatedData['no_of_hours'],
                 'Work_Description' => $validatedData['work_description'],
@@ -67,7 +65,6 @@ class OverTimeDataController extends Controller
         }
     }
 
-    // Other methods (edit, update, destroy) remain largely the same, but we'll include them for completeness.
 
     public function edit(OverTimeData $overtime)
     {
@@ -80,13 +77,22 @@ class OverTimeDataController extends Controller
      */
     public function update(Request $request, OverTimeData $overtime)
     {
+        
         $validatedData = $request->validate([
-            'Comment' => 'nullable|string|max:2000',
+            'Comment'       => 'nullable|string|max:2000',
+            'Approved_By'   => 'nullable|exists:Employee,Emp_ID', 
+            'Approved_Date' => 'nullable|date',                   
         ]);
 
         try {
-            $overtime->update($validatedData);
-            return redirect()->route('project-activities.overtime.index')->with('success', 'Overtime record updated successfully.');
+            $overtime->update([
+                'Comment'       => $validatedData['Comment'],
+                'Approved_By'   => $validatedData['Approved_By'],
+                'Approved_Date' => $validatedData['Approved_Date'],
+            ]);
+
+            return redirect()->route('project-activities.overtime.index')
+                            ->with('success', 'Overtime record updated successfully.');
 
         } catch (\Exception $e) {
             Log::error('Overtime Update Error: ' . $e->getMessage());

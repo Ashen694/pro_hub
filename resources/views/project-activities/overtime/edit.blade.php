@@ -68,13 +68,31 @@
                         </div>
                         
                         <div class="col-md-6">
-                            <label class="form-label">Approved By</label>
-                            <input type="text" class="form-control" value="{{ $overtime->approver->Emp_Name ?? '-' }}" disabled>
+                            <label class="form-label" for="Approved_By">Approved By</label>
+                            <select name="Approved_By" id="Approved_By" class="form-select @error('Approved_By') is-invalid @enderror">
+                                <option value="">Select Approver</option>
+                                @foreach($employees as $employee)
+                                    <option value="{{ $employee->Emp_ID }}" 
+                                        {{ old('Approved_By', $overtime->Approved_By) == $employee->Emp_ID ? 'selected' : '' }}>
+                                        {{ $employee->Emp_Name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('Approved_By')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        
+
                         <div class="col-md-6">
-                            <label class="form-label">Approved Date</label>
-                            <input type="text" class="form-control" value="{{ $overtime->Approved_Date ? $overtime->Approved_Date->format('Y-m-d H:i:s') : '-' }}" disabled>
+                            <label class="form-label" for="Approved_Date">Approved Date</label>
+                            <input type="date" 
+                                name="Approved_Date" 
+                                id="Approved_Date" 
+                                class="form-control @error('Approved_Date') is-invalid @enderror" 
+                                value="{{ old('Approved_Date', $overtime->Approved_Date ? $overtime->Approved_Date->format('Y-m-d') : '') }}">
+                            @error('Approved_Date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
