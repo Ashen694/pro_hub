@@ -108,31 +108,33 @@
                 </li>
 
                 <!-- Platforms/Solutions Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-platforms" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-                        <span class="nav-link-title">Platforms/Solutions</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'operational']) }}"><i class="ti ti-check me-2"></i>Internal Solutions - Operational</a>
-                        <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'in-progress']) }}"><i class="ti ti-progress me-2"></i>Internal Solutions - In-Progress</a>
-                        <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'recently-launched']) }}"><i class="ti ti-rocket me-2"></i>Internal Solutions - Recently Launched</a>
-                        <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'retired']) }}"><i class="ti ti-archive me-2"></i>Internal Solutions - Retired</a>
-                        <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'abandoned']) }}"><i class="ti ti-trash me-2"></i>Internal Solutions - Abandoned</a>
-                        <a class="dropdown-item" href="{{ route('consumer-service.index') }}"><i class="ti ti-users me-2"></i>Consumer Service Platforms</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'operational']) }}"><i class="ti ti-check me-2"></i>External Solutions - Operational</a>
-                        <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'prospective']) }}"><i class="ti ti-search me-2"></i>External Solutions - Prospective</a>
-                        <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'retired']) }}"><i class="ti ti-archive me-2"></i>External Solutions - Retired</a>
-                        <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'abandoned']) }}"><i class="ti ti-trash me-2"></i>External Solutions - Abandoned</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('internal-solutions.backup-matrix.export') }}"><i class="ti ti-database-export me-2"></i>Internal Solutions - Backup Matrix</a>
-                        <a class="dropdown-item" href="#"><i class="ti ti-database-export me-2"></i>External Solutions - Backup Matrix</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="ti ti-chart-line me-2"></i>External Solutions - Projected Revenue</a>
-                        <a class="dropdown-item" href="#"><i class="ti ti-cash me-2"></i>External Solutions - Financial Revenue</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('internal-solutions.yearly-contribution') }}"><i class="ti ti-calendar-stats me-2"></i>Internal Solutions - Yearly Contribution</a>                    </div>
-                </li>
+                 @if(!in_array(Auth::user()->role, ['Ishamp_user', 'Developer']))
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#navbar-platforms" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                          <span class="nav-link-title">Platforms/Solutions</span>
+                      </a>
+                      <div class="dropdown-menu">
+                          <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'operational']) }}"><i class="ti ti-check me-2"></i>Internal Solutions - Operational</a>
+                          <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'in-progress']) }}"><i class="ti ti-progress me-2"></i>Internal Solutions - In-Progress</a>
+                          <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'recently-launched']) }}"><i class="ti ti-rocket me-2"></i>Internal Solutions - Recently Launched</a>
+                          <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'retired']) }}"><i class="ti ti-archive me-2"></i>Internal Solutions - Retired</a>
+                          <a class="dropdown-item" href="{{ route('internal-solutions.index', ['status' => 'abandoned']) }}"><i class="ti ti-trash me-2"></i>Internal Solutions - Abandoned</a>
+                          <a class="dropdown-item" href="{{ route('consumer-service.index') }}"><i class="ti ti-users me-2"></i>Consumer Service Platforms</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'operational']) }}"><i class="ti ti-check me-2"></i>External Solutions - Operational</a>
+                          <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'prospective']) }}"><i class="ti ti-search me-2"></i>External Solutions - Prospective</a>
+                          <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'retired']) }}"><i class="ti ti-archive me-2"></i>External Solutions - Retired</a>
+                          <a class="dropdown-item" href="{{ route('external-solutions.index', ['status' => 'abandoned']) }}"><i class="ti ti-trash me-2"></i>External Solutions - Abandoned</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{ route('internal-solutions.backup-matrix.export') }}"><i class="ti ti-database-export me-2"></i>Internal Solutions - Backup Matrix</a>
+                          <a class="dropdown-item" href="#"><i class="ti ti-database-export me-2"></i>External Solutions - Backup Matrix</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="#"><i class="ti ti-chart-line me-2"></i>External Solutions - Projected Revenue</a>
+                          <a class="dropdown-item" href="#"><i class="ti ti-cash me-2"></i>External Solutions - Financial Revenue</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{ route('internal-solutions.yearly-contribution') }}"><i class="ti ti-calendar-stats me-2"></i>Internal Solutions - Yearly Contribution</a>                    </div>
+                  </li>
+                @endif
 
                 <!-- My Work Dropdown -->
                     <li class="nav-item dropdown">

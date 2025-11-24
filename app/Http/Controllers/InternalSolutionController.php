@@ -27,6 +27,10 @@ class InternalSolutionController extends Controller
      */
     public function index(Request $request, $status)
     {
+        if (in_array(Auth::user()->role, ['Ishamp_user', 'Developer'])) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validStatuses = ['operational', 'in-progress', 'recently-launched', 'retired', 'abandoned'];
 
         if (!in_array($status, $validStatuses)) {
@@ -46,6 +50,11 @@ class InternalSolutionController extends Controller
      */
     public function create()
     {
+        // View_only_user, Ishamp_user, Developer prohibitted
+        if (!in_array(Auth::user()->role, ['Administrator', 'Dpo_user'])) {
+            abort(403, 'You do not have permission to create solutions.');
+        }
+
         $mainApplications = InternalPlatform::orderBy('App_Name')->get();
         $employees = Employee::orderBy('Emp_Name')->get();
         $sdlcPhases = SDLCphase::orderBy('OrderSeq')->get();
@@ -66,6 +75,11 @@ class InternalSolutionController extends Controller
      */
     public function store(Request $request)
     {
+         // View_only_user, Ishamp_user, Developer (Prohibitted)
+        if (!in_array(Auth::user()->role, ['Administrator', 'Dpo_user'])) {
+            abort(403, 'You do not have permission to create solutions.');
+        }
+
         // Validation rules from your original code
         $validator = Validator::make($request->all(), [
             'application_category' => 'required|string',
@@ -126,6 +140,11 @@ class InternalSolutionController extends Controller
      */
     public function edit(InternalPlatform $solution)
     {
+        // View_only_user, Ishamp_user, Developer (prohibitted)
+        if (!in_array(Auth::user()->role, ['Administrator', 'Dpo_user'])) {
+            abort(403, 'You do not have permission to edit solutions.');
+        }
+
         $mainApplications = InternalPlatform::where('App_Category', 'Main Application')->orderBy('App_Name')->get();
         $employees = Employee::orderBy('Emp_Name')->get();
         $sdlcPhases = SDLCphase::orderBy('OrderSeq')->get();
@@ -151,6 +170,11 @@ class InternalSolutionController extends Controller
      */
     public function update(Request $request, InternalPlatform $solution)
     {
+        // View_only_user, Ishamp_user, Developer (prohibitted)
+        if (!in_array(Auth::user()->role, ['Administrator', 'Dpo_user'])) {
+            abort(403, 'You do not have permission to update solutions.');
+        }
+
          $validatedData = $request->validate([
             'application_name' => 'required|string|max:255',
             'developed_by' => 'nullable|string|max:255',
