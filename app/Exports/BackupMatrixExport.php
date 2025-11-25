@@ -34,11 +34,11 @@ class BackupMatrixExport implements
     {
         return $this->builder
             ->select([
-                'App_Name',         // Corrected from app_name
-                'BackupOfficer_1',  // Corrected from backup_officer_1
-                'BackupOfficer_2',  // Corrected from backup_officer_2
+                'App_Name',         
+                'BackupOfficer_1', 
+                'BackupOfficer_2',  
             ])
-            ->orderBy('App_Name');  // Corrected from app_name
+            ->orderBy('App_Name');  
     }
 
     public function headings(): array
@@ -53,16 +53,16 @@ class BackupMatrixExport implements
     public function map($row): array
     {
         return [
-            (string) ($row->App_Name ?? ''),        // Corrected property access
-            (string) ($row->BackupOfficer_1 ?? ''), // Corrected property access
-            (string) ($row->BackupOfficer_2 ?? ''), // Corrected property access
+            (string) ($row->App_Name ?? ''),        
+            (string) ($row->BackupOfficer_1 ?? ''), 
+            (string) ($row->BackupOfficer_2 ?? ''), 
         ];
     }
 
     /** Header & base styles */
     public function styles(Worksheet $sheet)
     {
-        $highestColumn = $sheet->getHighestColumn(); // should be "C"
+        $highestColumn = $sheet->getHighestColumn(); 
 
         // Bold header
         $sheet->getStyle("A1:{$highestColumn}1")->getFont()->setBold(true);
