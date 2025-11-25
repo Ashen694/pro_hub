@@ -34,11 +34,11 @@ class BackupMatrixExport implements
     {
         return $this->builder
             ->select([
-                'app_name',
-                'backup_officer_1',
-                'backup_officer_2',
+                'App_Name',         // Corrected from app_name
+                'BackupOfficer_1',  // Corrected from backup_officer_1
+                'BackupOfficer_2',  // Corrected from backup_officer_2
             ])
-            ->orderBy('app_name');
+            ->orderBy('App_Name');  // Corrected from app_name
     }
 
     public function headings(): array
@@ -53,9 +53,9 @@ class BackupMatrixExport implements
     public function map($row): array
     {
         return [
-            (string) ($row->app_name ?? ''),
-            (string) ($row->backup_officer_1 ?? ''),
-            (string) ($row->backup_officer_2 ?? ''),
+            (string) ($row->App_Name ?? ''),        // Corrected property access
+            (string) ($row->BackupOfficer_1 ?? ''), // Corrected property access
+            (string) ($row->BackupOfficer_2 ?? ''), // Corrected property access
         ];
     }
 
