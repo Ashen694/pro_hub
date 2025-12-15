@@ -16,8 +16,14 @@
             box-shadow: 0 2px 12px rgba(0,0,0,.05);
         }
         .slt-label { font-weight: 600; color: #0f172a; }
-        .slt-textarea, .slt-check, .slt-multi-btn {
+        .slt-textarea, .slt-multi-btn {
             width: 100%;
+        }
+        .slt-check {
+            width: 1.25rem; 
+            height: 1.25rem; 
+            cursor: pointer;
+            flex-shrink: 0;  
         }
         .slt-textarea {
             min-height: 140px; border: 1px solid #cbd5e1; border-radius: 8px; padding: .75rem;
