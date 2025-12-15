@@ -210,6 +210,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/external-solutions-create', [ExternalSolutionController::class, 'create'])->name('external-solutions.create');
     Route::post('/external-solutions', [ExternalSolutionController::class, 'store'])->name('external-solutions.store');
 
+    // Projected revenue route
+    Route::get('/external-solutions-projected-revenue', [ExternalSolutionController::class, 'projectedRevenue'])->name('external-solutions.projected-revenue');
+
     // CRUD routes
     Route::get('/external-solutions/{externalSolution}/show', [ExternalSolutionController::class, 'show'])->name('external-solutions.show');
     Route::get('/external-solutions/{externalSolution}/edit', [ExternalSolutionController::class, 'edit'])->name('external-solutions.edit');

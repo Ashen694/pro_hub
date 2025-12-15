@@ -96,6 +96,12 @@ class ExternalSolutionController extends Controller
         return view('external_solutions.create', compact('title', 'companies', 'employees', 'sdlc_stages'));
     }
 
+    public function projectedRevenue()
+    {
+        $title = 'External Solutions - Projected Revenue';
+        return view('external_solutions.projected_revenue', compact('title'));
+    }
+
 
     public function store(Request $request)
     {
