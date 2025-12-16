@@ -29,10 +29,7 @@
     }
 </style>
 
-<!-- Particle Background -->
-<div class="slt-bg-wrap" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: transparent;">
-    <canvas id="particleCanvas" style="width: 100%; height: 100%;"></canvas>
-</div>
+
 
 <div class="container">
     <div class="form-container">
@@ -46,47 +43,106 @@
             @csrf
             @method('PUT')
             
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="service_number" class="form-label">Service Number</label>
+                    <input type="text" class="form-control @error('service_number') is-invalid @enderror" 
+                           id="service_number" name="service_number" value="{{ old('service_number', $member->service_number) }}">
+                    @error('service_number')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                           id="name" name="name" value="{{ old('name', $member->name) }}" required>
+                    @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                           id="email" name="email" value="{{ old('email', $member->email) }}">
+                    @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label for="contact_mobile" class="form-label">Contact Mobile Number</label>
+                    <input type="text" class="form-control @error('contact_mobile') is-invalid @enderror" 
+                           id="contact_mobile" name="contact_mobile" value="{{ old('contact_mobile', $member->contact_mobile) }}">
+                    @error('contact_mobile')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="group_name" class="form-label">Group Name</label>
+                    <input type="text" class="form-control @error('group_name') is-invalid @enderror" 
+                           id="group_name" name="group_name" value="{{ old('group_name', $member->group_name) }}">
+                    @error('group_name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label for="date_of_birth" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror" 
+                           id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth', $member->date_of_birth) }}">
+                    @error('date_of_birth')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="calling_name" class="form-label">Calling Name</label>
+                    <input type="text" class="form-control @error('calling_name') is-invalid @enderror" 
+                           id="calling_name" name="calling_name" value="{{ old('calling_name', $member->calling_name) }}">
+                    @error('calling_name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select @error('gender') is-invalid @enderror" id="gender" name="gender">
+                        <option value="">Select Gender</option>
+                        <option value="Male" {{ old('gender', $member->gender) == 'Male' ? 'selected' : '' }}>Male</option>
+                        <option value="Female" {{ old('gender', $member->gender) == 'Female' ? 'selected' : '' }}>Female</option>
+                        <option value="Other" {{ old('gender', $member->gender) == 'Other' ? 'selected' : '' }}>Other</option>
+                    </select>
+                    @error('gender')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            
             <div class="mb-3">
-                <label for="name" class="form-label">Full Name</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                       id="name" name="name" value="{{ old('name', $member->name) }}" required>
-                @error('name')
+                <label for="section" class="form-label">Section</label>
+                <input type="text" class="form-control @error('section') is-invalid @enderror" 
+                       id="section" name="section" value="{{ old('section', $member->section) }}">
+                @error('section')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
             
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                       id="email" name="email" value="{{ old('email', $member->email) }}">
-                @error('email')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            
-            <div class="mb-3">
-                <label for="contact_mobile" class="form-label">Contact Mobile Number</label>
-                <input type="text" class="form-control @error('contact_mobile') is-invalid @enderror" 
-                       id="contact_mobile" name="contact_mobile" value="{{ old('contact_mobile', $member->contact_mobile) }}">
-                @error('contact_mobile')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            
-            <div class="mb-3">
-                <label for="division" class="form-label">Division</label>
-                <input type="text" class="form-control @error('division') is-invalid @enderror" 
-                       id="division" name="division" value="{{ old('division', $member->division) }}">
-                @error('division')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            
-            <div class="mb-3">
-                <label for="position" class="form-label">Position</label>
-                <input type="text" class="form-control @error('position') is-invalid @enderror" 
-                       id="position" name="position" value="{{ old('position', $member->position) }}">
-                @error('position')
+                <label for="member_type" class="form-label">Member Type</label>
+                <select class="form-select @error('member_type') is-invalid @enderror" id="member_type" name="member_type">
+                    <option value="divisional" {{ old('member_type', $member->member_type ?? 'divisional') == 'divisional' ? 'selected' : '' }}>Divisional Member</option>
+                    <option value="view_only" {{ old('member_type', $member->member_type) == 'view_only' ? 'selected' : '' }}>View Only User</option>
+                </select>
+                @error('member_type')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
@@ -100,73 +156,6 @@
 </div>
 
 <script>
-    // Particles
-    (function() {
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = document.querySelector('.slt-bg-wrap').offsetHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const colors = ['#2258a7', '#46b6ef', '#5fb545'];
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 2.5 + 1.5;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.alpha = Math.random() * 0.5 + 0.5;
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.alpha;
-                ctx.fill();
-                ctx.globalAlpha = 1;
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = this.color;
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            }
-        }
-        const particleCount = window.innerWidth < 768 ? 60 : 120;
-        const particles = Array.from({ length: particleCount }, () => new Particle());
-        function drawConnections() {
-            const maxDistance = 180;
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < maxDistance) {
-                        const opacity = (1 - distance / maxDistance) * 0.5;
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(200, 200, 200, ${opacity})`;
-                        ctx.lineWidth = 1;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-        (function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            drawConnections();
-            requestAnimationFrame(animate);
-        })();
-    })();
+    // No animation needed
 </script>
 @endsection

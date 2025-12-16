@@ -29,10 +29,6 @@
     }
 </style>
 
-<!-- Particle Background -->
-<div class="slt-bg-wrap" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: transparent;">
-    <canvas id="particleCanvas" style="width: 100%; height: 100%;"></canvas>
-</div>
 
 <div class="container">
     <div class="form-container">
@@ -100,6 +96,21 @@
             </div>
             
             <div class="mb-3">
+                <label for="external_platform_id" class="form-label">External Platform/Solution</label>
+                <select name="external_platform_id" id="external_platform_id" class="form-control @error('external_platform_id') is-invalid @enderror">
+                    <option value="">Select external platform (optional)</option>
+                    @foreach($externalPlatforms as $platform)
+                        <option value="{{ $platform->platform_id }}" {{ old('external_platform_id', $contact->external_platform_id) == $platform->platform_id ? 'selected' : '' }}>
+                            {{ $platform->platform_name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('external_platform_id')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            
+            <div class="mb-3">
                 <label for="role" class="form-label">Role</label>
                 <input type="text" class="form-control @error('role') is-invalid @enderror" 
                        id="role" name="role" value="{{ old('role', $contact->role) }}">
@@ -117,73 +128,51 @@
 </div>
 
 <script>
-    // Particles
-    (function() {
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = document.querySelector('.slt-bg-wrap').offsetHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+    // No animation needed    })();
 
-        const colors = ['#2258a7', '#46b6ef', '#5fb545'];
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 2.5 + 1.5;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.alpha = Math.random() * 0.5 + 0.5;
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.alpha;
-                ctx.fill();
-                ctx.globalAlpha = 1;
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = this.color;
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            }
-        }
-        const particleCount = window.innerWidth < 768 ? 60 : 120;
-        const particles = Array.from({ length: particleCount }, () => new Particle());
-        function drawConnections() {
-            const maxDistance = 180;
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < maxDistance) {
-                        const opacity = (1 - distance / maxDistance) * 0.5;
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(200, 200, 200, ${opacity})`;
-                        ctx.lineWidth = 1;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
+    // Dynamic External Platform Loading
+    document.addEventListener('DOMContentLoaded', function() {
+        const companySelect = document.getElementById('company_id');
+        const platformSelect = document.getElementById('external_platform_id');
+        
+        if (companySelect && platformSelect) {
+            companySelect.addEventListener('change', function() {
+                const companyId = this.value;
+                const currentPlatformId = '{{ old('external_platform_id', $contact->external_platform_id) }}';
+                
+                // Clear current options except the first one
+                platformSelect.innerHTML = '<option value="">Select external platform (optional)</option>';
+                
+                if (companyId) {
+                    // Show loading state
+                    platformSelect.innerHTML = '<option value="">Loading platforms...</option>';
+                    
+                    // Fetch external platforms for this company
+                    fetch(`{{ route('reference-data.customer-contacts.external-platforms') }}?company_id=${companyId}`)
+                        .then(response => response.json())
+                        .then(platforms => {
+                            // Clear loading state
+                            platformSelect.innerHTML = '<option value="">Select external platform (optional)</option>';
+                            
+                            // Add platforms to dropdown
+                            platforms.forEach(platform => {
+                                const option = document.createElement('option');
+                                option.value = platform.platform_id;
+                                option.textContent = platform.platform_name;
+                                // Maintain selection if editing
+                                if (platform.platform_id == currentPlatformId) {
+                                    option.selected = true;
+                                }
+                                platformSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching platforms:', error);
+                            platformSelect.innerHTML = '<option value="">Error loading platforms</option>';
+                        });
                 }
-            }
+            });
         }
-        (function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            drawConnections();
-            requestAnimationFrame(animate);
-        })();
-    })();
+    });
 </script>
 @endsection

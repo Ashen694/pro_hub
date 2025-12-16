@@ -49,4 +49,12 @@ class ExternalPlatform extends Model
             'id'                          // WeeklyPlan's PK (workplans.id)
         )->withTimestamps();
     }
+
+    /**
+     * Relationship to Company
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

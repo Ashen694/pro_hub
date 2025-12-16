@@ -8,9 +8,16 @@ class DivisionalMember extends Model
 {
     protected $fillable = [
         'name',
-        'division',
+        'service_number',
         'email',
         'contact_mobile',
+        'group_name',
+        'date_of_birth',
+        'calling_name',
+        'gender',
+        'section',
+        'member_type',
+        'division',
         'position',
     ];
 }

@@ -107,6 +107,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('companies', \App\Http\Controllers\CompanyController::class);
         // Customer Contacts CRUD (restored)
         Route::resource('customer-contacts', \App\Http\Controllers\CustomerContactController::class);
+        // AJAX route for getting external platforms by company
+        Route::get('customer-contacts/ajax/external-platforms', [\App\Http\Controllers\CustomerContactController::class, 'getExternalPlatformsByCompany'])->name('customer-contacts.external-platforms');
         // Other reference data
         Route::resource('divisional-members', \App\Http\Controllers\DivisionalMemberController::class);
         Route::resource('application-groups', \App\Http\Controllers\ApplicationGroupController::class);

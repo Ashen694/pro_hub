@@ -11,15 +11,22 @@ class DivisionalMemberController extends Controller
     {
         $perPage = request('perPage', 10);
         $search = request('q');
+        $type = request('type', 'divisional');
         
         $query = DivisionalMember::orderBy('name');
         
+        // Filter by member type
+        $query->where('member_type', $type);
+        
         if ($search) {
-            $query->where('name', 'like', "%{$search}%")
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%")
                   ->orWhere('contact_mobile', 'like', "%{$search}%")
-                  ->orWhere('division', 'like', "%{$search}%")
-                  ->orWhere('position', 'like', "%{$search}%");
+                  ->orWhere('service_number', 'like', "%{$search}%")
+                  ->orWhere('section', 'like', "%{$search}%")
+                  ->orWhere('calling_name', 'like', "%{$search}%");
+            });
         }
         
         $members = $query->paginate($perPage)->withQueryString();
@@ -36,10 +43,15 @@ class DivisionalMemberController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'division' => 'nullable|string|max:255',
+            'service_number' => 'nullable|string|max:50',
             'email' => 'nullable|email',
             'contact_mobile' => 'nullable|string|max:20',
-            'position' => 'nullable|string',
+            'group_name' => 'nullable|string|max:255',
+            'date_of_birth' => 'nullable|date',
+            'calling_name' => 'nullable|string|max:255',
+            'gender' => 'nullable|in:Male,Female,Other',
+            'section' => 'nullable|string|max:255',
+            'member_type' => 'required|in:divisional,view_only',
         ]);
 
         DivisionalMember::create($data);
@@ -60,10 +72,15 @@ class DivisionalMemberController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'division' => 'nullable|string|max:255',
+            'service_number' => 'nullable|string|max:50',
             'email' => 'nullable|email',
             'contact_mobile' => 'nullable|string|max:20',
-            'position' => 'nullable|string',
+            'group_name' => 'nullable|string|max:255',
+            'date_of_birth' => 'nullable|date',
+            'calling_name' => 'nullable|string|max:255',
+            'gender' => 'nullable|in:Male,Female,Other',
+            'section' => 'nullable|string|max:255',
+            'member_type' => 'required|in:divisional,view_only',
         ]);
 
         $divisionalMember->update($data);

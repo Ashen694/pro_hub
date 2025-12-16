@@ -110,16 +110,27 @@
     }
 </style>
 
-<!-- Particle Background -->
-<div class="slt-bg-wrap" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: transparent;">
-    <canvas id="particleCanvas" style="width: 100%; height: 100%;"></canvas>
-</div>
+
 <div class="container">
     <div class="members-container">
         <!-- Header with title and Create New button -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4>Members</h4>
             <a href="{{ route('reference-data.divisional-members.create') }}" class="btn btn-create-new">Create New</a>
+        </div>
+
+        <!-- Filter buttons -->
+        <div class="mb-4">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn {{ request('type', 'divisional') == 'divisional' ? 'btn-primary' : 'btn-outline-primary' }}" 
+                        onclick="filterMembers('divisional')">
+                    Divisional Members
+                </button>
+                <button type="button" class="btn {{ request('type') == 'view_only' ? 'btn-primary' : 'btn-outline-primary' }}" 
+                        onclick="filterMembers('view_only')">
+                    View Only Users
+                </button>
+            </div>
         </div>
 
         <!-- Search and Show entries -->
@@ -150,43 +161,34 @@
         <table class="members-table">
             <thead>
                 <tr>
+                    <th>Service Number</th>
                     <th>Full Name</th>
                     <th>Email</th>
                     <th>Contact Mobile Number</th>
+                    <th>Section</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($members as $m)
                     <tr>
+                        <td>{{ $m->service_number ?? 'Not provided' }}</td>
                         <td style="font-weight: 500;">{{ $m->name }}</td>
-                        <td>{{ $m->email }}</td>
+                        <td>{{ $m->email ?? 'Not provided' }}</td>
                         <td>{{ $m->contact_mobile ?? 'Not provided' }}</td>
+                        <td>{{ $m->section ?? 'Not provided' }}</td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <!-- View Button -->
-                                <button class="action-btn action-btn-view" title="View Details" onclick="window.location='{{ route('reference-data.divisional-members.show', $m) }}'">
-                                    <i class="ti ti-eye"></i>
-                                </button>
-                                
-                                <!-- Edit Button -->
+                                <!-- Edit Button Only -->
                                 <button class="action-btn action-btn-edit" title="Edit" onclick="window.location='{{ route('reference-data.divisional-members.edit', $m) }}'">
                                     <i class="ti ti-pencil"></i>
                                 </button>
-                                
-                                <!-- Delete Button -->
-                                <form action="{{ route('reference-data.divisional-members.destroy', $m) }}" method="POST" style="display:inline" onsubmit="return confirm('Are you sure you want to delete this member?');">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="action-btn action-btn-delete" title="Delete">
-                                        <i class="ti ti-trash"></i>
-                                    </button>
-                                </form>
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" style="text-align: center; color: #666; padding: 40px;">No members found</td>
+                        <td colspan="6" style="text-align: center; color: #666; padding: 40px;">No members found</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -205,73 +207,13 @@
 </div>
 
 <script>
-        // Particles
-        (function() {
-            const canvas = document.getElementById('particleCanvas');
-            const ctx = canvas.getContext('2d');
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = document.querySelector('.slt-bg-wrap').offsetHeight;
-            }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
+        // No animation needed
 
-            const colors = ['#2258a7', '#46b6ef', '#5fb545'];
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.vx = (Math.random() - 0.5) * 0.5;
-                    this.vy = (Math.random() - 0.5) * 0.5;
-                    this.radius = Math.random() * 2.5 + 1.5;
-                    this.color = colors[Math.floor(Math.random() * colors.length)];
-                    this.alpha = Math.random() * 0.5 + 0.5;
-                }
-                update() {
-                    this.x += this.vx; this.y += this.vy;
-                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-                }
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = this.color;
-                    ctx.globalAlpha = this.alpha;
-                    ctx.fill();
-                    ctx.globalAlpha = 1;
-                    ctx.shadowBlur = 15;
-                    ctx.shadowColor = this.color;
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
-                }
-            }
-            const particleCount = window.innerWidth < 768 ? 60 : 120;
-            const particles = Array.from({ length: particleCount }, () => new Particle());
-            function drawConnections() {
-                const maxDistance = 180;
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance < maxDistance) {
-                            const opacity = (1 - distance / maxDistance) * 0.5;
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(200, 200, 200, ${opacity})`;
-                            ctx.lineWidth = 1;
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
-            (function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => { p.update(); p.draw(); });
-                drawConnections();
-                requestAnimationFrame(animate);
-            })();
-        })();
+        // Filter function
+        function filterMembers(type) {
+            const url = new URL(window.location);
+            url.searchParams.set('type', type);
+            window.location.href = url.toString();
+        }
     </script>
 @endsection
