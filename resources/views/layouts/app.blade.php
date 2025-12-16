@@ -130,7 +130,7 @@
                           <a class="dropdown-item" href="#"><i class="ti ti-database-export me-2"></i>External Solutions - Backup Matrix</a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" href="{{ route('external-solutions.projected-revenue') }}"><i class="ti ti-chart-line me-2"></i>External Solutions - Projected Revenue</a>
-                          <a class="dropdown-item" href="#"><i class="ti ti-cash me-2"></i>External Solutions - Financial Revenue</a>
+                          <a class="dropdown-item" href="{{ route('external-solutions.financial-revenue') }}"><i class="ti ti-cash me-2"></i>External Solutions - Financial Revenue</a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" href="{{ route('internal-solutions.yearly-contribution') }}"><i class="ti ti-calendar-stats me-2"></i>Internal Solutions - Yearly Contribution</a>                    </div>
                   </li>

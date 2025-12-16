@@ -103,6 +103,14 @@ class ExternalSolutionController extends Controller
     }
 
 
+    public function financialRevenue()
+    {
+        $title = 'Financial Year Revenue';
+        $years = range(2019, 2030);
+        return view('external_solutions.financial_revenue', compact('title', 'years'));
+    }
+
+
     public function store(Request $request)
     {
         $data = $request->validate([

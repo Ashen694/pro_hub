@@ -213,6 +213,9 @@ Route::middleware('auth')->group(function () {
     // Projected revenue route
     Route::get('/external-solutions-projected-revenue', [ExternalSolutionController::class, 'projectedRevenue'])->name('external-solutions.projected-revenue');
 
+    // Financial revenue route
+    Route::get('/external-solutions-financial-revenue', [ExternalSolutionController::class, 'financialRevenue'])->name('external-solutions.financial-revenue');
+
     // CRUD routes
     Route::get('/external-solutions/{externalSolution}/show', [ExternalSolutionController::class, 'show'])->name('external-solutions.show');
     Route::get('/external-solutions/{externalSolution}/edit', [ExternalSolutionController::class, 'edit'])->name('external-solutions.edit');
