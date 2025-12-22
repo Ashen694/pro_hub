@@ -11,15 +11,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-    $middleware->web(append: [
-        \App\Http\Middleware\EnsureUserIsActive::class,
-    ]);
+        $middleware->web(append: [
+            \App\Http\Middleware\EnsureUserIsActive::class,
+            \Spatie\Csp\AddCspHeaders::class, 
+        ]);
 
- 
-    $middleware->alias([
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
-        'active' => \App\Http\Middleware\EnsureUserIsActive::class,
-    ]);
+    
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'active' => \App\Http\Middleware\EnsureUserIsActive::class,
+        ]);
     })
     
     ->withExceptions(function (Exceptions $exceptions): void {
